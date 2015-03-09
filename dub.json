@@ -1,0 +1,11 @@
+{
+	"name": "drpg",
+	"description": "An ASCII based RPG.",
+	"copyright": "lol no copyright © 2015, vladde",
+	"authors": ["vladde"],
+	"dependencies": {
+		"consoled": {
+			"version": "~>1.0.0", "path": "my-consoled-dir"
+		}
+	}
+}
