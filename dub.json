@@ -5,7 +5,7 @@
 	"authors": ["vladde"],
 	"dependencies": {
 		"consoled": {
-			"version": "~>1.0.0", "path": "my-consoled-dir"
+			"version": "~>1.0.0", "path": "ConsoleD"
 		}
 	}
 }

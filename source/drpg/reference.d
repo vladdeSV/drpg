@@ -25,10 +25,8 @@ void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
 		case ErrorList.OUT_OF_BOUNDS:
 			writeln("Something most likely went out of bounds");
 			throw new Exception("out of bounds");
-			break;
 		default:
 			writeln("Unknown error.");
 			throw new Exception("unknown");
-			break;
 	}
 }
