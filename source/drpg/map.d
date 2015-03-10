@@ -1,7 +1,8 @@
 module drpg.map;
 
-import std.stdio, consoled;
-import drpg.reference, drpg.entities.entitymanager;
+import std.stdio, std.math, consoled;
+import drpg.reference;
+import drpg.entities.player, drpg.entities.entitymanager;
 import drpg.tiles.tile, drpg.tiles.tilefloor, drpg.tiles.tileplank, drpg.tiles.tiledoor, drpg.tiles.tilewall;
 
 /*
@@ -10,25 +11,24 @@ import drpg.tiles.tile, drpg.tiles.tilefloor, drpg.tiles.tileplank, drpg.tiles.t
 
 class Map{
 
-	//Singleton
-	private static Map INSTANCE_MAP;
-	/**
-	* Returns the static instance of the map
-	*/
-	@property public Map i(){
-		if(!INSTANCE_MAP) INSTANCE_MAP = new Map();
-		return INSTANCE_MAP;
+	private static bool instantiated_;  // Thread local
+	private __gshared Map instance_;
+
+	static Map map() {
+		if (!instantiated_) {
+			synchronized {
+				if (instance_ is null) {
+					instance_ = new Map;
+				}
+				instantiated_ = true;
+			}
+		}
+		return instance_;
 	}
-
-	//private EntityManager em = new EntityManager();
-
-	private int width, height;
-	private Tile[][] tiles;
-
-	this(){
-		
-		width = 50;
-		height = 20;
+	
+	private this() {
+		width = CHUNK_WIDTH*4;
+		height = CHUNK_HEIGHT*4;
 		
 		//Sets the width and height of the map
 		tiles.length = width;
@@ -40,7 +40,14 @@ class Map{
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
 			foreach(ref tile; column) //ref tile" then also becomes a to "column"
 				tile = new TileFloor(); //Sets all tiles on the map to be TileFloor();
+
+		EM.em.setPlayer(new Player(1, 1));
+
+
 	}
+
+	private int width, height;
+	private Tile[][] tiles;
 
 	/**
 	* Should be something like this:
@@ -83,27 +90,42 @@ class Map{
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
 	void addREKT(int x, int y, int w, int h, Tile tiletype, Tile overlay){
 
-		try{
-			for (int xPos = 0; xPos < w; xPos++){
-				for (int yPos = 0; yPos < h; yPos++){		
+		try
+			for (int xPos = 0; xPos < w; xPos++)
+				for (int yPos = 0; yPos < h; yPos++)		
 					setTile(xPos + x, yPos + y, tiletype, overlay);
-				}
-			}
-		}catch(Throwable e){
-			throwError(e, ErrorList.OUT_OF_BOUNDS);
-		}
+
+		catch(Throwable e)
+			throwError(e, ErrorList.OUT_OF_BOUNDS);	
+		
 	}
 
-	void printMap(){
+	void printChunk(){
+
+		int xChunkStartPos = CHUNK_WIDTH * (EM.em.player.x / CHUNK_WIDTH);
+		int yChunkStartPos = CHUNK_HEIGHT* (EM.em.player.y / CHUNK_HEIGHT);
+
 		try{
-			for(int y = 0; y < height; y++) { //The y is looped through before the x
-				for(int x = 0; x < width; x++) { //If not the the world would be printed out the wrong way
-					setCursorPos(x,y);
-					write(tiles[x][y].getTile());
+
+			foreach(int y; 0 .. CHUNK_HEIGHT){
+				foreach(int x; 0 .. CHUNK_WIDTH){
+					setCursorPos(x, y);
+					write(tiles[xChunkStartPos + x][yChunkStartPos + y].getTile());
+
+					//Defect my choice
+					if(x == EM.em.player.x && y == EM.em.player.y){
+						setCursorPos(x, y);
+						write('@');
+					}
 				}
 			}
+
+			EM.em.printPlayer;
+			EM.em.printEntities;
+
 		}catch(Throwable e){
-			throwError(e, ErrorList.OUT_OF_BOUNDS);
+			//throwError(e, ErrorList.OUT_OF_BOUNDS);
 		}
+
 	}
 }

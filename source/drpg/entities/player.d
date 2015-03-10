@@ -6,7 +6,8 @@ class Player : Entity{
 
 	char[] name = "Hermando".dup; //Dummy name
 	
-	this(){
-
+	this(int xStart, int yStart){
+		x = xStart;
+		y = yStart;
 	}
 }

@@ -6,11 +6,9 @@ import consoled;
 enum EntityType {PLAYER, NPC, MONSTER} //to be added moar
 enum MonsterType {SLIME, ZOMBIE};
 
-//enum TileType {DIRT, PLANK, WATER, WOOD, STONE}
-
-immutable byte CHUNK_WIDTH = 79, CHUNK_HEIGHT = 25; //Windows standard console size. I'm on windows.
-
 enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
+
+immutable byte CHUNK_WIDTH = 60, CHUNK_HEIGHT = 20; //Windows standard console size. I'm on windows.
 
 void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
 	setCursorPos(0, 0);
