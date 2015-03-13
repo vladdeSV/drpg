@@ -8,18 +8,32 @@ class Game{
 	void start(){
 
 		clearScreen;
+		cursorVisible(false);
 
-		Map.map.setTile(4, 1, new TilePlank());
-		Map.map.setTile(94, 4, new TilePlank());
+		//Prints out the border of the chunk
+		foreach(y; 0 .. CHUNK_HEIGHT){
+			setCursorPos(CHUNK_WIDTH, y);
+			write('*');
+		}
+		foreach(q; 0 .. CHUNK_WIDTH + 1){
+			setCursorPos(q, CHUNK_HEIGHT);
+			write('*');
+		}
+
+		_em.setPlayer(new Player(5, 9));
+
+		_map.setTile(4, 1, new TilePlank());
+		_map.setTile(94, 4, new TilePlank());
+		_map.addRoom(7, 5, 15, 11);
+		_map.addRoom(CHUNK_WIDTH+13, 9, 14, 6);
 
 		//Always last
-		Map.map.printChunk;
+		_map.printChunk;
 
-
-		//while(0) update;
+		while(1) update;
 	}
 
 	void update(){
-
+		_em.player.move;
 	}
 }

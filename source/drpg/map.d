@@ -13,6 +13,16 @@ class Map{
 
 	private static bool instantiated_;  // Thread local
 	private __gshared Map instance_;
+	private int width, height;
+	private Tile[][] tiles;
+
+	int getWidth(){
+		return width;
+	}
+
+	int getHeight(){
+		return height;
+	}
 
 	static Map map() {
 		if (!instantiated_) {
@@ -40,14 +50,35 @@ class Map{
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
 			foreach(ref tile; column) //ref tile" then also becomes a to "column"
 				tile = new TileFloor(); //Sets all tiles on the map to be TileFloor();
-
-		EM.em.setPlayer(new Player(1, 1));
-
-
 	}
 
-	private int width, height;
-	private Tile[][] tiles;
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void update(){
+		
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prints the chunk the player currently is in
+	*/
+	void printChunk(){
+
+		int xChunkStartPos = CHUNK_WIDTH * (EM.em.player.x / CHUNK_WIDTH);
+		int yChunkStartPos = CHUNK_HEIGHT* (EM.em.player.y / CHUNK_HEIGHT);
+
+		foreach(int y; 0 .. CHUNK_HEIGHT){
+			foreach(int x; 0 .. CHUNK_WIDTH){
+				setCursorPos(x, y);
+				write(tiles[xChunkStartPos + x][yChunkStartPos + y].getTile());
+			}
+		}
+
+		EM.em.printPlayer();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	* Should be something like this:
@@ -63,6 +94,16 @@ class Map{
 			throwError(e, ErrorList.OUT_OF_BOUNDS);
 		}
 	}
+
+	/**
+	* Should be:
+	* getTile(x, y);
+	*/
+	Tile getTile(int x, int y){
+		return tiles[x][y];
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void addRoom(int x, int y, int w, int h){
 
@@ -98,34 +139,5 @@ class Map{
 		catch(Throwable e)
 			throwError(e, ErrorList.OUT_OF_BOUNDS);	
 		
-	}
-
-	void printChunk(){
-
-		int xChunkStartPos = CHUNK_WIDTH * (EM.em.player.x / CHUNK_WIDTH);
-		int yChunkStartPos = CHUNK_HEIGHT* (EM.em.player.y / CHUNK_HEIGHT);
-
-		try{
-
-			foreach(int y; 0 .. CHUNK_HEIGHT){
-				foreach(int x; 0 .. CHUNK_WIDTH){
-					setCursorPos(x, y);
-					write(tiles[xChunkStartPos + x][yChunkStartPos + y].getTile());
-
-					//Defect my choice
-					if(x == EM.em.player.x && y == EM.em.player.y){
-						setCursorPos(x, y);
-						write('@');
-					}
-				}
-			}
-
-			EM.em.printPlayer;
-			EM.em.printEntities;
-
-		}catch(Throwable e){
-			//throwError(e, ErrorList.OUT_OF_BOUNDS);
-		}
-
 	}
 }

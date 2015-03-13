@@ -22,9 +22,6 @@ class EM {
 	}
 	+/
 
-	private Entity[] ents;
-	private Player p;
-
 	static EM em() {
 		if (!instantiated_) {
 			synchronized {
@@ -36,10 +33,12 @@ class EM {
 		}
 		return instance_;
 	}
-
 	private this() {}
 	private static bool instantiated_;  // Thread local
 	private __gshared EM instance_;
+
+	private Entity[] ents;
+	private Player p;
 
 	void setPlayer(Player player){
 		p = player;
@@ -54,18 +53,19 @@ class EM {
 		return p;
 	}
 
-	void addEntity(Player ent){
+	void addEntity(Entity ent){
 		ents ~= ent;
 	}
 
-	void printEntities(){
-		try{
-			foreach(l; 0 .. ents.length){
+	void update(){
+		setCursorPos(player.x % CHUNK_WIDTH, player.y % CHUNK_HEIGHT);
+		write('p');
+
+		foreach(l; 0 .. ents.length){
+			if(ents[l].xChunk == player.xChunk && ents[l].yChunk == player.yChunk){
 				setCursorPos(ents[l].x % CHUNK_WIDTH, ents[l].y % CHUNK_HEIGHT);
 				write('e');
 			}
-		}catch(Throwable e){
-
 		}
 	}
 }

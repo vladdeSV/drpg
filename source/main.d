@@ -1,10 +1,10 @@
-import std.stdio, consoled;
+import std.stdio, std.container.array, consoled;
 import drpg.game;
 
 void main(string[] argv)
 {
-	Game g = new Game();
-	g.start();
+
+	Game g = new Game(); g.start();
 
 	readln();
 }

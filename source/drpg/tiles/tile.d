@@ -29,5 +29,9 @@ static abstract class Tile{
 	void setOverlay(Tile t){
 		overlay = t;
 	}
+
+	@property bool isSolid(){
+		return solid;
+	}
 	
 }
