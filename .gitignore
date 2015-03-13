@@ -1,5 +1,5 @@
 .dub
-dub.userprefs
+*.userprefs
 docs.json
 __dummy.html
 *.o

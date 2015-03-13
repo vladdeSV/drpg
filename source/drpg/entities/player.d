@@ -16,7 +16,7 @@ class Player : Entity{
 		if(xChunk != xc || yChunk != yc) {
 			xChunk = xc;
 			yChunk = yc;
-			Map.map.printChunk;
+			_map.printChunk;
 		}
 
 		setCursorPos(0,24);
@@ -31,21 +31,21 @@ class Player : Entity{
 		int key = getch();
 
 		//FIXME: Keycodes are different in Debian.
-		if (key == 87 && y - 1 >= 0 && !Map.map.getTile(x, y - 1).isSolid){ //W
+		if (key == 87 && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid){ //W
 			y--;
 		}
-		else if (key == 65 && x - 1 >= 0 && !Map.map.getTile(x - 1, y).isSolid){ //A
+		else if (key == 65 && x - 1 >= 0 && !_map.getTile(x - 1, y).isSolid){ //A
 			x--;
 		}
-		else if (key == 83 && y + 1 <= Map.map.getHeight - 1 && !Map.map.getTile(x, y + 1).isSolid){ //S
+		else if (key == 83 && y + 1 <= _map.getHeight - 1 && !_map.getTile(x, y + 1).isSolid){ //S
 			y++;
 		}
-		else if (key == 68 && x + 1 <= Map.map.getWidth - 1 && !Map.map.getTile(x + 1, y).isSolid()){ //D
+		else if (key == 68 && x + 1 <= _map.getWidth - 1 && !_map.getTile(x + 1, y).isSolid()){ //D
 			x++;
 		}
 
 		setCursorPos(lx % CHUNK_WIDTH, ly % CHUNK_HEIGHT);
-		write(Map.map.getTile(lx % CHUNK_WIDTH, ly % CHUNK_HEIGHT).getTile); //... prints out the correct tile.
+		write(_map.getTile(lx, ly).getTile); //... prints out the correct tile.
 
 		EM.em.printPlayer;
 

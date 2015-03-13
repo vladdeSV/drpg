@@ -65,8 +65,8 @@ class Map{
 	*/
 	void printChunk(){
 
-		int xChunkStartPos = CHUNK_WIDTH * (EM.em.player.x / CHUNK_WIDTH);
-		int yChunkStartPos = CHUNK_HEIGHT* (EM.em.player.y / CHUNK_HEIGHT);
+		int xChunkStartPos = CHUNK_WIDTH * (_em.player.x / CHUNK_WIDTH);
+		int yChunkStartPos = CHUNK_HEIGHT* (_em.player.y / CHUNK_HEIGHT);
 
 		foreach(int y; 0 .. CHUNK_HEIGHT){
 			foreach(int x; 0 .. CHUNK_WIDTH){
@@ -75,7 +75,7 @@ class Map{
 			}
 		}
 
-		EM.em.printPlayer();
+		_em.printPlayer();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
