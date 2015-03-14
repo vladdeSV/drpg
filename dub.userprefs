@@ -1,8 +1,17 @@
 ﻿<Properties StartupItem="dub.json">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Default" PreferredExecutionTarget="plain" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="source\main.d">
+  <MonoDevelop.Ide.Workbench ActiveDocument="source\drpg\entities\entitytmanager.d">
     <Files>
-      <File FileName="source\main.d" Line="32" Column="32" />
+      <File FileName="source\drpg\map.d" Line="3" Column="3" />
+      <File FileName="source\drpg\entities\entitytmanager.d" Line="16" Column="16" />
+      <File FileName="source\drpg\game.d" Line="15" Column="15" />
+      <File FileName="source\drpg\reference.d" Line="1" Column="1" />
+      <File FileName="ConsoleD\source\consoled.d" Line="1" Column="1" />
+      <File FileName="source\drpg\entities\player.d" Line="1" Column="1" />
+      <File FileName="source\drpg\entities\entity.d" Line="1" Column="1" />
+      <File FileName="..\..\..\..\..\D\dmd2\src\phobos\std\array.d" Line="1" Column="1" />
+      <File FileName="..\..\..\..\..\D\dmd2\src\druntime\import\core\stdc\stdio.d" Line="1" Column="1" />
+      <File FileName="source\main.d" Line="2" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
