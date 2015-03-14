@@ -1,6 +1,6 @@
 ﻿module drpg.ui.start;
 
-import std.stdio, std.string, consoled;
+import std.stdio, consoled;
 import drpg.reference, drpg.entities.entitymanager;
 
 class Start

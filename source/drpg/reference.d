@@ -14,6 +14,8 @@ enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
 immutable byte CHUNK_WIDTH = 50, CHUNK_HEIGHT = 20; //Windows standard console size. I'm on windows.
 immutable char[] GAME_NAME = "DRPG".dup;
 
+const static int SideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
+
 void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
 	setCursorPos(0, 0);
 	writeln("Error: ", e.msg, " in\n", msg, "\n");

@@ -114,11 +114,10 @@ class Map{
 
 		//If a room is places outside the world border, then shit goes down.
 		try{
-			/* Funktion that adds a room */
+			/* Function that adds a room */
 			//Loop that loops through all the soon-to-be room.
-			for (int xPos = 0; xPos < w; xPos++){
-				for (int yPos = 0; yPos < h; yPos++){
-
+			foreach(xPos;0 .. w){
+				foreach(yPos;0 .. h){
 					//If the loop is on the edge (border) of the room, place a wall tile.
 					if (yPos == 0 || yPos == h - 1 || xPos == 0 || xPos == w - 1){
 						setTile(xPos + x, yPos + y, new TileWall());
@@ -137,8 +136,8 @@ class Map{
 	void addREKT(int x, int y, int w, int h, Tile tiletype, Tile overlay){
 
 		try
-			for (int xPos = 0; xPos < w; xPos++)
-				for (int yPos = 0; yPos < h; yPos++)		
+			foreach(xPos;0 .. w)
+				foreach(yPos;0 .. h)	
 					setTile(xPos + x, yPos + y, tiletype, overlay);
 
 		catch(Throwable e)

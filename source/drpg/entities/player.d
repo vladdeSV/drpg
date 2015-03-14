@@ -6,7 +6,7 @@ import drpg.entities.entity;
 
 class Player : Entity{
 
-	char[] name = "Hermando".dup; //Dummy name
+	public char[] name = "Hermando".dup; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
 
 	override void move() {
 	

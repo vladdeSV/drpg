@@ -1,7 +1,7 @@
 module drpg.game;
 
 import std.stdio, consoled;
-import drpg.reference, drpg.map, drpg.entities.entitymanager, drpg.entities.player, drpg.ui.start;
+import drpg.reference, drpg.map, drpg.entities.entitymanager, drpg.entities.player, drpg.ui.start, drpg.ui.side;
 import drpg.tiles.tile, drpg.tiles.tilefloor, drpg.tiles.tileplank, drpg.tiles.tiledoor, drpg.tiles.tilewall;
 class Game{
 
@@ -20,10 +20,13 @@ class Game{
 			write("+");
 		}
 
-		Start c = new Start(); 
+		Start startUI = new Start(); 
 
 		clearScreen;
+
 		_em.setPlayer(new Player(5, 9));
+		Side sideUI = new Side(); //Must be created after the player, otherwise ERRORS!
+
 
 		_map.setTile(4, 1, new TilePlank());
 		_map.setTile(94, 4, new TilePlank());
