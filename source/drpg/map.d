@@ -37,8 +37,8 @@ class Map{
 	}
 	
 	private this() {
-		width = CHUNK_WIDTH*4;
-		height = CHUNK_HEIGHT*4;
+		width = CHUNK_WIDTH*3;
+		height = CHUNK_HEIGHT*2;
 		
 		//Sets the width and height of the map
 		tiles.length = width;
@@ -68,17 +68,30 @@ class Map{
 		int xChunkStartPos = CHUNK_WIDTH * (_em.player.x / CHUNK_WIDTH);
 		int yChunkStartPos = CHUNK_HEIGHT* (_em.player.y / CHUNK_HEIGHT);
 
+		//FIXME This function will crash if the map width/height is not a multiple of CHUNK_WIDTH/CHUNK_HEIGHT
 		foreach(int y; 0 .. CHUNK_HEIGHT){
 			foreach(int x; 0 .. CHUNK_WIDTH){
 				setCursorPos(x, y);
 				write(tiles[xChunkStartPos + x][yChunkStartPos + y].getTile());
 			}
+			write('+');
 		}
+		setCursorPos(0, CHUNK_HEIGHT);
+		foreach(a; 0 .. CHUNK_WIDTH + 1)
+			write('+');
 
 		_em.printPlayer();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	* Should be:
+	* getTile(x, y);
+	*/
+	Tile getTile(int x, int y){
+		return tiles[x][y];
+	}
 
 	/**
 	* Should be something like this:
@@ -93,14 +106,6 @@ class Map{
 		}catch(Throwable e){
 			throwError(e, ErrorList.OUT_OF_BOUNDS);
 		}
-	}
-
-	/**
-	* Should be:
-	* getTile(x, y);
-	*/
-	Tile getTile(int x, int y){
-		return tiles[x][y];
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,8 @@ enum MonsterType {SLIME, ZOMBIE};
 
 enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
 
-immutable byte CHUNK_WIDTH = 60, CHUNK_HEIGHT = 20; //Windows standard console size. I'm on windows.
+immutable byte CHUNK_WIDTH = 50, CHUNK_HEIGHT = 20; //Windows standard console size. I'm on windows.
+immutable char[] GAME_NAME = "DRPG".dup;
 
 void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
 	setCursorPos(0, 0);

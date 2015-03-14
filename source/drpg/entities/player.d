@@ -9,6 +9,10 @@ class Player : Entity{
 	char[] name = "Hermando".dup; //Dummy name
 
 	override void move() {
+	
+		//FIXME Due to getch() being a bit buggy, the player won't be printed out correctly if there is no setCursoPos(x, y) in the move function.
+		//I'm pretty sure it can be anywhere in the code as long it will always get run. This is a bug in ConsoleD. Create an issue?
+		setCursorPos(0,0);
 
 		int xc = x / CHUNK_WIDTH;
 		int yc = y / CHUNK_HEIGHT;
@@ -17,15 +21,8 @@ class Player : Entity{
 			xChunk = xc;
 			yChunk = yc;
 			_map.printChunk;
+			setCursorPos(0,0); //FIXME Same bug as above, with out this the player won't get printed out
 		}
-
-		setCursorPos(0,24);
-		write("u sux m", x, " & ", y);
-
-		/+
-		//setCursorPos(0,24);
-		//writeln(key);
-		+/
 
 		int lx = x, ly = y; //Saves the player's x and y.
 		int key = getch();
@@ -44,19 +41,12 @@ class Player : Entity{
 			x++;
 		}
 
+		//Prints out the correc tile where the player once was, otherwise it would still be the player icon.
 		setCursorPos(lx % CHUNK_WIDTH, ly % CHUNK_HEIGHT);
-		write(_map.getTile(lx, ly).getTile); //... prints out the correct tile.
+		write(_map.getTile(lx, ly).getTile);
 
+		//Finally print out the player
 		EM.em.printPlayer;
-
-		/+
-		if (map_p.getTile(x, y).coin){ //If the player is on a tile that has a coin on it...
-			map_p.getTile(x, y).coin(false); //... set the overlay to nothing and...
-			coins++; //... give the player a coin :)
-		}
-		
-		setCursorPos(lx, ly); //Puts the cursor on the old tile and...
-		+/
 
 		super.move;
 	}

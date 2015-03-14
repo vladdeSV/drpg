@@ -4,7 +4,7 @@ import drpg.tiles.tile;
 
 class TileWall : Tile{
 	this(){
-		type = 'W';
+		type = '#';
 		solid = true;
 	}
 }
