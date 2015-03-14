@@ -13,10 +13,13 @@ class Side
 	void update(){
 		foreach(w; SideUiStartX .. SideUiEndX){
 			foreach(h; 0 .. SideUiHeight){
-				if(w == SideUiStartX || w == 79 || h == CHUNK_HEIGHT){
-					setCursorPos(w, h);
+				setCursorPos(w, h);
+				if(w == SideUiStartX || w == 79 || h == CHUNK_HEIGHT)
 					write('*');
-				}
+				else
+					write(' ');
+				
+
 			}
 		}
 		setCursorPos(SideUiStartX, CHUNK_HEIGHT);
