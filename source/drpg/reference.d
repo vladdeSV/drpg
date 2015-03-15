@@ -1,10 +1,11 @@
 module drpg.reference;
 
 import std.stdio, consoled;
-import drpg.map, drpg.entities.entitymanager;
+import drpg.map, drpg.entities.entitymanager, drpg.ui.uimanager;
 
 alias _map = Map.map;
-alias _em = EM.em;
+alias _uim = UIManager.uim;
+alias _em = EM.em; //EntityManager
 
 enum EntityType {PLAYER, NPC, MONSTER} //to be added moar
 enum MonsterType {SLIME, ZOMBIE};

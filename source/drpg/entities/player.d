@@ -1,7 +1,7 @@
 module drpg.entities.player;
 
 import std.stdio, consoled;
-import drpg.map, drpg.entities.entitymanager, drpg.reference;
+import drpg.map, drpg.entities.entitymanager, drpg.reference, drpg.ui.uimanager; 
 import drpg.entities.entity;
 
 class Player : Entity{
@@ -47,6 +47,7 @@ class Player : Entity{
 
 		//Finally print out the player
 		EM.em.printPlayer;
+		UIManager.uim.sideUI.update;
 
 		super.move;
 	}
@@ -54,5 +55,6 @@ class Player : Entity{
 	this(int xStart, int yStart){
 		x = xStart;
 		y = yStart;
+		maxHealth = health = 15;
 	}
 }
