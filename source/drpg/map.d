@@ -1,6 +1,6 @@
 module drpg.map;
 
-import std.stdio, std.math, consoled;
+import std.stdio, std.math, std.random, consoled;
 import drpg.reference;
 import drpg.entities.player, drpg.entities.entitymanager;
 import drpg.tiles.tile, drpg.tiles.tilefloor, drpg.tiles.tileplank, drpg.tiles.tiledoor, drpg.tiles.tilewall;
@@ -127,13 +127,24 @@ class Map{
 					}
 				}
 			}
+
+			int side = uniform(0,4);
+			if(side == 0)
+				setTile(x, y+h/2, new TileDoor());
+			if(side == 1)
+				setTile(x+w/2, y, new TileDoor());
+			if(side == 2)
+				setTile(x+w-1, y+h/2, new TileDoor());
+			if(side == 3)
+				setTile(x+w/2, y+h-1, new TileDoor());
+
 		}catch(Throwable e){
 			throwError(e, ErrorList.OUT_OF_BOUNDS);
 		}
 	}
 
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
-	void addREKT(int x, int y, int w, int h, Tile tiletype, Tile overlay){
+	void addRect(int x, int y, int w, int h, Tile tiletype, Tile overlay){
 
 		try
 			foreach(xPos;0 .. w)

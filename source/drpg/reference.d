@@ -10,12 +10,12 @@ alias _em = EM.em; //EntityManager
 enum EntityType {PLAYER, NPC, MONSTER} //to be added moar
 enum MonsterType {SLIME, ZOMBIE};
 
-enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
-
 immutable byte CHUNK_WIDTH = 50, CHUNK_HEIGHT = 20; //Windows standard console size. I'm on windows.
 immutable char[] GAME_NAME = "DRPG".dup;
 
 const static int SideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
+
+enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
 
 void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
 	setCursorPos(0, 0);

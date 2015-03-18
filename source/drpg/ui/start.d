@@ -19,18 +19,10 @@ class Start
 		char[] info = "press enter, move with WASD, go to the right".dup;
 		setCursorPos(CHUNK_WIDTH/2 - 1 - info.length/2, 5); write(info);
 
-
-		//setCursorPos(CHUNK_WIDTH / 2 - GAME_NAME.length / 2, 2);
-		//write(GAME_NAME);
-
-		setCursorPos(0, CHUNK_HEIGHT - 3);
-		writeln("[*] Start, lolol no other options, press enter"); //Teehee, you cannot choose anything yet :P
-		writeln("[ ] Options");
-		writeln("[ ] Quit");
-		setCursorPos(0, CHUNK_HEIGHT + 1);
-
+		char[] tr = "<PRESS ENTER>".dup;
+		setCursorPos(CHUNK_WIDTH/2 - tr.length/2, CHUNK_HEIGHT - 4);
+		write(tr);
 		readln();
-
 
 	}
 }

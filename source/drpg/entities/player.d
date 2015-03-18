@@ -46,8 +46,8 @@ class Player : Entity{
 		write(_map.getTile(lx, ly).getTile);
 
 		//Finally print out the player
-		EM.em.printPlayer;
-		UIManager.uim.sideUI.update;
+		_em.printPlayer;
+		_uim.sideUI.update;
 
 		super.move;
 	}
