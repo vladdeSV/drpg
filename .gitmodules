@@ -1,4 +1,0 @@
-[submodule "ConsoleD"]
-	path = ConsoleD
-	url = https://github.com/robik/ConsoleD.git
-	ignore = dirty
