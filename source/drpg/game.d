@@ -1,8 +1,9 @@
 module drpg.game;
 
-import std.stdio, consoled;
+import std.stdio, std.random, consoled;
 import drpg.reference, drpg.map, drpg.entities.entitymanager, drpg.entities.player, drpg.ui.uimanager;
-import drpg.tiles.tile, drpg.tiles.tilefloor, drpg.tiles.tileplank, drpg.tiles.tiledoor, drpg.tiles.tilewall;
+import drpg.room, drpg.tile;
+
 class Game{
 
 	void start(){
@@ -10,12 +11,14 @@ class Game{
 		clearScreen;
 		cursorVisible(false);
 
-		_map.setTile(4, 1, new TilePlank());
-		_map.setTile(94, 4, new TilePlank());
-		_map.addRoom(40, 5, 15, 7);
-		_map.addRoom(CHUNK_WIDTH + 13, 9, 14, 6);
+		_em.em;
+		_map.init;
+		_uim.init;
 
-		_uim.uim;
+		_map.setTile(4, 1, new TileRock());
+		_map.setTile(94, 4, new TileRock());
+		_map.addRect(CHUNK_WIDTH + 5, CHUNK_HEIGHT + 2, 4 ,5, new TilePlank());
+
 
 		//Always last
 		_map.printChunk;

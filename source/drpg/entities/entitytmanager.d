@@ -38,7 +38,7 @@ class EM {
 	private __gshared EM instance_;
 
 	private Entity[] ents;
-	private Player p;
+	private Player p = new Player(1, 1);
 
 	void setPlayer(Player player){
 		p = player;
@@ -62,7 +62,7 @@ class EM {
 		write('p');
 
 		foreach(l; 0 .. ents.length){
-			if(ents[l].xChunk == player.xChunk && ents[l].yChunk == player.yChunk){
+			if(ents[l].chunk[0] == player.chunk[0] && ents[l].chunk[1] == player.chunk[1]){
 				setCursorPos(ents[l].x % CHUNK_WIDTH, ents[l].y % CHUNK_HEIGHT);
 				write('e');
 			}

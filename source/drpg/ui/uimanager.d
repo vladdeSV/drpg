@@ -32,11 +32,11 @@ class UIManager {
 			setCursorPos(q, CHUNK_HEIGHT);
 			write("+");
 		}
+	}
 
+	void init(){
 		startUI = new Start(); 
 		clearScreen;
-		_em.setPlayer(new Player(5, 9));
 		sideUI = new Side(); //Must be created after the player, otherwise ERRORS!
-
 	}
 }

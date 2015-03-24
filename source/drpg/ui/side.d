@@ -5,6 +5,8 @@ import drpg.reference, drpg.entities.entitymanager;
 
 class Side
 {
+	static immutable barBits = 15;
+
 	this()
 	{
 		foreach(w; SideUiStartX .. SideUiEndX){
@@ -16,35 +18,56 @@ class Side
 					write(' ');
 			}
 		}
+
+		setCursorPos((6 + _em.player.name.length) / 2 + (SideUiStartX + 1), 1);
+		write("Name: ", _em.player.name);
+
 		update();
 	}
 
 	void update(){
 		//TODO make something happen when the player dies
 
-		//_em.player.health--; /* TEMP to check if health and shit works */
+		//_em.player.health--; /* TEMP to check if health/mana and shit works */
 
-		setCursorPos((6 + _em.player.name.length) / 2 + (SideUiStartX + 1), 1);
-		write("Name: ", _em.player.name);
 
+		//HP
 		setCursorPos(SideUiStartX + 2, 3);
-		write("Health: [");
+		write("Health: [", healthbar, "]");
+		//MANA
+		setCursorPos(SideUiStartX + 2, 4);
+		write("Mana:   [", manabar, "]");
+	}
+
+	string healthbar(){
+		string s;
 
 		if(_em.player.health > 0){
-			foreach(i; 0 .. 10){
-				if(i <= (cast(float)_em.player.health/cast(float)_em.player.maxHealth)*10){ //This amazing function takes the health and converts/rounds it to 10 slots
-					//setCursorPos(SideUiStartX + 11 + i, 3);
-					write('*');
+			foreach(i; 0 .. barBits){
+				if(i <= (cast(float)_em.player.health/cast(float)_em.player.maxHealth)*barBits){ //This amazing function takes the health and converts/rounds it to barBits amount of slots
+					s ~= '*';
 				}else{
-					//setCursorPos(SideUiStartX + 11 + i, 3);
-					write(' ');
+					s ~= ' ';
 				}
 			}
 		}else{
-			write("   DEAD   ");
+			s = "   DEAD   ";
+			_em.player.kill(); //Neat function that crashed the program :)
 		}
 
-		write("]");
+		return s;
+	}
+	string manabar(){
+		string s;
+
+		foreach(i; 0 .. barBits){
+			if(i <= (cast(float)_em.player.mana/cast(float)_em.player.maxMana)*barBits){ //This amazing function takes the mana and converts/rounds it to barBits amount of slots
+				s ~= '=';
+			}else{
+				s ~= ' ';
+			}
+		}
+		
+		return s;
 	}
 }
-

@@ -3,7 +3,7 @@ module drpg.map;
 import std.stdio, std.math, std.random, consoled;
 import drpg.reference;
 import drpg.entities.player, drpg.entities.entitymanager;
-import drpg.tiles.tile, drpg.tiles.tilefloor, drpg.tiles.tileplank, drpg.tiles.tiledoor, drpg.tiles.tilewall;
+import drpg.tile, drpg.room;
 
 /*
  * Working singleton!
@@ -15,6 +15,7 @@ class Map{
 	private __gshared Map instance_;
 	private int width, height;
 	private Tile[][] tiles;
+	private Room[] rooms;
 
 	int getWidth(){
 		return width;
@@ -36,7 +37,9 @@ class Map{
 		return instance_;
 	}
 	
-	private this() {
+	private this() {}
+
+	void init(){
 		width = CHUNK_WIDTH*3;
 		height = CHUNK_HEIGHT*2;
 		
@@ -50,6 +53,8 @@ class Map{
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
 			foreach(ref tile; column) //ref tile" then also becomes a to "column"
 				tile = new TileFloor(); //Sets all tiles on the map to be TileFloor();
+		
+		addRoomsToWorld;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +85,20 @@ class Map{
 		foreach(a; 0 .. CHUNK_WIDTH + 1)
 			write('+');
 
+
 		_em.printPlayer();
+	}
+
+	void addRoomsToWorld(){
+		foreach(i; 0 .. maxNumberOfRooms){
+			int w = uniform(5, maxRoomWidth);
+			int h = uniform(5, maxRoomHeight);
+			
+			int wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
+			int wy = uniform(3, height- h);
+			
+			rooms ~= new Room(wx, wy, w, h);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,45 +128,12 @@ class Map{
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void addRoom(int x, int y, int w, int h){
-
-		//If a room is places outside the world border, then shit goes down.
-		try{
-			/* Function that adds a room */
-			//Loop that loops through all the soon-to-be room.
-			foreach(xPos;0 .. w){
-				foreach(yPos;0 .. h){
-					//If the loop is on the edge (border) of the room, place a wall tile.
-					if (yPos == 0 || yPos == h - 1 || xPos == 0 || xPos == w - 1){
-						setTile(xPos + x, yPos + y, new TileWall());
-					}
-					else{
-						setTile(xPos + x, yPos + y, new TileFloor()); //Adds empty tiles inside the room.
-					}
-				}
-			}
-
-			int side = uniform(0,4);
-			if(side == 0)
-				setTile(x, y+h/2, new TileDoor());
-			if(side == 1)
-				setTile(x+w/2, y, new TileDoor());
-			if(side == 2)
-				setTile(x+w-1, y+h/2, new TileDoor());
-			if(side == 3)
-				setTile(x+w/2, y+h-1, new TileDoor());
-
-		}catch(Throwable e){
-			throwError(e, ErrorList.OUT_OF_BOUNDS);
-		}
-	}
-
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
-	void addRect(int x, int y, int w, int h, Tile tiletype, Tile overlay){
+	void addRect(int x, int y, int w, int h, Tile tiletype, Tile overlay = null){
 
 		try
 			foreach(xPos;0 .. w)
-				foreach(yPos;0 .. h)	
+				foreach(yPos;0 .. h)
 					setTile(xPos + x, yPos + y, tiletype, overlay);
 
 		catch(Throwable e)

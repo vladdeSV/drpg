@@ -8,6 +8,8 @@ class Player : Entity{
 
 	public char[] name = "Hermando".dup; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
 
+	int key;
+
 	override void move() {
 	
 		//FIXME Due to getch() being a bit buggy, the player won't be printed out correctly if there is no setCursoPos(x, y) in the move function.
@@ -17,27 +19,26 @@ class Player : Entity{
 		int xc = x / CHUNK_WIDTH;
 		int yc = y / CHUNK_HEIGHT;
 
-		if(xChunk != xc || yChunk != yc) {
-			xChunk = xc;
-			yChunk = yc;
+		if(chunk[0] != xc || chunk[1] != yc) {
+			chunk[0] = xc;
+			chunk[1] = yc;
 			_map.printChunk;
-			setCursorPos(0,0); //FIXME Same bug as above, with out this the player won't get printed out
+			setCursorPos(0, 0); //FIXME Same bug as above, with out this the player won't get printed out
 		}
 
 		int lx = x, ly = y; //Saves the player's x and y.
-		int key = getch();
+		key = getch();
 
-		//FIXME: Keycodes are different in Debian.
-		if (key == 87 && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid){ //W
+		if		((key == 'W' || key == 'w') && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid){
 			y--;
 		}
-		else if (key == 65 && x - 1 >= 0 && !_map.getTile(x - 1, y).isSolid){ //A
+		else if ((key == 'A' || key == 'a') && x - 1 >= 0 && !_map.getTile(x - 1, y).isSolid){
 			x--;
 		}
-		else if (key == 83 && y + 1 <= _map.getHeight - 1 && !_map.getTile(x, y + 1).isSolid){ //S
+		else if ((key == 'S' || key == 's') && y + 1 <= _map.getHeight - 1 && !_map.getTile(x, y + 1).isSolid){
 			y++;
 		}
-		else if (key == 68 && x + 1 <= _map.getWidth - 1 && !_map.getTile(x + 1, y).isSolid()){ //D
+		else if ((key == 'D' || key == 'd') && x + 1 <= _map.getWidth - 1 && !_map.getTile(x + 1, y).isSolid()){
 			x++;
 		}
 
@@ -47,14 +48,13 @@ class Player : Entity{
 
 		//Finally print out the player
 		_em.printPlayer;
-		_uim.sideUI.update;
-
-		super.move;
+		//_uim.sideUI.update;
 	}
 	
 	this(int xStart, int yStart){
 		x = xStart;
 		y = yStart;
 		maxHealth = health = 15;
+		maxMana = mana = 10;
 	}
 }

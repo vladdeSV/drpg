@@ -4,16 +4,19 @@ import std.stdio, consoled;
 import drpg.map, drpg.entities.entitymanager, drpg.ui.uimanager;
 
 alias _map = Map.map;
-alias _uim = UIManager.uim;
+alias _uim = UIManager.uim; //UIManager
 alias _em = EM.em; //EntityManager
 
 enum EntityType {PLAYER, NPC, MONSTER} //to be added moar
 enum MonsterType {SLIME, ZOMBIE};
 
-immutable byte CHUNK_WIDTH = 50, CHUNK_HEIGHT = 20; //Windows standard console size. I'm on windows.
-immutable char[] GAME_NAME = "DRPG".dup;
+immutable static byte CHUNK_WIDTH = 50, CHUNK_HEIGHT = 20; //Windows standard console size. I'm on windows.
+immutable static char[] GAME_NAME = "DRPG".dup;
 
-const static int SideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
+immutable static byte maxNumberOfRooms = 15;
+immutable static byte maxRoomWidth = 20, maxRoomHeight = 20;
+
+immutable static int SideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
 
 enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
 

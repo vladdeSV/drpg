@@ -1,4 +1,4 @@
-module drpg.tiles.tile;
+module drpg.tile;
 
 static abstract class Tile{
 
@@ -34,4 +34,41 @@ static abstract class Tile{
 		return solid;
 	}
 	
+}
+
+class TileFloor : Tile{
+	this(){
+		type = ' ';
+	}
+}
+
+class TileWall : Tile{
+	this(){
+		type = '#';
+		solid = true;
+	}
+}
+
+class TilePlank : Tile{
+	this(){
+		type = '=';
+		solid = true;
+	}
+}
+
+class TileRock : Tile{
+	this(){
+		type = '*';
+		solid = true;
+	}
+}
+
+
+class TileDoor : Tile{
+	
+	//bool locked = false;
+	
+	this(){
+		type = 'D';
+	}
 }
