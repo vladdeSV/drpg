@@ -38,7 +38,7 @@ class EM {
 	private __gshared EM instance_;
 
 	private Entity[] ents;
-	private Player p = new Player(1, 1);
+	private Player p = new Player(1, 2);
 
 	void setPlayer(Player player){
 		p = player;

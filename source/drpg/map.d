@@ -10,7 +10,6 @@ import drpg.tile, drpg.room;
  */
 
 class Map{
-
 	private static bool instantiated_;  // Thread local
 	private __gshared Map instance_;
 	private int width, height;
@@ -40,8 +39,9 @@ class Map{
 	private this() {}
 
 	void init(){
-		width = CHUNK_WIDTH*3;
-		height = CHUNK_HEIGHT*2;
+
+		width = WORLD_WIDTH;
+		height = WORLD_HEIGHT;
 		
 		//Sets the width and height of the map
 		tiles.length = width;
@@ -90,13 +90,16 @@ class Map{
 	}
 
 	void addRoomsToWorld(){
+
+		int w,h,wx,wy;
+
 		foreach(i; 0 .. maxNumberOfRooms){
-			int w = uniform(5, maxRoomWidth);
-			int h = uniform(5, maxRoomHeight);
+			w = uniform(5, maxRoomWidth);
+			h = uniform(5, maxRoomHeight);
 			
-			int wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
-			int wy = uniform(3, height- h);
-			
+			wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
+			wy = uniform(3, height- h);
+
 			rooms ~= new Room(wx, wy, w, h);
 		}
 	}
@@ -119,7 +122,7 @@ class Map{
 		try{
 			tiles[x][y] = tile;
 			if(overlay !is null){
-				tiles[x][y].setOverlay(new TileDoor());
+				tiles[x][y].setOverlay(overlay);
 			}
 		}catch(Throwable e){
 			throwError(e, ErrorList.OUT_OF_BOUNDS);

@@ -6,6 +6,7 @@ import drpg.reference, drpg.entities.entitymanager;
 class Side
 {
 	static immutable barBits = 15;
+	immutable static int SideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
 
 	this()
 	{

@@ -1,10 +1,16 @@
 module drpg.tile;
 
+import std.random : uniform;
+
 static abstract class Tile{
 
 	protected char type = '?';
 	protected bool solid = false;
 	protected Tile overlay = null;
+
+	Tile returnTile(){
+		return this;
+	}
 
 	char getTile(){
 		if(overlay !is null){
@@ -70,5 +76,18 @@ class TileDoor : Tile{
 	
 	this(){
 		type = 'D';
+	}
+}
+
+class TileTree : Tile{
+	this(){
+		type = 'T';
+		solid = true;
+	}
+}
+
+class TileFlower: Tile{
+	this(){
+		uniform(0,2) == true ? type = '.' : type = '.';
 	}
 }
