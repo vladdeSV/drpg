@@ -53,7 +53,8 @@ class Map{
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
 			foreach(ref tile; column) //ref tile" then also becomes a to "column"
 				tile = new TileFloor(); //Sets all tiles on the map to be TileFloor();
-		
+
+		addFlowersToWorld;
 		addRoomsToWorld;
 	}
 
@@ -87,6 +88,13 @@ class Map{
 
 
 		_em.printPlayer();
+	}
+
+	void addFlowersToWorld(){
+		foreach(x; 0 .. WORLD_WIDTH)
+			foreach(y; 0 .. WORLD_HEIGHT)
+				if(uniform(0, 5) == 0)
+					setTile(x, y, new TileFlower);
 	}
 
 	void addRoomsToWorld(){
