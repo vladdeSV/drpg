@@ -68,7 +68,7 @@ class Room{
 				tiles[x][y].setOverlay(new TileDoor());
 			}
 		}catch(Throwable e){
-			throwError(e, ErrorList.OUT_OF_BOUNDS);
+			write(e.msg);
 		}
 	}
 
@@ -81,7 +81,7 @@ class Room{
 
 		foreach(x; left .. roomXToWorldX(width)){
 			foreach(y; top .. roomYToWorldY(height)){
-				if(_map.getTile(x,y).isSolid){
+				if(_map.getTile(x, y).getTile == '#' ){
 					roomsFailedToPlace++;
 					return false;
 				}

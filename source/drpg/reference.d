@@ -10,18 +10,18 @@ alias _em = EM.em; //EntityManager
 enum EntityType {PLAYER, NPC, MONSTER} //to be added moar
 enum MonsterType {SLIME, ZOMBIE};
 
-immutable static byte CHUNK_WIDTH = 50, CHUNK_HEIGHT = 20; //Windows OS standard console size. I'm on windows.
-immutable static int  WORLD_WIDTH = CHUNK_WIDTH * 3, WORLD_HEIGHT = CHUNK_HEIGHT * 2;
-
+//World variables
 immutable static char[] GAME_NAME = "DRPG".dup;
+immutable static int CHUNK_WIDTH = 50, CHUNK_HEIGHT = 20; //Windows OS standard console size. I'm on windows.
+immutable static int WORLD_WIDTH = CHUNK_WIDTH * 3, WORLD_HEIGHT = CHUNK_HEIGHT * 2;
 
-immutable static int maxNumberOfRooms = 50;
+//Room variables
+immutable static int MAX_ROOM_WIDTH = 20, MAX_ROOM_HEIGHT = 20, MAX_NUMBER_OF_ROOMS = 50;
 static int roomsFailedToPlace = 0;
-immutable static byte maxRoomWidth = 20, maxRoomHeight = 20;
 
 enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
 
-void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
+/+void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
 	setCursorPos(0, 0);
 	writeln("Error: ", e.msg, " in\n", msg, "\n");
 	switch(error){
@@ -38,4 +38,4 @@ void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
 			writeln("Unknown error.");
 			throw new Exception("unknown");
 	}
-}
+}+/

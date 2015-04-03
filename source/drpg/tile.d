@@ -69,7 +69,6 @@ class TileRock : Tile{
 	}
 }
 
-
 class TileDoor : Tile{
 	
 	//bool locked = false;
