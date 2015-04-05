@@ -53,8 +53,17 @@ class Map{
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
 			foreach(ref tile; column) //ref tile" then also becomes a to "column"
 				tile = new TileFloor(); //Sets all tiles on the map to be TileFloor();
-		
+
+		addStructuresToWorld;
+	}
+
+	void addStructuresToWorld(){
+
+		addFlowersToWorld;
+		addTreesToWorld;
+		addRocksToWorld;
 		addRoomsToWorld;
+		
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,22 +98,18 @@ class Map{
 		_em.printPlayer();
 	}
 
-	void addRoomsToWorld(){
+	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
+	void addRect(int x, int y, int w, int h, Tile tiletype, Tile overlay = null){
 
-		int w,h,wx,wy;
-
-		foreach(i; 0 .. maxNumberOfRooms){
-			w = uniform(5, maxRoomWidth);
-			h = uniform(5, maxRoomHeight);
-			
-			wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
-			wy = uniform(3, height- h);
-
-			rooms ~= new Room(wx, wy, w, h);
-		}
+		try
+			foreach(xPos;0 .. w)
+				foreach(yPos;0 .. h)
+					setTile(xPos + x, yPos + y, tiletype, overlay);
+		
+		catch(Throwable e)
+			write(e.msg);
+		
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	* Should be:
@@ -113,7 +118,7 @@ class Map{
 	Tile getTile(int x, int y){
 		return tiles[x][y];
 	}
-
+	
 	/**
 	* Should be something like this:
 	* setTile(x, y, new TileType());
@@ -125,22 +130,49 @@ class Map{
 				tiles[x][y].setOverlay(overlay);
 			}
 		}catch(Throwable e){
-			throwError(e, ErrorList.OUT_OF_BOUNDS);
+			write(e.msg);
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
-	void addRect(int x, int y, int w, int h, Tile tiletype, Tile overlay = null){
 
-		try
-			foreach(xPos;0 .. w)
-				foreach(yPos;0 .. h)
-					setTile(xPos + x, yPos + y, tiletype, overlay);
+	void addFlowersToWorld(){
+		int CHANCE_OF_FLOWER_BEING_PLACED = 18;
+		foreach(x; 0 .. WORLD_WIDTH)
+			foreach(y; 0 .. WORLD_HEIGHT)
+				if(uniform(0, CHANCE_OF_FLOWER_BEING_PLACED) == 0)
+					setTile(x, y, new TileFlower);
+	}
 
-		catch(Throwable e)
-			throwError(e, ErrorList.OUT_OF_BOUNDS);	
-		
+	void addTreesToWorld(){
+		int CHANCE_OF_TREE_BEING_PLACED = 40;
+		foreach(x; 0 .. WORLD_WIDTH)
+			foreach(y; 0 .. WORLD_HEIGHT)
+				if(uniform(0, CHANCE_OF_TREE_BEING_PLACED) == 0)
+					setTile(x, y, new TileTree);
+	}
+
+	void addRocksToWorld(){
+		int CHANCE_OF_ROCK_BEING_PLACED = 90;
+		foreach(x; 0 .. WORLD_WIDTH)
+			foreach(y; 0 .. WORLD_HEIGHT)
+				if(uniform(0, CHANCE_OF_ROCK_BEING_PLACED) == 0)
+					setTile(x, y, new TileRock);
+	}
+
+	void addRoomsToWorld(){
+
+		int w, h, wx, wy;
+
+		foreach(i; 0 .. MAX_NUMBER_OF_ROOMS){
+			w = uniform(5, MAX_ROOM_WIDTH);
+			h = uniform(5, MAX_ROOM_HEIGHT);
+			
+			wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
+			wy = uniform(3, height- h);
+
+			rooms ~= new Room(wx, wy, w, h);
+		}
 	}
 }

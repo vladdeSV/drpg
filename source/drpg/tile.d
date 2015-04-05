@@ -69,7 +69,6 @@ class TileRock : Tile{
 	}
 }
 
-
 class TileDoor : Tile{
 	
 	//bool locked = false;
@@ -88,6 +87,9 @@ class TileTree : Tile{
 
 class TileFlower: Tile{
 	this(){
-		uniform(0,2) == true ? type = '.' : type = '.';
+		if(uniform(0,2))
+			type = '.';
+		else
+			type = ',';
 	}
 }
