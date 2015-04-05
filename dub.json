@@ -4,6 +4,7 @@
 	"copyright": "lol no copyright © 2015, vladde",
 	"authors": ["vladde"],
 	"dependencies": {
-		"consoled": "~master"
+		"consoled": "~master",
+		"derelict-sdl2": "~>1.1.9"
 	}
 }
