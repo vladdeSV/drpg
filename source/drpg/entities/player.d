@@ -1,6 +1,6 @@
 module drpg.entities.player;
 
-import std.stdio, std.concurrency, consoled;
+import std.stdio, std.concurrency, consoled, std.random;
 import drpg.map, drpg.entities.entitymanager, drpg.reference, drpg.ui.uimanager; 
 import drpg.entities.entity;
 
@@ -28,7 +28,8 @@ class Player : Entity{
 			}
 
 			int lx = x, ly = y; //Saves the player's x and y.
-			key = getch();
+			key = getch(); //TODO: Fix movement. In new versions of ConsoleD, getch() recognizes a key realease as an input too. Basically you move twice for one quick keypress.
+
 
 			if		((key == 'W' || key == 'w') && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid){
 				y--;
@@ -61,6 +62,5 @@ class Player : Entity{
 	}
 
 	void startMove(){
-		//auto tid1 = spawn(&f1); //No worky :/
 	}
 }

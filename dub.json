@@ -2,8 +2,8 @@
 	"name": "drpg",
 	"description": "An ASCII based RPG",
 	"copyright": "lol no copyright © 2015, vladde",
-	"authors": ["vladde"],
+	"authors": ["vladdeSV"],
 	"dependencies": {
-		"consoled": "~master"
+		"consoled": "~>1.0.2"
 	}
 }

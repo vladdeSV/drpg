@@ -65,7 +65,7 @@ class Room{
 		try{
 			tiles[x][y] = tile;
 			if(overlay !is null){
-				tiles[x][y].setOverlay(new TileDoor());
+				tiles[x][y].setOverlay(overlay);
 			}
 		}catch(Throwable e){
 			write(e.msg);
