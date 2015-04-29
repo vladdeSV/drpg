@@ -1,8 +1,7 @@
 module drpg.entities.player;
 
 import std.stdio, std.concurrency, consoled, std.random;
-import drpg.map, drpg.entities.entitymanager, drpg.reference, drpg.ui.uimanager; 
-import drpg.entities.entity;
+import drpg.map, drpg.entities.entitymanager, drpg.reference, drpg.ui.uimanager, drpg.entities.entity;
 
 class Player : Entity{
 
@@ -10,28 +9,31 @@ class Player : Entity{
 
 	int key;
 
+	int xc, yc;
+
 	override void move() {
+
+		xc = x / CHUNK_WIDTH;
+		yc = y / CHUNK_HEIGHT;
+
+		if(chunk[0] != xc || chunk[1] != yc) {
+			chunk[0] = xc;
+			chunk[1] = yc;
+			_map.printChunk;
+		}
+		
 		setCursorPos(0,0);
+		writeln("x: ", _em.player.x, " [", _em.player.chunk[0], " / ", WORLD_WIDTH/CHUNK_WIDTH, "]");
+		writeln("y: ", _em.player.y, " [", _em.player.chunk[1], " / ", WORLD_HEIGHT/CHUNK_HEIGHT, "]");
 		if(kbhit){
 			//FIXME Due to getch() being a bit buggy, the player won't be printed out correctly if there is no setCursoPos(x, y) in the move function.
 			//I'm pretty sure it can be anywhere in the code as long it will always get run. This is a bug in ConsoleD. Create an issue?
 			setCursorPos(0,0);
 
-			int xc = x / CHUNK_WIDTH;
-			int yc = y / CHUNK_HEIGHT;
-
-			if(chunk[0] != xc || chunk[1] != yc) {
-				chunk[0] = xc;
-				chunk[1] = yc;
-				_map.printChunk;
-				setCursorPos(0, 0); //FIXME Same bug as above, with out this the player won't get printed out
-			}
-
 			int lx = x, ly = y; //Saves the player's x and y.
 			key = getch(); //TODO: Fix movement. In new versions of ConsoleD, getch() recognizes a key realease as an input too. Basically you move twice for one quick keypress.
 
-
-			if		((key == 'W' || key == 'w') && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid){
+			/***/if ((key == 'W' || key == 'w') && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid){
 				y--;
 			}
 			else if ((key == 'A' || key == 'a') && x - 1 >= 0 && !_map.getTile(x - 1, y).isSolid){

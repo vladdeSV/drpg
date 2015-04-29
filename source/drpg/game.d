@@ -6,8 +6,9 @@ import drpg.room, drpg.tile;
 
 class Game{
 
-	void start(){
+	static bool running = true;
 
+	void start(){
 		clearScreen;
 		cursorVisible(false);
 
@@ -20,8 +21,7 @@ class Game{
 		setCursorPos(0,0);
 		write(roomsFailedToPlace," rooms failed to be placed");
 
-		while(1) update;
-
+		while(running) update;
 	}
 
 	void update(){
