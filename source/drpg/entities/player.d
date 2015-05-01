@@ -1,7 +1,10 @@
 module drpg.entities.player;
 
 import std.stdio, std.concurrency, consoled, std.random;
-import drpg.map, drpg.entities.entitymanager, drpg.reference, drpg.ui.uimanager, drpg.entities.entity;
+import drpg.map;
+import drpg.entities.entity, drpg.entities.entitymanager;
+import drpg.reference, drpg.refs.sprites;
+import drpg.ui.uimanager;
 
 class Player : Entity{
 
@@ -36,28 +39,37 @@ class Player : Entity{
 			key = getch(); //TODO: Fix movement. In new versions of ConsoleD, getch() recognizes a key realease as an input too. Basically you move twice for one quick keypress.
 
 			if(mv){
-				/***/if ((key == 'W' || key == 'w') && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid){
+				/***/if ((key == 'W' || key == 'w') && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid && !_em.isEntityAt(x, y - 1)){
 					y--;
 				}
-				else if ((key == 'A' || key == 'a') && x - 1 >= 0 && !_map.getTile(x - 1, y).isSolid){
+				else if ((key == 'A' || key == 'a') && x - 1 >= 0 && !_map.getTile(x - 1, y).isSolid && !_em.isEntityAt(x - 1, y)){
 					x--;
 				}
-				else if ((key == 'S' || key == 's') && y + 1 <= _map.getHeight - 1 && !_map.getTile(x, y + 1).isSolid){
+				else if ((key == 'S' || key == 's') && y + 1 < _map.getHeight && !_map.getTile(x, y + 1).isSolid && !_em.isEntityAt(x, y + 1)){
 					y++;
 				}
-				else if ((key == 'D' || key == 'd') && x + 1 <= _map.getWidth - 1 && !_map.getTile(x + 1, y).isSolid()){
+				else if ((key == 'D' || key == 'd') && x + 1 < _map.getWidth  && !_map.getTile(x + 1, y).isSolid && !_em.isEntityAt(x + 1, y)){
 					x++;
 				}
 				else if (key == 'I' || key == 'i'){
 					//_uim.openInventory;
 				}
-				else if(key == 27 /* Escape character on Windows */){
+				else if(key == 27 /* Escape key on Windows */){
 					running = false;
 				}
 
 				//Prints out the correc tile where the player once was, otherwise it would still be the player icon.
 				setCursorPos(lx % CHUNK_WIDTH, ly % CHUNK_HEIGHT);
-				write(_map.getTile(lx, ly).getTile);
+				if(_em.isEntityAt(lx, ly)){
+					//TODO: I think if the enemy moves at the same time as the player there will be a null pointer exception
+					try{
+						write(_em.getEntityAt(lx,ly).getSprite);
+					}catch{
+						write(_map.getTile(lx, ly).getTile);
+					}
+				}else{
+					write(_map.getTile(lx, ly).getTile);
+				}
 
 				//Finally print out the player
 				_em.printPlayer;
@@ -81,5 +93,9 @@ class Player : Entity{
 		y = yStart;
 		maxHealth = health = 15;
 		maxMana = mana = 10;
+	}
+
+	override char getSprite(){
+		return SPRITE_PLAYER;
 	}
 }

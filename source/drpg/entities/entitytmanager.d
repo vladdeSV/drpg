@@ -21,7 +21,6 @@ class EM {
 		}
 	}
 	+/
-
 	//////////////////////////////////////
 	static EM em() {
 		if (!instantiated_) {
@@ -38,9 +37,25 @@ class EM {
 	private static bool instantiated_;
 	private __gshared EM instance_;
 	//////////////////////////////////////
+
+	int entityTick;
+
+	void tick(){
+		++entityTick;
+		if(entityTick > 100000){
+			update;
+			entityTick = 0;
+		}
+	}
 	
 	void init(){
-		addEntity(new Enemy(4,4));
+		addEntities;
+	}
+
+	void update(){
+		foreach(l; 0 .. ents.length){
+			ents[l].update();
+		}
 	}
 
 	private Player p = new Player(1, 2);
@@ -53,28 +68,51 @@ class EM {
 	void printPlayer(){
 		setCursorPos(player.x % CHUNK_WIDTH, player.y % CHUNK_HEIGHT);
 		write(SPRITE_PLAYER);
+		stdout.flush(); //Thanks to Destructionator from #d (freenode) for this amazing one-liner which makes sure the enemies get properly written out!
 	}
 
 	public Player player(){
 		return p;
 	}
 
+	void printEntity(Entity ent){
+		setCursorPos(ent.x % CHUNK_WIDTH, ent.y % CHUNK_HEIGHT);
+		write(ent.getSprite);
+		stdout.flush(); //Thanks to Destructionator from #d (freenode) for this amazing one-liner which makes sure the enemies get properly written out!
+	}
+
 	void addEntity(Entity ent){
 		ents ~= ent;
 	}
 
-	int entityTick;
-	void tick(){
-		++entityTick;
-		if(entityTick > 100000){
-			update;
-			entityTick = 0;
+	Entity getEntityAt(int a, int b){
+		foreach(l; 0 .. ents.length){
+			if(ents[l].x == a && ents[l].y == b)
+				return ents[l];
 		}
+
+		return null;
 	}
 
-	void update(){
+	/**
+	 * Check if there is an entity at give location
+	 */
+	bool isEntityAt(int xpos, int ypos){
+
+		if(player.x == xpos && player.y == ypos)
+			return true;
+
 		foreach(l; 0 .. ents.length){
-			ents[l].move();
+			if(ents[l].x == xpos && ents[l].y == ypos)
+				return true;
 		}
+
+		return false;
+	}
+
+	void addEntities(){
+		addEntity(new Enemy(4,4));
+		addEntity(new Enemy(2,7));
+		addEntity(new Enemy(5,30));
 	}
 }

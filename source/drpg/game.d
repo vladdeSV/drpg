@@ -20,15 +20,7 @@ class Game{
 //		setCursorPos(0,0);
 //		write(roomsFailedToPlace," rooms failed to be placed");
 
-		while(running)
-		{
-			++tick;
-
-			if(tick > 50){
-				tick = 0;
-				gameTick;
-			}
-		}
+		while(running) gameTick;
 	}
 
 	void gameTick(){

@@ -21,9 +21,6 @@ immutable static int WORLD_WIDTH = CHUNK_WIDTH * 3, WORLD_HEIGHT = CHUNK_HEIGHT 
 immutable static int MAX_ROOM_WIDTH = 20, MAX_ROOM_HEIGHT = 20, MAX_NUMBER_OF_ROOMS = 50;
 static int roomsFailedToPlace = 0;
 
-//I guess this is important or something
-static int tick;
-
 void centerStringOnEmptyScreen(string s){
 	clearScreen;
 	setCursorPos((79 / 2) - (s.length / 2), 12);
