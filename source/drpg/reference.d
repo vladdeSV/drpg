@@ -22,7 +22,7 @@ immutable static int MAX_ROOM_WIDTH = 20, MAX_ROOM_HEIGHT = 20, MAX_NUMBER_OF_RO
 static int roomsFailedToPlace = 0;
 
 //I guess this is important or something
-static ubyte tick;
+static int tick;
 
 void centerStringOnEmptyScreen(string s){
 	clearScreen;

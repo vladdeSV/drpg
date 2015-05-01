@@ -24,7 +24,7 @@ class Game{
 		{
 			++tick;
 
-			if(tick > 250){
+			if(tick > 50){
 				tick = 0;
 				gameTick;
 			}
