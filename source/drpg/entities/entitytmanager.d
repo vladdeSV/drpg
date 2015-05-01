@@ -2,7 +2,7 @@ module drpg.entities.entitymanager;
 
 import std.stdio, std.random, consoled;
 import drpg.entities.entity, drpg.entities.player, drpg.entities.enemy;
-import drpg.reference;
+import drpg.reference, drpg.refs.sprites;
 
 class EM {
 
@@ -22,6 +22,7 @@ class EM {
 	}
 	+/
 
+	//////////////////////////////////////
 	static EM em() {
 		if (!instantiated_) {
 			synchronized {
@@ -34,11 +35,16 @@ class EM {
 		return instance_;
 	}
 	private this() {}
-	private static bool instantiated_;  // Thread local
+	private static bool instantiated_;
 	private __gshared EM instance_;
+	//////////////////////////////////////
+	
+	void init(){
+		addEntity(new Enemy(4,4));
+	}
 
-	private Entity[] ents;
 	private Player p = new Player(1, 2);
+	private Entity[] ents;
 
 	void setPlayer(Player player){
 		p = player;
@@ -46,7 +52,7 @@ class EM {
 
 	void printPlayer(){
 		setCursorPos(player.x % CHUNK_WIDTH, player.y % CHUNK_HEIGHT);
-		write('p');
+		write(SPRITE_PLAYER);
 	}
 
 	public Player player(){
@@ -60,23 +66,15 @@ class EM {
 	int entityTick;
 	void tick(){
 		++entityTick;
-		if(entityTick > 100){
+		if(entityTick > 100000){
 			update;
+			entityTick = 0;
 		}
 	}
 
 	void update(){
-		setCursorPos(player.x % CHUNK_WIDTH, player.y % CHUNK_HEIGHT);
-		write();
-
-		setCursorPos(4,4);
-		write(uniform(0, 10));
-
 		foreach(l; 0 .. ents.length){
-			if(ents[l].chunk[0] == player.chunk[0] && ents[l].chunk[1] == player.chunk[1]){
-				setCursorPos(ents[l].x % CHUNK_WIDTH, ents[l].y % CHUNK_HEIGHT);
-				write('e');
-			}
+			ents[l].move();
 		}
 	}
 }

@@ -95,7 +95,8 @@ class Map{
 			write('+');
 
 
-		_em.printPlayer();
+		_em.printPlayer;
+		_em.update;
 	}
 
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(

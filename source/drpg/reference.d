@@ -14,7 +14,7 @@ enum MonsterType {SLIME, ZOMBIE};
 
 //World variables
 immutable static char[] GAME_NAME = "DRPG".dup;
-immutable static int CHUNK_WIDTH = 50, CHUNK_HEIGHT = 20; //Windows OS standard console size. I'm on windows.
+immutable static int CHUNK_WIDTH = 50, CHUNK_HEIGHT = 24; //Windows OS standard console size. I'm on windows.
 immutable static int WORLD_WIDTH = CHUNK_WIDTH * 3, WORLD_HEIGHT = CHUNK_HEIGHT * 2;
 
 //Room variables

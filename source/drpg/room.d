@@ -128,7 +128,7 @@ class Room{
 	void setRoomInWorld(){
 		foreach(x; 0 .. width){
 			foreach(y; 0 .. height){
-				_map.setTile(x+left,y+top, tiles[x][y].returnTile);
+				_map.setTile(x + left, y + top, tiles[x][y].returnTile);
 			}
 		}
 	}

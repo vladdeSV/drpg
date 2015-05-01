@@ -10,16 +10,18 @@ class Game{
 		clearScreen;
 		cursorVisible(false);
 
-		_em.em;
+		_em.init;
 		_map.init;
 		_uim.init;
 
 		//Always last
 		_map.printChunk;
-		setCursorPos(0,0);
-		write(roomsFailedToPlace," rooms failed to be placed");
 
-		while(running){
+//		setCursorPos(0,0);
+//		write(roomsFailedToPlace," rooms failed to be placed");
+
+		while(running)
+		{
 			++tick;
 
 			if(tick > 250){
@@ -30,8 +32,8 @@ class Game{
 	}
 
 	void gameTick(){
-		_em.player.move;
-		tick = 0;
+		_em.tick;
+		_em.player.update; //Other enteties and the player should update separately. Player movement should be instant, while enemies move not so often (maybe).
 	}
 
 }

@@ -11,7 +11,11 @@ class Player : Entity{
 	int xc, yc; //X chunk and y chunk
 	bool mv = true; //Check if need to move
 
-	override void move() {
+	override void update(){
+		move;
+	}
+
+	private void move() {
 
 		xc = x / CHUNK_WIDTH;
 		yc = y / CHUNK_HEIGHT;
@@ -44,6 +48,9 @@ class Player : Entity{
 				else if ((key == 'D' || key == 'd') && x + 1 <= _map.getWidth - 1 && !_map.getTile(x + 1, y).isSolid()){
 					x++;
 				}
+				else if (key == 'I' || key == 'i'){
+					//_uim.openInventory;
+				}
 				else if(key == 27 /* Escape character on Windows */){
 					running = false;
 				}
@@ -54,13 +61,13 @@ class Player : Entity{
 
 				//Finally print out the player
 				_em.printPlayer;
-				//_uim.sideUI.update;
+				_uim.sideUI.update;
 
 				//Write out players x and y + chunks
 				setCursorPos(70-17, 20-3);
-				write("x: ", _em.player.x, " [Chunk: ", _em.player.chunk[0], " / ", WORLD_WIDTH/CHUNK_WIDTH, "]");
+				write("x: ", _em.player.x, " [Chunk: ", _em.player.chunk[0] + 1, " / ", WORLD_WIDTH/CHUNK_WIDTH, "]");
 				setCursorPos(70-17, 21-3);
-				writeln("y: ", _em.player.y, " [Chunk: ", _em.player.chunk[1], " / ", WORLD_HEIGHT/CHUNK_HEIGHT, "]");
+				writeln("y: ", _em.player.y, " [Chunk: ", _em.player.chunk[1] + 1, " / ", WORLD_HEIGHT/CHUNK_HEIGHT, "]");
 
 				mv = false;
 			}else{
@@ -74,8 +81,5 @@ class Player : Entity{
 		y = yStart;
 		maxHealth = health = 15;
 		maxMana = mana = 10;
-	}
-
-	void startMove(){
 	}
 }

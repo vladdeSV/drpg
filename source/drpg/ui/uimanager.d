@@ -1,12 +1,14 @@
 ﻿module drpg.ui.uimanager;
 
 import std.stdio, drpg.reference, consoled;
-import drpg.ui.side, drpg.ui.start, drpg.entities.player;
+import drpg.ui.side, drpg.ui.start, drpg.ui.inventory;
+import drpg.entities.player;
 
 class UIManager {
 
 	Start startUI; 
 	Side sideUI;
+	Inventory invUI;
 
 	static UIManager uim() {
 		if (!instantiated_) {
