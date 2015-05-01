@@ -7,6 +7,8 @@ alias _map = Map.map;
 alias _uim = UIManager.uim; //UIManager
 alias _em = EM.em; //EntityManager
 
+static bool running = true;
+
 enum EntityType {PLAYER, NPC, MONSTER} //to be added moar
 enum MonsterType {SLIME, ZOMBIE};
 
@@ -19,9 +21,20 @@ immutable static int WORLD_WIDTH = CHUNK_WIDTH * 3, WORLD_HEIGHT = CHUNK_HEIGHT 
 immutable static int MAX_ROOM_WIDTH = 20, MAX_ROOM_HEIGHT = 20, MAX_NUMBER_OF_ROOMS = 50;
 static int roomsFailedToPlace = 0;
 
+//I guess this is important or something
+static ubyte tick;
+
+void centerStringOnEmptyScreen(string s){
+	clearScreen;
+	setCursorPos((79 / 2) - (s.length / 2), 12);
+	write(s);
+	setCursorPos(0,25);
+}
+
+/+
 enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
 
-/+void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
+void throwError(Throwable e, int error, string msg = __PRETTY_FUNCTION__){
 	setCursorPos(0, 0);
 	writeln("Error: ", e.msg, " in\n", msg, "\n");
 	switch(error){
@@ -38,4 +51,5 @@ enum ErrorList {lolnoerror, MAXIMUM_PLAYERS_EXCEEDED, OUT_OF_BOUNDS};
 			writeln("Unknown error.");
 			throw new Exception("unknown");
 	}
-}+/
+}
++/

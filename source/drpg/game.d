@@ -6,8 +6,6 @@ import drpg.room, drpg.tile;
 
 class Game{
 
-	static bool running = true;
-
 	void start(){
 		clearScreen;
 		cursorVisible(false);
@@ -21,10 +19,19 @@ class Game{
 		setCursorPos(0,0);
 		write(roomsFailedToPlace," rooms failed to be placed");
 
-		while(running) update;
+		while(running){
+			++tick;
+
+			if(tick > 250){
+				tick = 0;
+				gameTick;
+			}
+		}
 	}
 
-	void update(){
+	void gameTick(){
 		_em.player.move;
+		tick = 0;
 	}
+
 }

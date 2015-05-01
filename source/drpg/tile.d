@@ -1,6 +1,7 @@
 module drpg.tile;
 
 import std.random : uniform;
+import drpg.refs.sprites;
 
 static abstract class Tile{
 
@@ -42,29 +43,31 @@ static abstract class Tile{
 	
 }
 
+//TODO: Change all "sprites" to the ones in reference.
+
 class TileFloor : Tile{
 	this(){
-		type = ' ';
+		type = SPRITE_NONE;
 	}
 }
 
 class TileWall : Tile{
 	this(){
-		type = '#';
+		type = SPRITE_WALL;
 		solid = true;
 	}
 }
 
 class TilePlank : Tile{
 	this(){
-		type = '=';
+		type = SPRITE_PLANK;
 		solid = true;
 	}
 }
 
 class TileRock : Tile{
 	this(){
-		type = '*';
+		type = SPRITE_ROCK;
 		solid = true;
 	}
 }
@@ -74,22 +77,22 @@ class TileDoor : Tile{
 	//bool locked = false;
 	
 	this(){
-		type = 'D';
+		type = SPRITE_DOOR;
 	}
 }
 
 class TileTree : Tile{
 	this(){
-		type = 'T';
+		type = SPRITE_TREE;
 		solid = true;
 	}
 }
 
 class TileFlower: Tile{
 	this(){
-		if(uniform(0,2))
-			type = '.';
+		if(uniform(0,2)) //Randomly chooses between the different flower types
+			type = SPRITE_FLOWER_1;
 		else
-			type = ',';
+			type = SPRITE_FLOWER_2;
 	}
 }

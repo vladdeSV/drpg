@@ -1,6 +1,6 @@
 module drpg.entities.entitymanager;
 
-import std.stdio, std.array, consoled;
+import std.stdio, std.random, consoled;
 import drpg.entities.entity, drpg.entities.player, drpg.entities.enemy;
 import drpg.reference;
 
@@ -57,9 +57,20 @@ class EM {
 		ents ~= ent;
 	}
 
+	int entityTick;
+	void tick(){
+		++entityTick;
+		if(entityTick > 100){
+			update;
+		}
+	}
+
 	void update(){
 		setCursorPos(player.x % CHUNK_WIDTH, player.y % CHUNK_HEIGHT);
-		write('p');
+		write();
+
+		setCursorPos(4,4);
+		write(uniform(0, 10));
 
 		foreach(l; 0 .. ents.length){
 			if(ents[l].chunk[0] == player.chunk[0] && ents[l].chunk[1] == player.chunk[1]){
