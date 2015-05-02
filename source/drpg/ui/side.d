@@ -20,7 +20,7 @@ class Side
 			}
 		}
 
-		setCursorPos((6 + _em.player.name.length) / 2 + (SideUiStartX + 1), 1);
+		setCursorPos(cast(int)((6 + _em.player.name.length) / 2 + (SideUiStartX + 1)), 1);
 		write("Name: ", _em.player.name);
 
 		update();

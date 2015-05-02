@@ -19,6 +19,7 @@ class Player : Entity{
 	}
 
 	private void move() {
+		/+ TODO FIXME FOR SOME REASON ALMOST EVERYTHING IN HERE CAUSES THE PROGRAM TO CRASH. GDC 64bit, Windows.
 
 		xc = x / CHUNK_WIDTH;
 		yc = y / CHUNK_HEIGHT;
@@ -101,6 +102,7 @@ class Player : Entity{
 				mv = true;
 			}
 		}
+		+/
 	}
 	
 	this(int xStart, int yStart){

@@ -2,14 +2,18 @@ module drpg.entities.entity;
 
 import std.stdio, std.random;
 import consoled;
+
+import drpg.misc;
+import drpg.item;
 import drpg.reference, drpg.refs.sprites;
 
-class Entity{
+abstract class Entity{
 	int[2] chunk;
 	int x, y,	health, mana,	maxHealth, maxMana,		entityTick;
 	int updateInterval = 50; //Default value
 
 	Stats stats;
+	Inventory inv;
 
 	this(int x, int y){
 		this.x = x;
@@ -25,7 +29,7 @@ class Entity{
 		int my = uniform(0, 3) - 1;
 
 		if(x + mx >= 0 && x + mx < WORLD_WIDTH && y + my >= 0 && y + my < WORLD_HEIGHT) /* Check so the enteties won't leave the world border */ {
-			if(!_em.isEntityAt(x+mx, y+my) && !_map.isTileSolidAt(x+mx, y+my)){
+			if(!_em.isEntityAt(x+mx, y+my) && !_map.isTileSolidAt(x+mx, y+my)) /* Check that the moving-to tile is not occupied */{
 				x += mx;
 				y += my;
 			}
@@ -68,9 +72,4 @@ class Entity{
 	char getSprite(){
 		return '?';
 	}
-}
-
-struct Stats{
-	//http://en.wikipedia.org/wiki/Attribute_%28role-playing_games%29
-	int strength, stamina, defense, dexterity, intelligence, charisma, wisdom, willpower, perception, luck;
 }

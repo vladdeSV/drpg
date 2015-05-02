@@ -3,7 +3,7 @@ module drpg.tile;
 import std.random : uniform;
 import drpg.refs.sprites;
 
-static abstract class Tile{
+abstract class Tile{
 
 	protected char type = '?';
 	protected bool solid = false;

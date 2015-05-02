@@ -1,7 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
-		"consoled": "~master",
+		"consoled": "1.0.2",
 		"derelict-util": "1.9.1",
 		"derelict-sdl2": "1.9.5"
 	}

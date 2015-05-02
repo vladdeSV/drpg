@@ -23,7 +23,7 @@ static int roomsFailedToPlace = 0;
 
 void centerStringOnEmptyScreen(string s){
 	clearScreen;
-	setCursorPos((79 / 2) - (s.length / 2), 12);
+	setCursorPos((79 / 2) - cast(int)(s.length / 2), 12);
 	write(s);
 	setCursorPos(0,25);
 }
