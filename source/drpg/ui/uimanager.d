@@ -21,20 +21,9 @@ class UIManager {
 		}
 		return instance_;
 	}
-	private static bool instantiated_;  // Thread local
+	private static bool instantiated_;
 	private __gshared UIManager instance_;
-	private this() {
-
-		//Prints out the border of the chunk
-		foreach(y; 0 .. CHUNK_HEIGHT){
-			setCursorPos(CHUNK_WIDTH, y);
-			write("+");
-		}
-		foreach(q; 0 .. CHUNK_WIDTH + 1){
-			setCursorPos(q, CHUNK_HEIGHT);
-			write("+");
-		}
-	}
+	private this() {}
 
 	void init(){
 		startUI = new Start(); 

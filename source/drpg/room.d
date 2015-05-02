@@ -81,7 +81,7 @@ class Room{
 
 		foreach(x; left .. roomXToWorldX(width)){
 			foreach(y; top .. roomYToWorldY(height)){
-				if(_map.getTile(x, y).getTile == '#' ){
+				if(cast(TileWall)_map.getTile(x, y) !is null || cast(TileFloor)_map.getTile(x, y) !is null) /* "Downcasting is usually a sign of bad design" -jA_C0p from #d TODO: ?*/{
 					roomsFailedToPlace++;
 					return false;
 				}

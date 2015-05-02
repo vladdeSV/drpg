@@ -45,6 +45,12 @@ static abstract class Tile{
 
 //TODO: Change all "sprites" to the ones in reference.
 
+class TileGround : Tile{
+	this(){
+		type = SPRITE_NONE;
+	}
+}
+
 class TileFloor : Tile{
 	this(){
 		type = SPRITE_NONE;

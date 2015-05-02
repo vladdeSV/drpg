@@ -10,8 +10,9 @@ import drpg.tile, drpg.room;
  */
 
 class Map{
-	private static bool instantiated_;  // Thread local
+	private static bool instantiated_;
 	private __gshared Map instance_;
+
 	private int width, height;
 	private Tile[][] tiles;
 	private Room[] rooms;
@@ -52,7 +53,7 @@ class Map{
 		//This is 1.5~ times faster than "foreach(x; 0 .. width) foreach(y; 0 .. height) tiles[x][y] = new TileFloor();"
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
 			foreach(ref tile; column) //ref tile" then also becomes a to "column"
-				tile = new TileFloor(); //Sets all tiles on the map to be TileFloor();
+				tile = new TileGround(); //Sets all tiles on the map to be TileFloor();
 
 		addStructuresToWorld;
 	}
@@ -93,9 +94,8 @@ class Map{
 		setCursorPos(0, CHUNK_HEIGHT);
 		foreach(a; 0 .. CHUNK_WIDTH + 1)
 			write('+');
-
-
-		_em.printPlayer;
+			
+		_em.printAllEntities;
 		_em.update;
 	}
 
@@ -118,6 +118,14 @@ class Map{
 	*/
 	Tile getTile(int x, int y){
 		return tiles[x][y];
+	}
+
+	/**
+	* Should be:
+	* getTile(x, y);
+	*/
+	bool isTileSolidAt(int x, int y){
+		return tiles[x][y].isSolid;
 	}
 	
 	/**

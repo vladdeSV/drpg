@@ -25,16 +25,16 @@ class Start
 		foreach(a; 0 .. ns.length)
 			l ~= '*';
 
-		setCursorPos(CHUNK_WIDTH/2 - l.length/2, 1); write(l);
-		setCursorPos(CHUNK_WIDTH/2 - l.length/2, 2); write(ns);
-		setCursorPos(CHUNK_WIDTH/2 - l.length/2, 3); write(l);
+		setCursorPos(width/2 - l.length/2, 2); write(l);
+		setCursorPos(width/2 - l.length/2, 3); write(ns);
+		setCursorPos(width/2 - l.length/2, 4); write(l);
 
 		foreach(x; 0 .. info.length){
-			setCursorPos(CHUNK_WIDTH/2 - info[x].length/2, 5 + x);
+			setCursorPos(width/2 - info[x].length/2, 6 + x);
 			write(info[x]);
 		}
 
-		setCursorPos(CHUNK_WIDTH/2 - tr.length/2, CHUNK_HEIGHT - 4); write(tr);
+		setCursorPos(width/2 - tr.length/2, height - 2); write(tr);
 		readln();
 
 	}

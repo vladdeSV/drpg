@@ -42,7 +42,7 @@ class EM {
 
 	void tick(){
 		++entityTick;
-		if(entityTick > 100000){
+		if(entityTick > 1000){
 			update;
 			entityTick = 0;
 		}
@@ -75,10 +75,20 @@ class EM {
 		return p;
 	}
 
+	void printAllEntities(){
+		printPlayer;
+
+		foreach(l; 0 .. ents.length){
+			printEntity(ents[l]);
+		}
+	}
+
 	void printEntity(Entity ent){
-		setCursorPos(ent.x % CHUNK_WIDTH, ent.y % CHUNK_HEIGHT);
-		write(ent.getSprite);
-		stdout.flush(); //Thanks to Destructionator from #d (freenode) for this amazing one-liner which makes sure the enemies get properly written out!
+		if(ent.chunk[0] == _em.player.chunk[0] && ent.chunk[1] == _em.player.chunk[1]){
+			setCursorPos(ent.x % CHUNK_WIDTH, ent.y % CHUNK_HEIGHT);
+			write(ent.getSprite);
+			stdout.flush(); //Thanks to Destructionator from #d (freenode) for this amazing one-liner which makes sure the enemies get properly written out!
+		}
 	}
 
 	void addEntity(Entity ent){

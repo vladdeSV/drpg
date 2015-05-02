@@ -31,25 +31,24 @@ class Player : Entity{
 
 		//Movement is still a bit clunky. If you press left and down at the same time you move down twice
 		if(kbhit){
-			//FIXME Due to getch() being a bit buggy, the player won't be printed out correctly if there is no setCursoPos(x, y) in the move function.
-			//I'm pretty sure it can be anywhere in the code as long it will always get run. This is a bug in ConsoleD. Create an issue?
-			//setCursorPos(0,0); //Enable when in doubt
 
 			int lx = x, ly = y; //Saves the player's x and y.
+			int mx, my; //Move x and move y.
+
 			key = getch(); //TODO: Fix movement. In new versions of ConsoleD, getch() recognizes a key realease as an input too. Basically you move twice for one quick keypress.
 
 			if(mv){
-				/***/if ((key == 'W' || key == 'w') && y - 1 >= 0 && !_map.getTile(x, y - 1).isSolid && !_em.isEntityAt(x, y - 1)){
-					y--;
+				/***/if (key == 'W' || key == 'w'){
+					my--;
 				}
-				else if ((key == 'A' || key == 'a') && x - 1 >= 0 && !_map.getTile(x - 1, y).isSolid && !_em.isEntityAt(x - 1, y)){
-					x--;
+				else if (key == 'A' || key == 'a'){
+					mx--;
 				}
-				else if ((key == 'S' || key == 's') && y + 1 < _map.getHeight && !_map.getTile(x, y + 1).isSolid && !_em.isEntityAt(x, y + 1)){
-					y++;
+				else if (key == 'S' || key == 's'){
+					my++;
 				}
-				else if ((key == 'D' || key == 'd') && x + 1 < _map.getWidth  && !_map.getTile(x + 1, y).isSolid && !_em.isEntityAt(x + 1, y)){
-					x++;
+				else if (key == 'D' || key == 'd'){
+					mx++;
 				}
 				else if (key == 'I' || key == 'i'){
 					//_uim.openInventory;
@@ -58,10 +57,26 @@ class Player : Entity{
 					running = false;
 				}
 
+				if
+				(
+					x + mx >= 0								&&
+					x + mx < _map.getWidth					&&
+					y + my >= 0								&&
+					y + my < _map.getHeight					&&
+
+					!_map.isTileSolidAt (x + mx, y + my) 	&&
+					!_em.isEntityAt		(x + mx, y + my)
+				)
+				{
+					x += mx;
+					y += my;
+
+					mx = my = 0;
+				}
+
 				//Prints out the correc tile where the player once was, otherwise it would still be the player icon.
 				setCursorPos(lx % CHUNK_WIDTH, ly % CHUNK_HEIGHT);
 				if(_em.isEntityAt(lx, ly)){
-					//TODO: I think if the enemy moves at the same time as the player there will be a null pointer exception
 					try{
 						write(_em.getEntityAt(lx,ly).getSprite);
 					}catch{
@@ -89,10 +104,9 @@ class Player : Entity{
 	}
 	
 	this(int xStart, int yStart){
-		x = xStart;
-		y = yStart;
 		maxHealth = health = 15;
 		maxMana = mana = 10;
+		super(xStart, yStart);
 	}
 
 	override char getSprite(){
