@@ -1,6 +1,6 @@
 ﻿module drpg.ui.side;
 
-import std.stdio, consoled;
+import std.stdio, std.conv, consoled;
 import drpg.reference, drpg.entities.entitymanager;
 
 class Side
@@ -20,7 +20,7 @@ class Side
 			}
 		}
 
-		setCursorPos(cast(int)((6 + _em.player.name.length) / 2 + (SideUiStartX + 1)), 1);
+		setCursorPos(to!int((6 + _em.player.name.length) / 2 + (SideUiStartX + 1)), 1);
 		write("Name: ", _em.player.name);
 
 		update();

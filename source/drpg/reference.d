@@ -1,6 +1,6 @@
 module drpg.reference;
 
-import std.stdio, consoled;
+import std.stdio, std.conv, consoled;
 import drpg.map, drpg.entities.entitymanager, drpg.ui.uimanager;
 
 alias _map = Map.map;
@@ -23,7 +23,7 @@ static int roomsFailedToPlace = 0;
 
 void centerStringOnEmptyScreen(string s){
 	clearScreen;
-	setCursorPos((79 / 2) - cast(int)(s.length / 2), 12);
+	setCursorPos((79 / 2) - to!int(s.length / 2), 12);
 	write(s);
 	setCursorPos(0,25);
 }

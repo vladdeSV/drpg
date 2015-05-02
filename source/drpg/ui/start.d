@@ -1,6 +1,6 @@
 ﻿module drpg.ui.start;
 
-import std.stdio, consoled;
+import std.stdio, std.conv, consoled;
 import drpg.reference, drpg.entities.entitymanager;
 
 class Start
@@ -25,16 +25,16 @@ class Start
 		foreach(a; 0 .. ns.length)
 			l ~= '*';
 
-		setCursorPos(cast(int)(width/2 - l.length/2), 2); write(l);
-		setCursorPos(cast(int)(width/2 - l.length/2), 3); write(ns);
-		setCursorPos(cast(int)(width/2 - l.length/2), 4); write(l);
+		setCursorPos(to!int(width/2 - l.length/2), 2); write(l);
+		setCursorPos(to!int(width/2 - l.length/2), 3); write(ns);
+		setCursorPos(to!int(width/2 - l.length/2), 4); write(l);
 
 		foreach(int x; 0 .. info.length){
-			setCursorPos(cast(int)(width/2 - info[x].length/2), 6 + x);
+			setCursorPos(to!int(width/2 - info[x].length/2), 6 + x);
 			write(info[x]);
 		}
 
-		setCursorPos(cast(int)(width/2 - tr.length/2), cast(int)(height - 2)); write(tr);
+		setCursorPos(to!int(width/2 - tr.length/2), to!int(height - 2)); write(tr);
 		readln();
 
 	}
