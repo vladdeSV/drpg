@@ -1,15 +1,21 @@
 ﻿module drpg.ui.side;
 
 import std.stdio, std.conv, consoled;
-import drpg.reference, drpg.entities.entitymanager;
+import drpg.entities.entitymanager;
+import drpg.reference;
 
 class Side
 {
+
+	EntityManager* em;
+
 	static immutable barBits = 15;
 	immutable static int SideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
 
-	this()
+	this(EntityManager* emptr)
 	{
+		em = emptr;
+
 		foreach(w; SideUiStartX .. SideUiEndX){
 			foreach(h; 0 .. SideUiHeight){
 				setCursorPos(w, h);
@@ -20,8 +26,8 @@ class Side
 			}
 		}
 
-		setCursorPos(to!int((6 + _em.player.name.length) / 2 + (SideUiStartX + 1)), 1);
-		write("Name: ", _em.player.name);
+		setCursorPos(to!int((6 + em.player.name.length) / 2 + (SideUiStartX + 1)), 1);
+		write("Name: ", em.player.name);
 
 		update();
 	}
@@ -29,7 +35,7 @@ class Side
 	void update(){
 		//TODO make something happen when the player dies
 
-		//_em.player.health--; /* TEMP to check if health/mana and shit works */
+		//em.player.health--; /* TEMP to check if health/mana and shit works */
 
 
 		//HP
@@ -43,9 +49,9 @@ class Side
 	string healthbar(){
 		string s;
 
-		if(_em.player.health > 0){
+		if(em.player.health > 0){
 			foreach(i; 0 .. barBits){
-				if(i <= (cast(float)_em.player.health/cast(float)_em.player.maxHealth)*barBits){ //This amazing function takes the health and converts/rounds it to barBits amount of slots
+				if(i <= (cast(float)em.player.health/cast(float)em.player.maxHealth)*barBits){ //This amazing function takes the health and converts/rounds it to barBits amount of slots
 					s ~= '*';
 				}else{
 					s ~= ' ';
@@ -53,7 +59,7 @@ class Side
 			}
 		}else{
 			s = "   DEAD   ";
-			_em.player.kill(); //Neat function that crashed the program :)
+			//em.player.kill(); //Neat function that crashed the program :)
 		}
 
 		return s;
@@ -62,7 +68,7 @@ class Side
 		string s;
 
 		foreach(i; 0 .. barBits){
-			if(i <= (cast(float)_em.player.mana/cast(float)_em.player.maxMana)*barBits){ //This amazing function takes the mana and converts/rounds it to barBits amount of slots
+			if(i <= (cast(float)em.player.mana/cast(float)em.player.maxMana)*barBits){ //This amazing function takes the mana and converts/rounds it to barBits amount of slots
 				s ~= '=';
 			}else{
 				s ~= ' ';

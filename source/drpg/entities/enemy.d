@@ -1,13 +1,14 @@
 module drpg.entities.enemy;
 
+import drpg.misc;
 import drpg.refs.sprites;
-import drpg.entities.entity;
+import drpg.entities.entitymanager, drpg.entities.entity;
 import std.random;
 
 class Enemy : Entity{
 
-	this (int w, int g){
-		super(w, g);
+	this (EntityManager* emptr, Location location){
+		super(emptr, location);
 	}
 
 	override void move(){

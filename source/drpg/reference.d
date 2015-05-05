@@ -3,9 +3,9 @@ module drpg.reference;
 import std.stdio, std.conv, consoled;
 import drpg.map, drpg.entities.entitymanager, drpg.ui.uimanager;
 
-alias _map = Map.map;
-alias _uim = UIManager.uim; //UIManager
-alias _em = EM.em; //EntityManager
+//alias _map = Map.map;
+//alias _uim = UIManager.uim; //UIManager
+//alias _em = EntityManager.em; //EntityManager
 
 static bool running = true;
 
@@ -13,9 +13,12 @@ enum EntityType {PLAYER, NPC, MONSTER} //to be added moar
 enum MonsterType {SLIME, ZOMBIE};
 
 //World variables
-immutable static char[] GAME_NAME = "DRPG";
+immutable static string GAME_NAME = "DRPG";
+
+immutable static int CHUNK_AMOUNT_WIDTH = 100, CHUNK_AMOUNT_HEIGHT = 50;
+
 immutable static int CHUNK_WIDTH = 50, CHUNK_HEIGHT = 24; //Windows OS standard console size. I'm on windows.
-immutable static int WORLD_WIDTH = CHUNK_WIDTH * 3, WORLD_HEIGHT = CHUNK_HEIGHT * 2;
+immutable static int WORLD_WIDTH = CHUNK_WIDTH * CHUNK_AMOUNT_WIDTH, WORLD_HEIGHT = CHUNK_HEIGHT * CHUNK_AMOUNT_HEIGHT;
 
 //Room variables
 immutable static int MAX_ROOM_WIDTH = 20, MAX_ROOM_HEIGHT = 20, MAX_NUMBER_OF_ROOMS = 50;

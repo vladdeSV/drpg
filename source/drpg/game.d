@@ -6,26 +6,27 @@ import drpg.room, drpg.tile;
 
 class Game{
 
-	void start(){
-		clearScreen;
-		cursorVisible(false);
+	EntityManager em;
+	Map map;
+	UIManager uim;
 
-		_em.init;
-		_map.init;
-		_uim.init;
+	this(){
+		cursorVisible(false);
+		clearScreen();
+
+		map = new Map(&this);
+		em = new EntityManager(&this);
+		uim = new UIManager(&this);
 
 		//Always last
-		_map.printChunk;
-		
+		map.printChunk();
+
+
 //		setCursorPos(0,0);
 //		write(roomsFailedToPlace," rooms failed to be placed");
 
-		while(running) gameTick;
+		while(running){
+			em.tick();
+		}
 	}
-
-	void gameTick(){
-		_em.tick;
-		_em.player.update; //Other enteties and the player should update separately. Player movement should be instant, while enemies move not so often (maybe).
-	}
-
 }

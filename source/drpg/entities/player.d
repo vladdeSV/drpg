@@ -2,115 +2,90 @@ module drpg.entities.player;
 
 import std.stdio, std.concurrency, consoled, std.random;
 import drpg.map;
+import drpg.misc;
 import drpg.entities.entity, drpg.entities.entitymanager;
 import drpg.reference, drpg.refs.sprites;
 import drpg.ui.uimanager;
 
 class Player : Entity{
+	
+	public string name = "Hermando"; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
 
-	public char[] name = "Hermando".dup; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
+	this(EntityManager* emptr, Location loc){
+		health = maxHealth = 15;
+		mana = maxMana = 10;
 
-	int key; //The key being pressed
-	int xc, yc; //X chunk and y chunk
-	bool mv = true; //Check if need to move
+		super(emptr, loc);
+	}
 
 	override void update(){
 		move;
 	}
 
 	private void move() {
-		/+ TODO FIXME FOR SOME REASON ALMOST EVERYTHING IN HERE CAUSES THE PROGRAM TO CRASH. GDC 64bit, Windows.
 
-		xc = x / CHUNK_WIDTH;
-		yc = y / CHUNK_HEIGHT;
-
-		if(chunk[0] != xc || chunk[1] != yc) {
-			chunk[0] = xc;
-			chunk[1] = yc;
-			_map.printChunk;
-		}
+		static bool shouldMove = true; //Since getch() sees both key press and release as inputs, we simply just check every other input. Can bug out by holding down a key.
 
 		//Movement is still a bit clunky. If you press left and down at the same time you move down twice
-		if(kbhit){
+		if(kbhit()){
+			int key = getch(); //TODO: Fix movement. In new versions of ConsoleD, getch() recognizes a key realease as an input too. Basically you move twice for one quick keypress.
 
-			int lx = x, ly = y; //Saves the player's x and y.
-			int mx, my; //Move x and move y.
+			Location oldPosition = position; //Saves the player's x and y.
+			Location movement = Location(0,0);
 
-			key = getch(); //TODO: Fix movement. In new versions of ConsoleD, getch() recognizes a key realease as an input too. Basically you move twice for one quick keypress.
-
-			if(mv){
-				/***/if (key == 'W' || key == 'w'){
-					my--;
-				}
-				else if (key == 'A' || key == 'a'){
-					mx--;
-				}
-				else if (key == 'S' || key == 's'){
-					my++;
-				}
-				else if (key == 'D' || key == 'd'){
-					mx++;
-				}
-				else if (key == 'I' || key == 'i'){
-					//_uim.openInventory;
-				}
-				else if(key == 27 /* Escape key on Windows */){
-					running = false;
-				}
-
-				if
-				(
-					x + mx >= 0								&&
-					x + mx < _map.getWidth					&&
-					y + my >= 0								&&
-					y + my < _map.getHeight					&&
-
-					!_map.isTileSolidAt (x + mx, y + my) 	&&
-					!_em.isEntityAt		(x + mx, y + my)
-				)
-				{
-					x += mx;
-					y += my;
-
-					mx = my = 0;
-				}
-
-				//Prints out the correc tile where the player once was, otherwise it would still be the player icon.
-				setCursorPos(lx % CHUNK_WIDTH, ly % CHUNK_HEIGHT);
-				if(_em.isEntityAt(lx, ly)){
-					try{
-						write(_em.getEntityAt(lx,ly).getSprite);
-					}catch{
-						write(_map.getTile(lx, ly).getTile);
-					}
-				}else{
-					write(_map.getTile(lx, ly).getTile);
-				}
-
-				//Finally print out the player
-				_em.printPlayer;
-				_uim.sideUI.update;
-
-				//Write out players x and y + chunks
-				setCursorPos(70-17, 20-3);
-				write("x: ", _em.player.x, " [Chunk: ", _em.player.chunk[0] + 1, " / ", WORLD_WIDTH/CHUNK_WIDTH, "]");
-				setCursorPos(70-17, 21-3);
-				writeln("y: ", _em.player.y, " [Chunk: ", _em.player.chunk[1] + 1, " / ", WORLD_HEIGHT/CHUNK_HEIGHT, "]");
-
-				mv = false;
-			}else{
-				mv = true;
+			if (!shouldMove){
+				shouldMove = true;
+				return;
+			} else {
+				shouldMove = false;
 			}
+
+			if (key == 'W' || key == 'w'){
+				movement.y = -1;
+			}
+			else if (key == 'S' || key == 's'){
+				movement.y = +1;
+			}
+			else if (key == 'A' || key == 'a'){
+				movement.x = -1;
+			}
+			else if (key == 'D' || key == 'd'){
+				movement.x = +1;
+			}
+			else if (key == 'I' || key == 'i'){
+				//em.game.uim.openInventory;
+			}
+			else if(key == 27){ // Escape key on Windows
+				running = false;
+				return;
+			}
+
+			Location dest = Location(oldPosition.x + movement.x, oldPosition.y + movement.y);
+
+			bool inbounds = (dest.x >= 0 && dest.x < WORLD_WIDTH && 
+			                 dest.y >= 0 && dest.y < WORLD_HEIGHT);
+
+			if(inbounds && !em.isEntityAt(dest) && !em.game.map.isTileSolidAt(dest)){
+				position = dest;
+			}
+
+			if(chunkAtPos(oldPosition) != chunkAtPos(position)){
+				em.game.map.printChunk();
+			}
+
+			//Prints out the correc tile where the player once was, otherwise it would still be the player icon.
+			setCursorPos(position.x % CHUNK_WIDTH, position.y % CHUNK_HEIGHT);
+
+			em.game.map.printTile(oldPosition);
+
+			print();
+
+			//Write out players x and y + chunks
+			setCursorPos(70-17, 21); write("x: ", position.x, " [Chunk: ", chunkAtPos(position).x + 1, " / ", CHUNK_AMOUNT_WIDTH, "]");
+			setCursorPos(70-17, 22); write("y: ", position.y, " [Chunk: ", chunkAtPos(position).y + 1, " / ", CHUNK_AMOUNT_HEIGHT, "]");
 		}
-		+/
 	}
 	
-	this(int xStart, int yStart){
-		maxHealth = health = 15;
-		maxMana = mana = 10;
-		super(xStart, yStart);
-	}
-
 	override char getSprite(){
 		return SPRITE_PLAYER;
 	}

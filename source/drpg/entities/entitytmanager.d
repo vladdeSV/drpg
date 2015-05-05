@@ -1,104 +1,77 @@
 module drpg.entities.entitymanager;
 
 import std.stdio, std.random, consoled;
+import drpg.game;
+import drpg.misc;
 import drpg.entities.entity, drpg.entities.player, drpg.entities.enemy;
 import drpg.reference, drpg.refs.sprites;
 
-class EM {
+class EntityManager {
 
-	/+
-	TODO: Like, there is no need to do this yet. No plans for local/online multiplayer. So yeah.
-	private static const MAX_AMOUNT_PLAYERS = 8;
-	private Player*[MAX_AMOUNT_PLAYERS] players; //Maximum of 16 players
-	private byte amountPlayer = 0;
-	public void addPlayer(Player* p){
-		if(amountPlayer < MAX_AMOUNT_PLAYERS - 1){ //Note to self: "- 1" is because it's an array
-			players[amountPlayer] = p;	
-			amountPlayer++;
-		}else{
-			setCursorPos(0, 0);
-			write("MAXIMUM PLAYER COUNT EXCEEDED!");
-		}
-	}
-	+/
-	//////////////////////////////////////
-	static EM em() {
-		if (!instantiated_) {
-			synchronized {
-				if (instance_ is null) {
-					instance_ = new EM;
-				}
-				instantiated_ = true;
-			}
-		}
-		return instance_;
-	}
-	private this() {}
-	private static bool instantiated_;
-	private __gshared EM instance_;
-	//////////////////////////////////////
+	Game* game;
+
+	Player player;
+	Entity[] entities;
 
 	int entityTick;
+	
+	this(Game* gameptr) {
+
+		game = gameptr;
+		player = new Player(&game.em, Location(1,4));
+		
+		entityTick = 0; //For you Gab
+		addEntities();
+	}
 
 	void tick(){
 		++entityTick;
 		if(entityTick > 1000){
-			update;
+			update();
 			entityTick = 0;
 		}
-	}
-	
-	void init(){
-		addEntities;
+		player.update();
 	}
 
 	void update(){
-		foreach(l; 0 .. ents.length){
-			ents[l].update();
+		foreach(l; 0 .. entities.length){
+			entities[l].update();
 		}
 	}
 
-	private Player p = new Player(1, 2);
-	private Entity[] ents;
-
-	void setPlayer(Player player){
-		p = player;
-	}
-
+	/*
 	void printPlayer(){
-		setCursorPos(player.x % CHUNK_WIDTH, player.y % CHUNK_HEIGHT);
-		write(SPRITE_PLAYER);
-		stdout.flush(); //Thanks to Destructionator from #d (freenode) for this amazing one-liner which makes sure the enemies get properly written out!
+		player.print();
 	}
 
 	public Player player(){
-		return p;
+		return player;
 	}
+	
+	*/
 
 	void printAllEntities(){
-		printPlayer;
+		player.print();
 
-		foreach(l; 0 .. ents.length){
-			printEntity(ents[l]);
+		foreach(l; 0 .. entities.length){
+			printEntity(entities[l]);
 		}
 	}
 
 	void printEntity(Entity ent){
-		if(ent.chunk[0] == _em.player.chunk[0] && ent.chunk[1] == _em.player.chunk[1]){
-			setCursorPos(ent.x % CHUNK_WIDTH, ent.y % CHUNK_HEIGHT);
-			write(ent.getSprite);
-			stdout.flush(); //Thanks to Destructionator from #d (freenode) for this amazing one-liner which makes sure the enemies get properly written out!
+		if(ent.chunk == player.chunk){
+			ent.print();
 		}
 	}
 
 	void addEntity(Entity ent){
-		ents ~= ent;
+		entities ~= ent;
 	}
 
-	Entity getEntityAt(int a, int b){
-		foreach(l; 0 .. ents.length){
-			if(ents[l].x == a && ents[l].y == b)
-				return ents[l];
+	Entity getEntityAt(Location loc){
+		foreach(l; 0 .. entities.length){
+			if(entities[l].position == loc)
+				return entities[l];
 		}
 
 		return null;
@@ -107,13 +80,13 @@ class EM {
 	/**
 	 * Check if there is an entity at give location
 	 */
-	bool isEntityAt(int xpos, int ypos){
-
-		if(player.x == xpos && player.y == ypos)
+	bool isEntityAt(Location loc){
+		
+		if(player.position == loc)
 			return true;
 
-		foreach(l; 0 .. ents.length){
-			if(ents[l].x == xpos && ents[l].y == ypos)
+		foreach(l; 0 .. entities.length){
+			if(entities[l].position == loc)
 				return true;
 		}
 
@@ -121,8 +94,8 @@ class EM {
 	}
 
 	void addEntities(){
-		addEntity(new Enemy(4,4));
-		addEntity(new Enemy(2,7));
-		addEntity(new Enemy(5,30));
+		addEntity(new Enemy(&game.em, Location(4,4)));
+		addEntity(new Enemy(&game.em, Location(2,7)));
+		addEntity(new Enemy(&game.em, Location(5,30)));
 	}
 }

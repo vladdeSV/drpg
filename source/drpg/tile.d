@@ -13,7 +13,7 @@ abstract class Tile{
 		return this;
 	}
 
-	char getTile(){
+	char getSprite(){
 		if(overlay !is null){
 			return getOverlay();
 		}else{
@@ -27,7 +27,7 @@ abstract class Tile{
 
 	private char getOverlay(){
 		try{
-			return overlay.getTile();
+			return overlay.getSprite();
 		}catch(Exception e){
 			throw new Exception(e.msg); //If for some reason overlay is null or something.
 		}

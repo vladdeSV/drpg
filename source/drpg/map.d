@@ -1,6 +1,8 @@
 module drpg.map;
 
 import std.stdio, std.math, std.random, consoled;
+import drpg.game;
+import drpg.misc;
 import drpg.reference;
 import drpg.entities.player, drpg.entities.entitymanager;
 import drpg.tile, drpg.room;
@@ -10,37 +12,21 @@ import drpg.tile, drpg.room;
  */
 
 class Map{
-	private static bool instantiated_;
-	private __gshared Map instance_;
+
+	Game* game;
 
 	private int width, height;
 	private Tile[][] tiles;
 	private Room[] rooms;
 
-	int getWidth(){
-		return width;
-	}
-
-	int getHeight(){
-		return height;
-	}
-
-	static Map map() {
-		if (!instantiated_) {
-			synchronized {
-				if (instance_ is null) {
-					instance_ = new Map;
-				}
-				instantiated_ = true;
-			}
-		}
-		return instance_;
+	@property{
+		int getWidth(){ return width; }
+		int getHeight(){ return height; }
 	}
 	
-	private this() {}
-
-	void init(){
-
+	this(Game* gameptr)
+	{
+		game = gameptr;
 		width = WORLD_WIDTH;
 		height = WORLD_HEIGHT;
 		
@@ -49,21 +35,21 @@ class Map{
 		for(int y = 0; y < width; y++)
 			tiles[y].length = height;
 		
-		//Thanks to jA_cOp from #d on freenode :)
+		//Thanks to jA_cOp from #d (freenode) :)
 		//This is 1.5~ times faster than "foreach(x; 0 .. width) foreach(y; 0 .. height) tiles[x][y] = new TileFloor();"
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
-			foreach(ref tile; column) //ref tile" then also becomes a to "column"
+			foreach(ref tile; column) //"ref tile" then becomes a reference to "column"
 				tile = new TileGround(); //Sets all tiles on the map to be TileFloor();
 
-		addStructuresToWorld;
+		addStructures();
 	}
 
-	void addStructuresToWorld(){
+	void addStructures(){
 
-		addFlowersToWorld;
-		addTreesToWorld;
-		addRocksToWorld;
-		addRoomsToWorld;
+		addFlowersToWorld();
+//		addTreesToWorld();
+//		addRocksToWorld();
+		addRoomsToWorld();
 		
 	}
 
@@ -80,14 +66,14 @@ class Map{
 	*/
 	void printChunk(){
 
-		int xChunkStartPos = CHUNK_WIDTH * (_em.player.x / CHUNK_WIDTH);
-		int yChunkStartPos = CHUNK_HEIGHT* (_em.player.y / CHUNK_HEIGHT);
+		int xChunkStartPos = CHUNK_WIDTH * (game.em.player.position.x / CHUNK_WIDTH);
+		int yChunkStartPos = CHUNK_HEIGHT* (game.em.player.position.y / CHUNK_HEIGHT);
 
 		//FIXME This function will crash if the map width/height is not a multiple of CHUNK_WIDTH/CHUNK_HEIGHT
 		foreach(int y; 0 .. CHUNK_HEIGHT){
 			foreach(int x; 0 .. CHUNK_WIDTH){
 				setCursorPos(x, y);
-				write(tiles[xChunkStartPos + x][yChunkStartPos + y].getTile());
+				printTile(Location(xChunkStartPos + x, yChunkStartPos + y)); //TODO: Change to writeln(), faster?
 			}
 			write('+');
 		}
@@ -95,8 +81,8 @@ class Map{
 		foreach(a; 0 .. CHUNK_WIDTH + 1)
 			write('+');
 			
-		_em.printAllEntities;
-		_em.update;
+		game.em.printAllEntities();
+		//game.em.update();
 	}
 
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
@@ -105,7 +91,7 @@ class Map{
 		try
 			foreach(xPos;0 .. w)
 				foreach(yPos;0 .. h)
-					setTile(xPos + x, yPos + y, tiletype, overlay);
+					setTile(Location(xPos + x, yPos + y), tiletype, overlay);
 		
 		catch(Throwable e)
 			write(e.msg);
@@ -113,30 +99,34 @@ class Map{
 	}
 
 	/**
-	* Should be:
-	* getTile(x, y);
+	* Return the tile at specified x and y
 	*/
-	Tile getTile(int x, int y){
-		return tiles[x][y];
+	Tile getTile(Location loc){
+		return tiles[loc.x][loc.y]; //FIXME Range violation. Map may not be inited
+	}
+
+	void printTile(Location location){
+		setCursorPos(location.x % CHUNK_WIDTH, location.y % CHUNK_HEIGHT);
+		write(getTile(location).getSprite);
+		stdout.flush();
 	}
 
 	/**
-	* Should be:
-	* getTile(x, y);
+	* Returns true if the tile at x and y is sold
 	*/
-	bool isTileSolidAt(int x, int y){
-		return tiles[x][y].isSolid;
+	bool isTileSolidAt(Location loc){
+		return tiles[loc.x][loc.y].isSolid;
 	}
 	
 	/**
 	* Should be something like this:
 	* setTile(x, y, new TileType());
 	*/
-	void setTile(int x, int y, Tile tile, Tile overlay = null){
+	void setTile(Location loc, Tile tile, Tile overlay = null){
 		try{
-			tiles[x][y] = tile;
+			tiles[loc.x][loc.y] = tile;
 			if(overlay !is null){
-				tiles[x][y].setOverlay(overlay);
+				tiles[loc.x][loc.y].setOverlay(overlay);
 			}
 		}catch(Throwable e){
 			write(e.msg);
@@ -151,7 +141,7 @@ class Map{
 		foreach(x; 0 .. WORLD_WIDTH)
 			foreach(y; 0 .. WORLD_HEIGHT)
 				if(uniform(0, CHANCE_OF_FLOWER_BEING_PLACED) == 0)
-					setTile(x, y, new TileFlower);
+					setTile(Location(x, y), new TileFlower);
 	}
 
 	void addTreesToWorld(){
@@ -159,7 +149,7 @@ class Map{
 		foreach(x; 0 .. WORLD_WIDTH)
 			foreach(y; 0 .. WORLD_HEIGHT)
 				if(uniform(0, CHANCE_OF_TREE_BEING_PLACED) == 0)
-					setTile(x, y, new TileTree);
+					setTile(Location(x, y), new TileTree);
 	}
 
 	void addRocksToWorld(){
@@ -167,7 +157,7 @@ class Map{
 		foreach(x; 0 .. WORLD_WIDTH)
 			foreach(y; 0 .. WORLD_HEIGHT)
 				if(uniform(0, CHANCE_OF_ROCK_BEING_PLACED) == 0)
-					setTile(x, y, new TileRock);
+					setTile(Location(x, y), new TileRock);
 	}
 
 	void addRoomsToWorld(){
@@ -179,9 +169,9 @@ class Map{
 			h = uniform(5, MAX_ROOM_HEIGHT);
 			
 			wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
-			wy = uniform(3, height- h);
+			wy = uniform(3, height- h); //Ditto from Pokémon
 
-			rooms ~= new Room(wx, wy, w, h);
+			rooms ~= new Room(&this, wx, wy, w, h);
 		}
 	}
 }

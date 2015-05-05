@@ -1,9 +1,14 @@
-﻿module drpg.room;
+module drpg.room;
 
 import std.stdio, drpg.reference, consoled;
+import drpg.misc;
+import drpg.map;
 import drpg.tile;
 
 class Room{
+
+	Map* map;
+
 	int left, top;
 	int width, height;
 	private Tile[][] tiles;
@@ -16,7 +21,8 @@ class Room{
 		return top + height;
 	}
 	
-	this(int worldX, int worldY, int width, int height){
+	this(Map* mapptr, int worldX, int worldY, int width, int height){
+		map = mapptr;
 		this.left = worldX;
 		this.top = worldY;
 		this.width  = width;
@@ -45,18 +51,6 @@ class Room{
 		return worldY - this.top;
 	}
 
-	deprecated{
-		int[2] roomToWorldPosition(int roomX, int roomY){
-			int[2] worldPos = [left + roomX, top + roomY];
-			return worldPos;
-		}
-		
-		int[2] worldToRoomPosition(int worldX, int worldY){
-			int[2] roomPos = [worldX - this.left, worldY - this.top];
-			return roomPos;
-		}
-	}
-
 	/**
 	* Should be something like this:
 	* setTile(x, y, new TileType());
@@ -81,7 +75,7 @@ class Room{
 
 		foreach(x; left .. roomXToWorldX(width)){
 			foreach(y; top .. roomYToWorldY(height)){
-				if(cast(TileWall)_map.getTile(x, y) !is null || cast(TileFloor)_map.getTile(x, y) !is null) /* "Downcasting is usually a sign of bad design" -jA_C0p from #d TODO: ?*/{
+				if(cast(TileWall)map.getTile(Location(x, y)) !is null || cast(TileFloor)map.getTile(Location(x, y)) !is null) /* "Downcasting is usually a sign of bad design" -jA_C0p from #d TODO: ?*/{
 					roomsFailedToPlace++;
 					return false;
 				}
@@ -128,7 +122,7 @@ class Room{
 	void setRoomInWorld(){
 		foreach(x; 0 .. width){
 			foreach(y; 0 .. height){
-				_map.setTile(x + left, y + top, tiles[x][y].returnTile);
+				map.setTile(Location(x + left, y + top), tiles[x][y].returnTile);
 			}
 		}
 	}
