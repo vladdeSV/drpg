@@ -30,7 +30,7 @@ class Map{
 		width = WORLD_WIDTH;
 		height = WORLD_HEIGHT;
 
-		centerStringOnEmptyScreen("Generating map");
+		centerStringOnEmptyScreen("Generating map...");
 
 		//Sets the width and height of the map
 		tiles.length = width;
@@ -44,6 +44,8 @@ class Map{
 				tile = new TileGround(); //Sets all tiles on the map to be TileFloor();
 
 		addStructures();
+
+		centerStringOnEmptyScreen("Done!");
 	}
 
 	void addStructures(){
@@ -71,32 +73,32 @@ class Map{
 		int xChunkStartPos = CHUNK_WIDTH * (game.em.player.position.x / CHUNK_WIDTH);
 		int yChunkStartPos = CHUNK_HEIGHT* (game.em.player.position.y / CHUNK_HEIGHT);
 
-		//FIXME This function will crash if the map width/height is not a multiple of CHUNK_WIDTH/CHUNK_HEIGHT
+//		//FIXME This function will crash if the map width/height is not a multiple of CHUNK_WIDTH/CHUNK_HEIGHT
+		string print;
+
 		foreach(int y; 0 .. CHUNK_HEIGHT){
 			foreach(int x; 0 .. CHUNK_WIDTH){
-				setCursorPos(x, y);
-				printTile(Location(xChunkStartPos + x, yChunkStartPos + y)); //TODO: Change to writeln(), faster?
+				print ~= tiles[x + xChunkStartPos][y + yChunkStartPos].getSprite();
 			}
-			write('+');
+
+			setCursorPos(0, y);
+			write(print, '+');
+
+			print = null;
 		}
+
 		setCursorPos(0, CHUNK_HEIGHT);
 		foreach(a; 0 .. CHUNK_WIDTH + 1)
 			write('+');
 			
 		game.em.printAllEntities();
-		//game.em.update();
 	}
 
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
 	void addRect(int x, int y, int w, int h, Tile tiletype, Tile overlay = null){
-
-		try
-			foreach(xPos;0 .. w)
-				foreach(yPos;0 .. h)
-					setTile(Location(xPos + x, yPos + y), tiletype, overlay);
-		
-		catch(Throwable e)
-			write(e.msg);
+		foreach(xPos;0 .. w)
+			foreach(yPos;0 .. h)
+				setTile(Location(xPos + x, yPos + y), tiletype, overlay);
 		
 	}
 
