@@ -14,9 +14,11 @@ class Game{
 		cursorVisible(false);
 		clearScreen();
 
+		uim = new UIManager(&this);
 		map = new Map(&this);
 		em = new EntityManager(&this);
-		uim = new UIManager(&this);
+
+		uim.startSideUi();
 
 		//Always last
 		map.printChunk();

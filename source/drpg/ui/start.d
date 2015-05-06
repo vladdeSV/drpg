@@ -36,6 +36,7 @@ class Start
 
 		setCursorPos(to!int(width/2 - tr.length/2), to!int(height - 2)); write(tr);
 		readln();
+		clearScreen();
 
 	}
 }

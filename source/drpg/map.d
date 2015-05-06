@@ -1,6 +1,6 @@
 module drpg.map;
 
-import std.stdio, std.math, std.random, consoled;
+import std.stdio, std.math, std.random, std.conv, consoled;
 import drpg.game;
 import drpg.misc;
 import drpg.reference;
@@ -23,13 +23,15 @@ class Map{
 		int getWidth(){ return width; }
 		int getHeight(){ return height; }
 	}
-	
+
 	this(Game* gameptr)
 	{
 		game = gameptr;
 		width = WORLD_WIDTH;
 		height = WORLD_HEIGHT;
-		
+
+		centerStringOnEmptyScreen("Generating map");
+
 		//Sets the width and height of the map
 		tiles.length = width;
 		for(int y = 0; y < width; y++)

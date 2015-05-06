@@ -17,7 +17,9 @@ class UIManager {
 		game = gameptr;
 
 		startUI = new Start(); 
-		clearScreen;
+	}
+
+	void startSideUi(){
 		sideUI = new Side(&game.em); //Must be created after the player, otherwise ERRORS!
 	}
 }
