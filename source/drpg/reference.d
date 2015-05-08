@@ -2,6 +2,7 @@ module drpg.reference;
 
 import std.stdio, std.conv, consoled;
 import drpg.map, drpg.entities.entitymanager, drpg.ui.uimanager;
+import drpg.misc;
 
 //alias _map = Map.map;
 //alias _uim = UIManager.uim; //UIManager
@@ -24,11 +25,36 @@ immutable static int WORLD_WIDTH = CHUNK_WIDTH * CHUNK_AMOUNT_WIDTH, WORLD_HEIGH
 immutable static int MAX_ROOM_WIDTH = 20, MAX_ROOM_HEIGHT = 20, MAX_NUMBER_OF_ROOMS = 50;
 static int roomsFailedToPlace = 0;
 
+void clearChunk(){
+
+	string clearLine;
+
+	foreach(int a; 0 .. CHUNK_WIDTH)
+		clearLine ~= " ";
+
+	foreach(int y; 0 .. CHUNK_HEIGHT){
+		setCursorPos(0, y);
+		write(clearLine);
+	}
+}
+
 void centerStringOnEmptyScreen(string s){
 	clearScreen;
 	setCursorPos((79 / 2) - to!int(s.length / 2), 12);
 	write(s);
 	setCursorPos(0,25);
+}
+
+void writeRectangle(Location start, Location end){
+	foreach(int x; start.x .. end.x + 1){
+		foreach(int y; start.y .. end.y + 1){
+			bool inRange = x == start.x || x == end.x || y == start.y || y == end.y;
+			if(inRange){
+				setCursorPos(x, y);
+				write('*');
+			}
+		}
+	}
 }
 
 /+

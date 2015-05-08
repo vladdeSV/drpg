@@ -25,23 +25,21 @@ class Inventory{
 }
 
 abstract class Entity{
-	int health, mana, maxHealth, maxMana, entityTick;
-	int updateInterval = 50; //Default value
+	int health, maxHealth, entityTick, level;
+	int updateInterval = 100; //Default value
 
 	EntityManager* em;
 
 	Location position;
 	Stats stats;
-	Inventory inv;
+	Inventory inventory;
 	
-	this(EntityManager* emptr, Location loc){
+	this(EntityManager* emptr, Location loc, int hp = 10, uint lvl = 1){
 		em = emptr;
 		position = loc;
-		
-		health = maxHealth = 10;
-		mana = maxMana = 10;
-		
-		//updateChunk();
+
+		health = maxHealth = hp;
+		level = lvl;
 	}
 	
 	protected void move(){

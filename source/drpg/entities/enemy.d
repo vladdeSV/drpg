@@ -7,8 +7,8 @@ import std.random;
 
 class Enemy : Entity{
 
-	this (EntityManager* emptr, Location location){
-		super(emptr, location);
+	this (EntityManager* emptr, Location location, int hp = 10, uint lvl = 1){
+		super(emptr, location, hp, lvl);
 	}
 
 	override void move(){

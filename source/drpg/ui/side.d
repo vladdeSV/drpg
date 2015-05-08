@@ -9,7 +9,7 @@ class Side
 
 	EntityManager* em;
 
-	static immutable barBits = 15;
+	static immutable int barBits = 15;
 	immutable static int SideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
 
 	this(EntityManager* emptr)
@@ -41,9 +41,6 @@ class Side
 		//HP
 		setCursorPos(SideUiStartX + 2, 3);
 		write("Health: [", healthbar, "]");
-		//MANA
-		setCursorPos(SideUiStartX + 2, 4);
-		write("Mana:   [", manabar, "]");
 	}
 
 	string healthbar(){
@@ -62,19 +59,6 @@ class Side
 			//em.player.kill(); //Neat function that crashed the program :)
 		}
 
-		return s;
-	}
-	string manabar(){
-		string s;
-
-		foreach(i; 0 .. barBits){
-			if(i <= (cast(float)em.player.mana/cast(float)em.player.maxMana)*barBits){ //This amazing function takes the mana and converts/rounds it to barBits amount of slots
-				s ~= '=';
-			}else{
-				s ~= ' ';
-			}
-		}
-		
 		return s;
 	}
 }

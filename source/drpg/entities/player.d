@@ -13,7 +13,6 @@ class Player : Entity{
 
 	this(EntityManager* emptr, Location loc){
 		health = maxHealth = 15;
-		mana = maxMana = 10;
 
 		super(emptr, loc);
 	}
@@ -28,7 +27,7 @@ class Player : Entity{
 
 		//Movement is still a bit clunky. If you press left and down at the same time you move down twice
 		if(kbhit()){
-			int key = getch(); //TODO: Fix movement. In new versions of ConsoleD, getch() recognizes a key realease as an input too. Basically you move twice for one quick keypress.
+			int key = getch();
 
 			Location oldPosition = position; //Saves the player's x and y.
 			Location movement = Location(0,0);
@@ -65,7 +64,12 @@ class Player : Entity{
 			bool inbounds = (dest.x >= 0 && dest.x < WORLD_WIDTH && 
 			                 dest.y >= 0 && dest.y < WORLD_HEIGHT);
 
-			if(inbounds && !em.isEntityAt(dest) && !em.game.map.isTileSolidAt(dest)){
+			if(em.isEntityAt(dest)){
+				
+				em.game.fight.startFight(em.getEntityPointerAt(dest));
+			}
+
+			if(inbounds && !em.game.map.isTileSolidAt(dest)){
 				position = dest;
 			}
 
