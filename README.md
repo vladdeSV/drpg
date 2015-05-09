@@ -1,12 +1,7 @@
 # drpg
 Primitive, but working, RPG
 
-##### Backstory
-So my teacher told me to look up the D language, and after some time my friend told me to make an RPG or whatever.
-And BÄM that's what I'm doing it now.
-
-##What is it
-DRPG is a work in progress attempt at a RPG game, with no clear goal in mind.
+You are the letter **p** in the country Letterland. Your goal is to collect the rest of the alphabet to be able to defeat the boss.
 
 ##Did you just find this randomly and want to contribute?
 My best guess you were on Github and just searched for D projects, and saw the letters RPG. I am #nub at programming, so the code should be pretty understandable. If you feel like you want to do something with it or whatever please do! :)
