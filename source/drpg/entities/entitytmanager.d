@@ -4,21 +4,21 @@ import std.stdio, std.random, std.algorithm, std.conv, consoled;
 import drpg.game;
 import drpg.misc;
 import drpg.entities.entity, drpg.entities.player, drpg.entities.enemy;
-import drpg.reference, drpg.refs.sprites;
+import drpg.reference, drpg.references.sprites;
 
 class EntityManager {
 
-	Game* game;
+	Game game;
 
 	Player player;
 	Entity[] entities;
 
 	int entityTick;
 	
-	this(Game* gameptr) {
+	this(Game gameptr) {
 
 		game = gameptr;
-		player = new Player(&game.em, Location(1,4));
+		player = new Player(game.em, Location(1,4));
 		
 		entityTick = 0; //For you Gab
 		addEntities();
@@ -77,14 +77,14 @@ class EntityManager {
 		return null;
 	}
 
-	Entity* getEntityPointerAt(Location loc){
-		foreach(l; 0 .. entities.length){
-			if(entities[l].position == loc)
-				return &entities[l];
-		}
-		
-		return null;
-	}
+//	Entity* getEntityPointerAt(Location loc){
+//		foreach(l; 0 .. entities.length){
+//			if(entities[l].position == loc)
+//				return &entities[l];
+//		}
+//		
+//		return null;
+//	}
 
 	/**
 	 * Check if there is an entity at give location
@@ -102,9 +102,9 @@ class EntityManager {
 		return false;
 	}
 
-	void kill(Entity* e){
+	void kill(Entity e){
 		foreach(int a; 0 .. to!int(entities.length)){
-			if(e == &entities[a]){
+			if(e == entities[a]){
 				entities = remove(entities, a);
 				break;
 			}
@@ -112,8 +112,8 @@ class EntityManager {
 	}
 
 	void addEntities(){
-		addEntity(new Enemy(&game.em, Location(4,4), 10, 2));
-		addEntity(new Enemy(&game.em, Location(2,7)));
-		addEntity(new Enemy(&game.em, Location(5,30)));
+		addEntity(new Enemy(game.em, Location(4,4), 10, 2));
+		addEntity(new Enemy(game.em, Location(2,7)));
+		addEntity(new Enemy(game.em, Location(5,30)));
 	}
 }

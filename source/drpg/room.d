@@ -7,7 +7,7 @@ import drpg.tile;
 
 class Room{
 
-	Map* map;
+	Map map;
 
 	int left, top;
 	int width, height;
@@ -21,7 +21,7 @@ class Room{
 		return top + height;
 	}
 	
-	this(Map* mapptr, int worldX, int worldY, int width, int height){
+	this(Map mapptr, int worldX, int worldY, int width, int height){
 		map = mapptr;
 		this.left = worldX;
 		this.top = worldY;

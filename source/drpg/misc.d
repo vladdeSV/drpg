@@ -1,6 +1,6 @@
 module drpg.misc;
 
-import drpg.item;
+import core.time;
 import drpg.reference;
 
 struct Stats{
@@ -26,4 +26,26 @@ Location chunkAtPos(Location pos){
 
 Location add(Location loc1, Location loc2){
 	return Location(loc1.x+loc2.x, loc1.y+loc2.y);
+}
+
+class Clock
+{
+	MonoTime lasttime;
+	
+	this()
+	{
+		
+	}
+	
+	double reset()
+	{
+		MonoTime newtime = MonoTime.currTime();
+		
+		Duration duration = newtime - lasttime;
+		double durationmsec = duration.total!"nsecs" / (10.0 ^^ 6);
+		
+		lasttime = newtime;
+		
+		return durationmsec;
+	}
 }

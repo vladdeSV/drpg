@@ -9,16 +9,16 @@ import drpg.entities.entity;
 class FightScreen
 {
 
-	Game* game;
+	Game game;
 	bool fighting = true;
 	int level;
 
 
-	this(Game* gameptr){
+	this(Game gameptr){
 		game = gameptr;
 	}
 
-	void startFight(Entity* e){
+	void startFight(Entity e){
 
 		string line;
 		foreach(int nr; 0 .. CHUNK_WIDTH){ line ~= '*'; }
@@ -36,7 +36,7 @@ class FightScreen
 		FallingLetter[] falling;
 
 		foreach(int i; 0 .. to!int(level)){
-			falling ~= new FallingLetter(&this, Location(3 + 4*i, 9), e, i);
+			falling ~= new FallingLetter(this, Location(3 + 4*i, 9), e, i);
 		}
 
 		while(fighting){
@@ -46,9 +46,10 @@ class FightScreen
 				press = getch();
 			}
 
-			foreach(int i; 0 .. to!int(falling.length)){
-				falling[i].update(press);
-			}
+			//if myclockclass
+				foreach(int i; 0 .. to!int(falling.length)){
+					falling[i].update(press);
+				}
 		}
 
 		fighting = true;
@@ -65,12 +66,13 @@ class FallingLetter{
 	int fallStart, goalHeight, speed;
 	int tick;
 
-	FightScreen* screen;
+	FightScreen screen;
+
 	Location location;
-	Entity* opponent;
+	Entity opponent;
 	Letter[] letters;
 
-	this(FightScreen* f, Location location, Entity* e, int spd){
+	this(FightScreen f, Location location, Entity e, int spd){
 		screen = f;
 		this.location = location;
 		opponent = e;
@@ -120,7 +122,7 @@ class FallingLetter{
 			updateStats();
 		}
 
-		if(tick < 40000){ //FIXME: BAD WAY OF DEALING WITH HOW OFTEN THE LETTERS SHOULD FALL
+		if(tick < 40000 - speed){ //FIXME: BAD WAY OF DEALING WITH HOW OFTEN THE LETTERS SHOULD FALL
 			return;
 		}
 
