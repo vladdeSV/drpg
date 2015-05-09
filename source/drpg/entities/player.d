@@ -18,7 +18,11 @@ class Player : Entity{
 	}
 
 	override void update(){
-		move;
+		if(health <= 0){
+			running = false;
+			return;
+		}
+		move();
 	}
 
 	private void move() {
@@ -56,6 +60,8 @@ class Player : Entity{
 			}
 			else if(key == 27){ // Escape key on Windows
 				running = false;
+				return;
+			}else{
 				return;
 			}
 

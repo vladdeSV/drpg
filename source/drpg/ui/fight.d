@@ -1,6 +1,6 @@
 ﻿module drpg.ui.fight;
 
-import std.stdio, std.algorithm, std.conv, std.random : uniform;
+import std.stdio, std.algorithm, std.conv, core.thread, std.random : uniform;
 import drpg.game, consoled;
 import drpg.reference, drpg.misc;
 //import drpg.entities.entitymanager;
@@ -36,18 +36,25 @@ class FightScreen
 		FallingLetter[] falling;
 
 		foreach(int i; 0 .. to!int(level)){
-			falling ~= new FallingLetter(&this, Location(3 + 4*i, 9), e);
+			falling ~= new FallingLetter(&this, Location(3 + 4*i, 9), e, i);
 		}
 
 		while(fighting){
+			int press;
+
+			if(kbhit()){
+				press = getch();
+			}
+
 			foreach(int i; 0 .. to!int(falling.length)){
-				falling[i].update();
+				falling[i].update(press);
 			}
 		}
 
 		fighting = true;
 
-		game.map.printChunk();
+		if(game.em.player.health)
+			game.map.printChunk();
 	}
 }
 
@@ -63,10 +70,11 @@ class FallingLetter{
 	Entity* opponent;
 	Letter[] letters;
 
-	this(FightScreen* f, Location location, Entity* e){
+	this(FightScreen* f, Location location, Entity* e, int spd){
 		screen = f;
 		this.location = location;
 		opponent = e;
+		speed = spd * 5000;
 
 		fallStart = location.y;
 		goalHeight = fallStart + 10;
@@ -81,34 +89,45 @@ class FallingLetter{
 		int fallHeight;
 	}
 
-	void update(){
+	void update(int key){
 		++tick;
 
-		if(kbhit()){
-			int key = getch();
-
-			bool hit =
-				letters.length &&
-				letters[0].fallHeight == goalHeight &&
-				key == letters[0].letter; //FIXME ALLWAYS RETURNS FALSE
-
-			if(hit){
-				setCursorPos(CHUNK_WIDTH-8, 7);
-				write(key, " = ", to!int(letters[0].letter));
-				opponent.health -= 1;
-				letters = remove(letters, 0);
-				writeAt(ConsolePoint(location.x + 1, goalHeight), ' ');
-				updateStats();
-			}
+		if(opponent.health <= 0){
+			screen.fighting = false;
+			screen.game.em.kill(opponent);
+			Thread.sleep( dur!("seconds")(5) ); // FIXME Better way of pausing?
+			return;
 		}
+		else if(screen.game.em.player.health <= 0){
+			Thread.sleep( dur!("seconds")(5) ); // FIXME ditto.
 
-		if(tick < 10000){ //FIXME: BAD WAY OF DEALING WITH HOW OFTEN THE LETTERS SHOULD FALL
+			screen.fighting = false;
+
+			centerStringOnEmptyScreen("You died.");
+			Thread.sleep( dur!("seconds")(5) ); // FIXME from pokémon.
 			return;
 		}
 
-		writeAt(ConsolePoint(location.x + 1, goalHeight + 1), ' '); //Clears missed letters
+		bool hit =
+			letters.length &&
+			letters[0].fallHeight == goalHeight &&
+			key == letters[0].letter;
 
-		if(uniform(0, 2) == 0){ //1/4th chance to add a letter
+		if(hit){
+			opponent.health -= 1;
+			letters = remove(letters, 0);
+			writeAt(ConsolePoint(location.x + 1, goalHeight), ' ');
+			updateStats();
+		}
+
+		if(tick < 40000){ //FIXME: BAD WAY OF DEALING WITH HOW OFTEN THE LETTERS SHOULD FALL
+			return;
+		}
+
+		//Removes missed letters
+		writeAt(ConsolePoint(location.x + 1, goalHeight + 1), ' ');
+
+		if(uniform(0, 2) == 0){
 			letters ~= Letter(alphabet[uniform(0, alphabet.length)], fallStart);
 		}
 
@@ -121,16 +140,13 @@ class FallingLetter{
 			writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight), letters[a].letter);
 			writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight - 1), ' ');
 		}
- 
+
 		if(letters[0].fallHeight > goalHeight){
 			letters = remove(letters, 0);
+			screen.game.em.player.health -= 1;
 		}
 
-
-		if(opponent.health <= 0){
-			screen.fighting = false;
-			screen.game.em.kill(opponent);
-		}
+		screen.game.uim.sideUI.update();
 
 		tick = 0;
 	}

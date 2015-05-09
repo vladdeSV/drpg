@@ -43,6 +43,7 @@ void centerStringOnEmptyScreen(string s){
 	setCursorPos((79 / 2) - to!int(s.length / 2), 12);
 	write(s);
 	setCursorPos(0,25);
+	stdout.flush();
 }
 
 void writeRectangle(Location start, Location end){

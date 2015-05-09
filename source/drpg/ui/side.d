@@ -56,7 +56,6 @@ class Side
 			}
 		}else{
 			s = "   DEAD   ";
-			//em.player.kill(); //Neat function that crashed the program :)
 		}
 
 		return s;
