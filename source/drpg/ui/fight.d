@@ -33,6 +33,8 @@ class FightScreen
 		writeAt(ConsolePoint(23, 3), "vs.");
 		writeAt(ConsolePoint(CHUNK_WIDTH - 6, 3), e.getSprite());
 
+		stdout.flush();
+
 		FallingLetter[] falling;
 
 		foreach(int i; 0 .. to!int(level)){
@@ -149,6 +151,7 @@ class FallingLetter{
 		}
 
 		screen.game.uim.sideUI.update();
+		stdout.flush();
 
 		tick = 0;
 	}
@@ -156,7 +159,7 @@ class FallingLetter{
 	void updateStats(){
 		string hp;
 		
-		static immutable barBits = CHUNK_WIDTH - 13;
+		static immutable barBits = CHUNK_WIDTH - 14;
 		
 		if(opponent.health > 0){
 			foreach(i; 0 .. barBits){
@@ -167,12 +170,14 @@ class FallingLetter{
 				}
 			}
 		}else{
-			hp = " DEAD ";
+			foreach(int nr; 0 .. barBits/2 - 2){ hp ~= ' '; }
+			hp ~= "DEAD";
+			foreach(int nr; 0 .. barBits/2 - 2){ hp ~= ' '; }
 		}
 
 		setCursorPos(1, 7);
-		write("Enemy HP [", hp, "]");
-		//screen.game.uim.sideUI.update();
+		write("Enemy HP: [", hp, "]");
+		stdout.flush();
 
 	}
 }

@@ -55,7 +55,7 @@ class Side
 				}
 			}
 		}else{
-			s = "   DEAD   ";
+			s = "     DEAD      ";
 		}
 
 		return s;

@@ -18,7 +18,7 @@ class EntityManager {
 	this(Game gameptr) {
 
 		game = gameptr;
-		player = new Player(game.em, Location(1,4));
+		player = new Player(this, Location(1,4));
 		
 		entityTick = 0; //For you Gab
 		addEntities();
@@ -112,8 +112,8 @@ class EntityManager {
 	}
 
 	void addEntities(){
-		addEntity(new Enemy(game.em, Location(4,4), 10, 2));
-		addEntity(new Enemy(game.em, Location(2,7)));
-		addEntity(new Enemy(game.em, Location(5,30)));
+		addEntity(new Enemy(this, Location(4,4), 10, 2));
+		addEntity(new Enemy(this, Location(2,7)));
+		addEntity(new Enemy(this, Location(5,30)));
 	}
 }
