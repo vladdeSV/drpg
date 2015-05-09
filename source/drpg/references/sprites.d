@@ -1,4 +1,4 @@
-﻿module drpg.refs.sprites;
+﻿module drpg.references.sprites;
 
 //"Sprites"
 immutable static char SPRITE_PLAYER = 'p';

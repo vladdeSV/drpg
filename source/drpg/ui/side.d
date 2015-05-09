@@ -7,12 +7,12 @@ import drpg.reference;
 class Side
 {
 
-	EntityManager* em;
+	EntityManager em;
 
 	static immutable int barBits = 15;
 	immutable static int SideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
 
-	this(EntityManager* emptr)
+	this(EntityManager emptr)
 	{
 		em = emptr;
 
@@ -55,7 +55,7 @@ class Side
 				}
 			}
 		}else{
-			s = "   DEAD   ";
+			s = "     DEAD      ";
 		}
 
 		return s;

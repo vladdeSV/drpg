@@ -7,12 +7,13 @@ import drpg.entities.player;
 
 class UIManager {
 
-	Game* game;
+	Game game;
+
 	Start startUI; 
 	Side sideUI;
 	Inventory invUI;
 
-	this(Game* gameptr)
+	this(Game gameptr)
 	{
 		game = gameptr;
 
@@ -20,6 +21,6 @@ class UIManager {
 	}
 
 	void startSideUi(){
-		sideUI = new Side(&game.em); //Must be created after the player, otherwise ERRORS!
+		sideUI = new Side(game.em); //Must be created after the player, otherwise ERRORS!
 	}
 }

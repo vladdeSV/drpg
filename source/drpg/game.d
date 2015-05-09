@@ -17,10 +17,10 @@ class Game{
 		cursorVisible(false);
 		clearScreen();
 
-		uim = new UIManager(&this);
-		map = new Map(&this);
-		em = new EntityManager(&this);
-		fight = new FightScreen(&this);
+		uim = new UIManager(this);
+		map = new Map(this);
+		em = new EntityManager(this);
+		fight = new FightScreen(this);
 
 		uim.startSideUi();
 

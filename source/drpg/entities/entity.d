@@ -6,7 +6,7 @@ import consoled;
 import drpg.entities.entitymanager;
 import drpg.misc;
 import drpg.item;
-import drpg.reference, drpg.refs.sprites;
+import drpg.reference, drpg.references.sprites;
 
 class Inventory{
 	int maximumAmountOfItems;
@@ -28,13 +28,13 @@ abstract class Entity{
 	int health, maxHealth, entityTick, level;
 	int updateInterval = 100; //Default value
 
-	EntityManager* em;
+	EntityManager em;
 
 	Location position;
 	Stats stats;
 	Inventory inventory;
 	
-	this(EntityManager* emptr, Location loc, int hp = 10, uint lvl = 1){
+	this(EntityManager emptr, Location loc, int hp = 10, uint lvl = 1){
 		em = emptr;
 		position = loc;
 

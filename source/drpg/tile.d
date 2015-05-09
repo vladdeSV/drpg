@@ -1,7 +1,7 @@
 module drpg.tile;
 
 import std.random : uniform;
-import drpg.refs.sprites;
+import drpg.references.sprites;
 
 abstract class Tile{
 

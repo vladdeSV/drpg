@@ -1,13 +1,13 @@
 module drpg.entities.enemy;
 
 import drpg.misc;
-import drpg.refs.sprites;
+import drpg.references.sprites;
 import drpg.entities.entitymanager, drpg.entities.entity;
 import std.random;
 
 class Enemy : Entity{
 
-	this (EntityManager* emptr, Location location, int hp = 10, uint lvl = 1){
+	this (EntityManager emptr, Location location, int hp = 10, uint lvl = 1){
 		super(emptr, location, hp, lvl);
 	}
 

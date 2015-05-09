@@ -9,16 +9,16 @@ import drpg.entities.entity;
 class FightScreen
 {
 
-	Game* game;
+	Game game;
 	bool fighting = true;
 	int level;
 
 
-	this(Game* gameptr){
+	this(Game gameptr){
 		game = gameptr;
 	}
 
-	void startFight(Entity* e){
+	void startFight(Entity e){
 
 		string line;
 		foreach(int nr; 0 .. CHUNK_WIDTH){ line ~= '*'; }
@@ -33,10 +33,12 @@ class FightScreen
 		writeAt(ConsolePoint(23, 3), "vs.");
 		writeAt(ConsolePoint(CHUNK_WIDTH - 6, 3), e.getSprite());
 
+		stdout.flush();
+
 		FallingLetter[] falling;
 
 		foreach(int i; 0 .. to!int(level)){
-			falling ~= new FallingLetter(&this, Location(3 + 4*i, 9), e, i);
+			falling ~= new FallingLetter(this, Location(3 + 4*i, 9), e, i);
 		}
 
 		while(fighting){
@@ -46,9 +48,10 @@ class FightScreen
 				press = getch();
 			}
 
-			foreach(int i; 0 .. to!int(falling.length)){
-				falling[i].update(press);
-			}
+			//if myclockclass
+				foreach(int i; 0 .. to!int(falling.length)){
+					falling[i].update(press);
+				}
 		}
 
 		fighting = true;
@@ -65,12 +68,13 @@ class FallingLetter{
 	int fallStart, goalHeight, speed;
 	int tick;
 
-	FightScreen* screen;
+	FightScreen screen;
+
 	Location location;
-	Entity* opponent;
+	Entity opponent;
 	Letter[] letters;
 
-	this(FightScreen* f, Location location, Entity* e, int spd){
+	this(FightScreen f, Location location, Entity e, int spd){
 		screen = f;
 		this.location = location;
 		opponent = e;
@@ -120,7 +124,7 @@ class FallingLetter{
 			updateStats();
 		}
 
-		if(tick < 40000){ //FIXME: BAD WAY OF DEALING WITH HOW OFTEN THE LETTERS SHOULD FALL
+		if(tick < 40000 - speed){ //FIXME: BAD WAY OF DEALING WITH HOW OFTEN THE LETTERS SHOULD FALL
 			return;
 		}
 
@@ -147,6 +151,7 @@ class FallingLetter{
 		}
 
 		screen.game.uim.sideUI.update();
+		stdout.flush();
 
 		tick = 0;
 	}
@@ -154,7 +159,7 @@ class FallingLetter{
 	void updateStats(){
 		string hp;
 		
-		static immutable barBits = CHUNK_WIDTH - 13;
+		static immutable barBits = CHUNK_WIDTH - 14;
 		
 		if(opponent.health > 0){
 			foreach(i; 0 .. barBits){
@@ -165,12 +170,14 @@ class FallingLetter{
 				}
 			}
 		}else{
-			hp = " DEAD ";
+			foreach(int nr; 0 .. barBits/2 - 2){ hp ~= ' '; }
+			hp ~= "DEAD";
+			foreach(int nr; 0 .. barBits/2 - 2){ hp ~= ' '; }
 		}
 
 		setCursorPos(1, 7);
-		write("Enemy HP [", hp, "]");
-		//screen.game.uim.sideUI.update();
+		write("Enemy HP: [", hp, "]");
+		stdout.flush();
 
 	}
 }

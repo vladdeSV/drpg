@@ -13,7 +13,7 @@ import drpg.tile, drpg.room;
 
 class Map{
 
-	Game* game;
+	Game game;
 
 	private int width, height;
 	private Tile[][] tiles;
@@ -24,7 +24,7 @@ class Map{
 		int getHeight(){ return height; }
 	}
 
-	this(Game* gameptr)
+	this(Game gameptr)
 	{
 		game = gameptr;
 		width = WORLD_WIDTH;
@@ -175,7 +175,7 @@ class Map{
 			wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
 			wy = uniform(3, height- h); //Ditto from Pokémon
 
-			rooms ~= new Room(&this, wx, wy, w, h);
+			rooms ~= new Room(this, wx, wy, w, h);
 		}
 	}
 }
