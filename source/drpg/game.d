@@ -1,7 +1,7 @@
 module drpg.game;
 
 import std.stdio, std.random, consoled;
-import drpg.reference, drpg.map, drpg.entities.entitymanager, drpg.entities.player, drpg.ui.uimanager;
+import drpg.references.variables, drpg.map, drpg.entities.entitymanager, drpg.entities.player, drpg.ui.uimanager;
 import drpg.room, drpg.tile;
 
 class Game{

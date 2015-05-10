@@ -4,12 +4,12 @@ import std.stdio, std.concurrency, consoled, std.random;
 import drpg.map;
 import drpg.misc;
 import drpg.entities.entity, drpg.entities.entitymanager;
-import drpg.reference, drpg.references.sprites;
+import drpg.references.text, drpg.references.variables, drpg.references.size, drpg.references.sprites;
 import drpg.ui.uimanager;
 
 class Player : Entity{
-	
-	public string name = "Hermando"; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
+
+	public string name = PLAYER_NAME; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
 
 	this(EntityManager emptr, Location loc){
 		health = maxHealth = 15;

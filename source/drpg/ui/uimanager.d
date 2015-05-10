@@ -1,6 +1,6 @@
 ﻿module drpg.ui.uimanager;
 
-import std.stdio, drpg.reference, consoled;
+import std.stdio, consoled;
 import drpg.game;
 import drpg.ui.side, drpg.ui.start, drpg.ui.inventory, drpg.ui.fight;
 import drpg.entities.player;

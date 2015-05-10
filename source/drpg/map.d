@@ -3,7 +3,7 @@ module drpg.map;
 import std.stdio, std.math, std.random, std.conv, consoled;
 import drpg.game;
 import drpg.misc;
-import drpg.reference;
+import drpg.references.size;
 import drpg.entities.player, drpg.entities.entitymanager;
 import drpg.tile, drpg.room;
 
