@@ -2,7 +2,7 @@
 
 import std.stdio, drpg.reference, consoled;
 import drpg.game;
-import drpg.ui.side, drpg.ui.start, drpg.ui.inventory;
+import drpg.ui.side, drpg.ui.start, drpg.ui.inventory, drpg.ui.fight;
 import drpg.entities.player;
 
 class UIManager {
@@ -12,12 +12,14 @@ class UIManager {
 	Start startUI; 
 	Side sideUI;
 	Inventory invUI;
+	FightScreen fightUI;
 
 	this(Game gameptr)
 	{
 		game = gameptr;
 
 		startUI = new Start(); 
+		fightUI = new FightScreen(this);
 	}
 
 	void startSideUi(){

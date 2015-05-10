@@ -73,7 +73,7 @@ class Player : Entity{
 
 			if(em.isEntityAt(dest)){
 				
-				em.game.fight.startFight(em.getEntityAt(dest));
+				em.game.uim.fightUI.startFight(em.getEntityAt(dest));
 			}
 
 			if(inbounds && !em.game.map.isTileSolidAt(dest)){
@@ -92,8 +92,9 @@ class Player : Entity{
 			print();
 
 			//Write out players x and y + chunks
-			setCursorPos(70-17, 21); write("x: ", position.x, " [Chunk: ", chunkAtPos(position).x + 1, " / ", CHUNK_AMOUNT_WIDTH, "]");
-			setCursorPos(70-17, 22); write("y: ", position.y, " [Chunk: ", chunkAtPos(position).y + 1, " / ", CHUNK_AMOUNT_HEIGHT, "]");
+			setCursorPos(70-17, 21); write("x: ", position.x, " [Chunk: ", chunkAtPos(position).x + 1, " / ", CHUNK_AMOUNT_WIDTH, "]  ");
+			setCursorPos(70-17, 22); write("y: ", position.y, " [Chunk: ", chunkAtPos(position).y + 1, " / ", CHUNK_AMOUNT_HEIGHT, "]  ");
+			stdout.flush();
 		}
 	}
 	

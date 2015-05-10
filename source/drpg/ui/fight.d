@@ -3,19 +3,18 @@
 import std.stdio, std.algorithm, std.conv, core.thread, std.random : uniform;
 import drpg.game, consoled;
 import drpg.reference, drpg.misc;
-//import drpg.entities.entitymanager;
+import drpg.ui.uimanager;
 import drpg.entities.entity;
 
 class FightScreen
 {
 
-	Game game;
+	UIManager uim;
 	bool fighting = true;
 	int level;
 
-
-	this(Game gameptr){
-		game = gameptr;
+	this(UIManager uiman){
+		uim = uiman;
 	}
 
 	void startFight(Entity e){
@@ -29,7 +28,7 @@ class FightScreen
 
 		writeRectangle(Location(1,1), Location(CHUNK_WIDTH-2, 5));
 
-		writeAt(ConsolePoint(5, 3), game.em.player.getSprite());
+		writeAt(ConsolePoint(5, 3), uim.game.em.player.getSprite());
 		writeAt(ConsolePoint(23, 3), "vs.");
 		writeAt(ConsolePoint(CHUNK_WIDTH - 6, 3), e.getSprite());
 
@@ -56,8 +55,8 @@ class FightScreen
 
 		fighting = true;
 
-		if(game.em.player.health)
-			game.map.printChunk();
+		if(uim.game.em.player.health)
+			uim.game.map.printChunk();
 	}
 }
 
@@ -78,10 +77,10 @@ class FallingLetter{
 		screen = f;
 		this.location = location;
 		opponent = e;
-		speed = spd * 5000;
+		speed = spd * 10000;
 
 		fallStart = location.y;
-		goalHeight = fallStart + 10;
+		goalHeight = CHUNK_HEIGHT - 3;
 
 		writeAt(ConsolePoint(location.x, goalHeight), "[ ]");
 
@@ -98,12 +97,12 @@ class FallingLetter{
 
 		if(opponent.health <= 0){
 			screen.fighting = false;
-			screen.game.em.kill(opponent);
+			screen.uim.game.em.kill(opponent);
 			Thread.sleep( dur!("seconds")(5) ); // FIXME Better way of pausing?
 			return;
 		}
-		else if(screen.game.em.player.health <= 0){
-			Thread.sleep( dur!("seconds")(5) ); // FIXME ditto.
+		else if(screen.uim.game.em.player.health <= 0){
+			Thread.sleep( dur!("seconds")(3) ); // FIXME ditto.
 
 			screen.fighting = false;
 
@@ -147,10 +146,10 @@ class FallingLetter{
 
 		if(letters[0].fallHeight > goalHeight){
 			letters = remove(letters, 0);
-			screen.game.em.player.health -= 1;
+			screen.uim.game.em.player.health -= 1;
 		}
 
-		screen.game.uim.sideUI.update();
+		screen.uim.sideUI.update();
 		stdout.flush();
 
 		tick = 0;

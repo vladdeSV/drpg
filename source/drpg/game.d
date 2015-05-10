@@ -1,7 +1,6 @@
 module drpg.game;
 
 import std.stdio, std.random, consoled;
-import drpg.ui.fight;
 import drpg.reference, drpg.map, drpg.entities.entitymanager, drpg.entities.player, drpg.ui.uimanager;
 import drpg.room, drpg.tile;
 
@@ -11,7 +10,7 @@ class Game{
 	Map map;
 	EntityManager em;
 
-	FightScreen fight;
+
 
 	this(){
 		cursorVisible(false);
@@ -20,7 +19,6 @@ class Game{
 		uim = new UIManager(this);
 		map = new Map(this);
 		em = new EntityManager(this);
-		fight = new FightScreen(this);
 
 		uim.startSideUi();
 

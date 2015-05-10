@@ -17,7 +17,6 @@ enum MonsterType {SLIME, ZOMBIE};
 immutable static string GAME_NAME = "DRPG";
 
 immutable static int CHUNK_AMOUNT_WIDTH = 10, CHUNK_AMOUNT_HEIGHT = 5;
-
 immutable static int CHUNK_WIDTH = 50, CHUNK_HEIGHT = 24; //Windows OS standard console size. I'm on windows.
 immutable static int WORLD_WIDTH = CHUNK_WIDTH * CHUNK_AMOUNT_WIDTH, WORLD_HEIGHT = CHUNK_HEIGHT * CHUNK_AMOUNT_HEIGHT;
 
