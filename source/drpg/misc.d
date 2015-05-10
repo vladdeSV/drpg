@@ -31,33 +31,35 @@ Location add(Location loc1, Location loc2){
 	return Location(loc1.x+loc2.x, loc1.y+loc2.y);
 }
 
-/**
- * WIP
- */ 
 class Clock
 {
-	MonoTime lasttime;
-	
+	private MonoTime lasttime;
+
+	this(){
+		lasttime = MonoTime.zero();
+	}
+
 	double reset()
 	{
 		MonoTime newtime = MonoTime.currTime();
 		Duration duration = newtime - lasttime;
 		double durationmsec = duration.total!"nsecs" / (10.0 ^^ 6);
 		lasttime = newtime;
+
 		return durationmsec;
 	}
 }
 
 /**
  * Clears the chunk by putting whitespaces in the chunk.
- */ 
+ */
 void clearChunk(){
-	
+
 	string clearLine;
-	
+
 	foreach(int a; 0 .. CHUNK_WIDTH)
 		clearLine ~= ' ';
-	
+
 	foreach(int y; 0 .. CHUNK_HEIGHT){
 		setCursorPos(0, y);
 		write(clearLine);
@@ -66,7 +68,7 @@ void clearChunk(){
 
 /**
  * Clears the screen and writes a string in the center
- */ 
+ */
 void centerStringOnEmptyScreen(string s){
 	clearScreen;
 	setCursorPos((width / 2) - to!int(s.length / 2), height/2);
@@ -100,6 +102,8 @@ void writeRectangle(Location start, Location end){
 
 void talkBox(string message, char talker){
 
+	Clock clock = new Clock();
+
 	Location topleft = Location(1, CHUNK_HEIGHT - 6);
 	Location bottomright = Location(CHUNK_WIDTH - 2, CHUNK_HEIGHT - 1);
 
@@ -110,4 +114,16 @@ void talkBox(string message, char talker){
 
 	writeAt(textstart, message);
 	writeAt(textstart, talker);
+}
+
+void pause(){
+	centerStringInEmptyChunk("Paused - Press Q");
+	
+	bool paused = true;
+	int pausekey;
+	while(paused){
+		pausekey = getch();
+		if(pausekey == 'Q' || pausekey == 'q')
+			paused = false;
+	}
 }

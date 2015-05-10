@@ -12,8 +12,8 @@ class Enemy : Entity{
 	}
 
 	override void move(){
-		updateInterval = uniform(30, 70);
-		super.move;
+		updateInterval = uniform(1000, 5000);
+		super.move();
 	}
 
 	override char getSprite(){

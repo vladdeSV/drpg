@@ -1,6 +1,8 @@
 module drpg.entities.entity;
 
-import std.stdio, std.random;
+import std.stdio;
+import std.random;
+import std.conv;
 import consoled;
 
 import drpg.entities.entitymanager;
@@ -25,8 +27,9 @@ class Inventory{
 }
 
 abstract class Entity{
-	int health, maxHealth, entityTick, level;
-	int updateInterval = 100; //Default value
+	int health, maxHealth, level;
+	double updateInterval = 100.0; //Default value
+	double entityTick = 0.0;
 
 	EntityManager em;
 
@@ -67,12 +70,13 @@ abstract class Entity{
 		}
 	}
 	
-	void update(){
-		++entityTick;
+	void update(double dt){
+		entityTick += dt;
+		int runs = to!int(entityTick / updateInterval);
+		entityTick = entityTick - runs * updateInterval;
 		
-		if(entityTick > updateInterval){
-			move;
-			entityTick = 0;
+		foreach (i; 0 .. runs){
+			move();
 		}
 	}
 	

@@ -13,29 +13,24 @@ class EntityManager {
 	Player player;
 	Entity[] entities;
 
-	int entityTick;
+	double entityTick;
 	
 	this(Game gameptr) {
 
 		game = gameptr;
 		player = new Player(this, Location(1,4));
-		
-		entityTick = 0; //For you Gab
+
 		addEntities();
 	}
 
-	void tick(){
-		++entityTick;
-		if(entityTick > 1000){
-			update();
-			entityTick = 0;
-		}
+	void tick(double dt){
+		update(dt);
 		player.update();
 	}
 
-	void update(){
+	void update(double dt){
 		foreach(l; 0 .. entities.length){
-			entities[l].update();
+			entities[l].update(dt);
 		}
 	}
 
@@ -112,7 +107,7 @@ class EntityManager {
 	}
 
 	void addEntities(){
-		addEntity(new Enemy(this, Location(4,4), 10, 2));
+		addEntity(new Enemy(this, Location(4,4), 10, 4));
 		addEntity(new Enemy(this, Location(2,7)));
 		addEntity(new Enemy(this, Location(5,30)));
 	}

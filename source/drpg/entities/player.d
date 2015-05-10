@@ -17,7 +17,7 @@ class Player : Entity{
 		super(emptr, loc);
 	}
 
-	override void update(){
+	void update(){
 		if(health <= 0){
 			running = false;
 			return;
@@ -56,17 +56,7 @@ class Player : Entity{
 				movement.x = +1;
 			}
 			else if (key == 'P' || key == 'p'){
-				centerStringInEmptyChunk("Paused - Press Q");
-
-				bool paused = true;
-				int pausekey;
-				do{
-					pausekey = getch();
-					if(pausekey == 'Q' || pausekey == 'q')
-						paused = false;
-
-				}while(paused);
-
+				pause();
 				em.game.map.printChunk();
 				return;
 			}
