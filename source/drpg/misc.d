@@ -65,6 +65,25 @@ void clearChunk(){
 }
 
 /**
+ * Clears the screen and writes a string in the center
+ */ 
+void centerStringOnEmptyScreen(string s){
+	clearScreen;
+	setCursorPos((width / 2) - to!int(s.length / 2), height/2);
+	write(s);
+	setCursorPos(0, 0);
+	stdout.flush();
+}
+
+void centerStringInEmptyChunk(string s){
+	clearChunk();
+	setCursorPos((CHUNK_WIDTH / 2) - to!int(s.length / 2), CHUNK_HEIGHT/2);
+	write(s);
+	setCursorPos(0, 0);
+	stdout.flush();
+}
+
+/**
  * Writes a frame with whitespace inside
  */
 void writeRectangle(Location start, Location end){
@@ -79,13 +98,16 @@ void writeRectangle(Location start, Location end){
 	}
 }
 
-/**
- * Clears the screen and writes a string in the center
- */ 
-void centerStringOnEmptyScreen(string s){
-	clearScreen;
-	setCursorPos((79 / 2) - to!int(s.length / 2), 12);
-	write(s);
-	setCursorPos(0,25);
-	stdout.flush();
+void talkBox(string message, char talker){
+
+	Location topleft = Location(1, CHUNK_HEIGHT - 6);
+	Location bottomright = Location(CHUNK_WIDTH - 2, CHUNK_HEIGHT - 1);
+
+	ConsolePoint textstart = ConsolePoint(topleft.x + 2, topleft.y + 2);
+	ConsolePoint talkerpos = ConsolePoint(bottomright.x - 2, bottomright.y - 2);
+
+	writeRectangle(topleft, bottomright);
+
+	writeAt(textstart, message);
+	writeAt(textstart, talker);
 }

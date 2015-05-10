@@ -1,10 +1,28 @@
 ﻿module drpg.ui.inventory;
 
+import drpg.ui.uimanager;
+import drpg.misc;
+
 class Inventory
 {
-	this()
+	UIManager uim;
+	bool inventoryOpen = false;
+
+	this(UIManager uiman)
 	{
-		// Constructor code
+		uim = uiman;
+	}
+
+	void openInventory(){
+		inventoryOpen = true;
+
+		clearChunk();
+
+
+
+		while(inventoryOpen){
+
+		}
 	}
 }
 

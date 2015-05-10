@@ -1,6 +1,7 @@
 ﻿module drpg.references.text;
 
-immutable static char[26] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".dup;
+immutable static char[26] alphabetUC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".dup;
+immutable static char[26] alphabetLC = "abcdefghijklmnopqrstuvwxyz".dup;
 
 immutable static string GAME_NAME = "DRPG";
 immutable static string GAME_END = "GAME HAS ENDED";

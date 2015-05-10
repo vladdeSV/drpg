@@ -4,13 +4,17 @@ import drpg.misc;
 
 abstract class Item{
 	string name;
-	Stats stats;
+	
+	this(string name){
+		this.name = name;
+	}
 }
 
-class ItemBlank : Item{
-
-}
-
-class ItemPosion{
-
+class ItemLetter : Item{
+	char letter;
+	
+	this(string name, char letter){
+		this.letter = letter;
+		super(name);
+	}
 }

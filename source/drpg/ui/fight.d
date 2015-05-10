@@ -1,18 +1,19 @@
 ﻿module drpg.ui.fight;
 
-import consoled, std.stdio, std.algorithm, std.conv, core.thread, std.random : uniform;
+import consoled, std.stdio, std.range, std.algorithm, std.conv, core.thread, std.random : uniform;
 import drpg.game;
 import drpg.misc;
 import drpg.ui.uimanager;
 import drpg.entities.entity;
 import drpg.references.size;
 import drpg.references.text;
+import drpg.references.sprites;
 
 class FightScreen
 {
 
 	UIManager uim;
-	bool fighting = true;
+	bool fighting = false;
 	int level;
 
 	this(UIManager uiman){
@@ -21,19 +22,19 @@ class FightScreen
 
 	void startFight(Entity e){
 
+		fighting = true;
+
 		string line;
 		foreach(int nr; 0 .. CHUNK_WIDTH){ line ~= '*'; }
 
 		level = e.level;
 
-		clearChunk();
+		clearScreen();
 
-		writeRectangle(Location(1,1), Location(CHUNK_WIDTH-2, 5));
-
+		writeRectangle(Location(1,1), Location(width-2, 5));
 		writeAt(ConsolePoint(5, 3), uim.game.em.player.getSprite());
-		writeAt(ConsolePoint(23, 3), "vs.");
-		writeAt(ConsolePoint(CHUNK_WIDTH - 6, 3), e.getSprite());
-
+		writeAt(ConsolePoint(width/2-1, 3), "vs.");
+		writeAt(ConsolePoint(width - 6, 3), e.getSprite());
 		stdout.flush();
 
 		FallingLetter[] falling;
@@ -55,10 +56,10 @@ class FightScreen
 				}
 		}
 
-		fighting = true;
-
-		if(uim.game.em.player.health)
+		if(uim.game.em.player.health){
 			uim.game.map.printChunk();
+			uim.sideUI.printAll();
+		}
 	}
 }
 
@@ -131,7 +132,7 @@ class FallingLetter{
 		writeAt(ConsolePoint(location.x + 1, goalHeight + 1), ' ');
 
 		if(uniform(0, 2) == 0){
-			letters ~= Letter(alphabet[uniform(0, alphabet.length)], fallStart);
+			letters ~= Letter(alphabetUC[uniform(0, alphabetUC.length)], fallStart);
 		}
 
 		if(!letters.length){
@@ -149,33 +150,54 @@ class FallingLetter{
 			screen.uim.game.em.player.health -= 1;
 		}
 
-		screen.uim.sideUI.update();
+		updateStats();
+
 		stdout.flush();
 
 		tick = 0;
 	}
 
 	void updateStats(){
-		string hp;
+		string playerhp;
+		string opponenthp;
 		
-		static immutable barBits = CHUNK_WIDTH - 14;
+		static immutable barBits = SCREEN_WIDTH/2 - 5;
+
+		if(screen.uim.game.em.player.health > 0){
+			foreach(i; 0 .. barBits){
+				if(i <= (to!float(screen.uim.game.em.player.health)/to!float(screen.uim.game.em.player.maxHealth))*barBits){ //This amazing function takes the health and converts/rounds it to barBits amount of slots
+					playerhp ~= '=';
+				}else{
+					playerhp ~= ' ';
+				}
+			}
+
+			playerhp = to!string(playerhp.retro()); //fixme dubble slize
+
+		}else{
+			foreach(int nr; 0 .. barBits/2 - 2){ playerhp ~= ' '; }
+			playerhp ~= "DEAD";
+			foreach(int nr; 0 .. barBits/2 - 2){ playerhp ~= ' '; }
+		}
 		
 		if(opponent.health > 0){
 			foreach(i; 0 .. barBits){
 				if(i <= (to!float(opponent.health)/to!float(opponent.maxHealth))*barBits){ //This amazing function takes the health and converts/rounds it to barBits amount of slots
-					hp ~= '*';
+					opponenthp ~= '=';
 				}else{
-					hp ~= ' ';
+					opponenthp ~= ' ';
 				}
 			}
 		}else{
-			foreach(int nr; 0 .. barBits/2 - 2){ hp ~= ' '; }
-			hp ~= "DEAD";
-			foreach(int nr; 0 .. barBits/2 - 2){ hp ~= ' '; }
+			foreach(int nr; 0 .. barBits/2 - 2){ opponenthp ~= ' '; }
+			opponenthp ~= "DEAD";
+			foreach(int nr; 0 .. barBits/2 - 2){ opponenthp ~= ' '; }
 		}
 
-		setCursorPos(1, 7);
-		write("Enemy HP: [", hp, "]");
+
+		setCursorPos(2, 7);
+		write(SPRITE_PLAYER, " [", playerhp, "|", opponenthp, "] ", opponent.getSprite());
+
 		stdout.flush();
 
 	}

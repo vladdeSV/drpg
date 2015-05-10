@@ -20,9 +20,10 @@ class UIManager {
 
 		startUI = new Start(); 
 		fightUI = new FightScreen(this);
+		invUI = new Inventory(this);
 	}
 
 	void startSideUi(){
-		sideUI = new Side(game.em); //Must be created after the player, otherwise ERRORS!
+		sideUI = new Side(this); //Must be created after the player, otherwise ERRORS!
 	}
 }

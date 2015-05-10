@@ -36,7 +36,7 @@ class Player : Entity{
 			Location oldPosition = position; //Saves the player's x and y.
 			Location movement = Location(0,0);
 
-			if (!shouldMove){
+			if (!shouldMove){ //Get ever second key press, due to how getch() gets both keypress and keyrelease as input.
 				shouldMove = true;
 				return;
 			} else {
@@ -55,8 +55,20 @@ class Player : Entity{
 			else if (key == 'D' || key == 'd'){
 				movement.x = +1;
 			}
-			else if (key == 'I' || key == 'i'){
-				//em.game.uim.openInventory;
+			else if (key == 'P' || key == 'p'){
+				centerStringInEmptyChunk("Paused - Press Q");
+
+				bool paused = true;
+				int pausekey;
+				do{
+					pausekey = getch();
+					if(pausekey == 'Q' || pausekey == 'q')
+						paused = false;
+
+				}while(paused);
+
+				em.game.map.printChunk();
+				return;
 			}
 			else if(key == 27){ // Escape key on Windows
 				running = false;
@@ -90,11 +102,6 @@ class Player : Entity{
 			em.game.map.printTile(oldPosition);
 
 			print();
-
-			//Write out players x and y + chunks
-			setCursorPos(70-17, 21); write("x: ", position.x, " [Chunk: ", chunkAtPos(position).x + 1, " / ", CHUNK_AMOUNT_WIDTH, "]  ");
-			setCursorPos(70-17, 22); write("y: ", position.y, " [Chunk: ", chunkAtPos(position).y + 1, " / ", CHUNK_AMOUNT_HEIGHT, "]  ");
-			stdout.flush();
 		}
 	}
 	

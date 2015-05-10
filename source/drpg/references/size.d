@@ -1,6 +1,7 @@
 ﻿module drpg.references.size;
 
 // World
+immutable static int SCREEN_WIDTH = 79, SCREEN_HEIGHT = 24;
 immutable static int CHUNK_WIDTH = 50;
 immutable static int CHUNK_HEIGHT = 24; //Windows OS standard console size. I'm on windows.
 immutable static int CHUNK_AMOUNT_WIDTH = 10;
