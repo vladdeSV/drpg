@@ -23,7 +23,7 @@ class FightScreen
 	void startFight(Entity e){
 
 		fighting = true;
-
+		
 		string line;
 		foreach(int nr; 0 .. CHUNK_WIDTH){ line ~= '*'; }
 
@@ -40,20 +40,24 @@ class FightScreen
 		FallingLetter[] falling;
 
 		foreach(int i; 0 .. to!int(level)){
-			falling ~= new FallingLetter(this, Location(3 + 4*i, 9), e, i);
+			falling ~= new FallingLetter(this, Location(3 + 4*i, 9), e);
 		}
 
-		while(fighting){
-			int press;
+		Clock clock = new Clock();
+		clock.reset();
 
+		while(fighting){
+			double dt = clock.reset();
+			int press;
 			if(kbhit()){
 				press = getch();
+//				if(press == 'P' || press == 'p'){
+//					pause();
+//				}
 			}
-
-			//if myclockclass
-				foreach(int i; 0 .. to!int(falling.length)){
-					falling[i].update(press);
-				}
+			foreach(int i; 0 .. to!int(falling.length)){
+				falling[i].update(press, dt);
+			}
 		}
 
 		if(uim.game.em.player.health){
@@ -65,8 +69,8 @@ class FightScreen
 
 class FallingLetter{
 
-	int fallStart, goalHeight, speed;
-	int tick;
+	int fallStart, goalHeight;
+	double tick = 0;
 
 	FightScreen screen;
 
@@ -74,14 +78,13 @@ class FallingLetter{
 	Entity opponent;
 	Letter[] letters;
 
-	this(FightScreen f, Location location, Entity e, int spd){
+	this(FightScreen f, Location location, Entity e){
 		screen = f;
 		this.location = location;
 		opponent = e;
-		speed = spd * 10000;
 
 		fallStart = location.y;
-		goalHeight = CHUNK_HEIGHT - 3;
+		goalHeight = CHUNK_HEIGHT - 2;
 
 		writeAt(ConsolePoint(location.x, goalHeight), "[ ]");
 
@@ -93,9 +96,9 @@ class FallingLetter{
 		int fallHeight;
 	}
 
-	void update(int key){
-		++tick;
-
+	void update(int key, double dt){
+		tick += dt;
+		
 		if(opponent.health <= 0){
 			screen.fighting = false;
 			screen.uim.game.em.kill(opponent);
@@ -124,37 +127,38 @@ class FallingLetter{
 			updateStats();
 		}
 
-		if(tick < 40000 - speed){ //FIXME: BAD WAY OF DEALING WITH HOW OFTEN THE LETTERS SHOULD FALL
-			return;
+		double speed = 1000; //One second
+		int runs = to!int(tick / speed);
+		tick = tick - runs * speed;
+		
+		foreach (i; 0 .. runs){
+			//Removes missed letters
+			writeAt(ConsolePoint(location.x + 1, goalHeight + 1), ' ');
+	
+			if(uniform(0, 2) == 0){
+				letters ~= Letter(alphabetUC[uniform(0, alphabetUC.length)], fallStart);
+			}
+	
+			if(!letters.length){
+				return;
+			}
+	
+			foreach(int a; 0 .. to!int(letters.length)){
+				letters[a].fallHeight += 1;
+				writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight), letters[a].letter);
+				writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight - 1), ' ');
+			}
+	
+			if(letters[0].fallHeight > goalHeight){
+				letters = remove(letters, 0);
+				screen.uim.game.em.player.health -= 1;
+			}
+
+			updateStats();
+			stdout.flush();
+	
+			tick = 0;
 		}
-
-		//Removes missed letters
-		writeAt(ConsolePoint(location.x + 1, goalHeight + 1), ' ');
-
-		if(uniform(0, 2) == 0){
-			letters ~= Letter(alphabetUC[uniform(0, alphabetUC.length)], fallStart);
-		}
-
-		if(!letters.length){
-			return;
-		}
-
-		foreach(int a; 0 .. to!int(letters.length)){
-			letters[a].fallHeight += 1;
-			writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight), letters[a].letter);
-			writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight - 1), ' ');
-		}
-
-		if(letters[0].fallHeight > goalHeight){
-			letters = remove(letters, 0);
-			screen.uim.game.em.player.health -= 1;
-		}
-
-		updateStats();
-
-		stdout.flush();
-
-		tick = 0;
 	}
 
 	void updateStats(){
