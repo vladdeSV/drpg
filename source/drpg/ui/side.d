@@ -2,7 +2,7 @@
 
 import std.stdio, std.conv, consoled;
 import drpg.entities.entitymanager;
-import drpg.reference;
+import drpg.references.size;
 
 class Side
 {

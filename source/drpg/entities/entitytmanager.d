@@ -4,7 +4,7 @@ import std.stdio, std.random, std.algorithm, std.conv, consoled;
 import drpg.game;
 import drpg.misc;
 import drpg.entities.entity, drpg.entities.player, drpg.entities.enemy;
-import drpg.reference, drpg.references.sprites;
+import drpg.references.sprites;
 
 class EntityManager {
 

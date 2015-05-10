@@ -1,8 +1,8 @@
 ﻿module drpg.references.sprites;
 
 //"Sprites"
-immutable static char SPRITE_PLAYER = 'p';
 immutable static char SPRITE_NONE = ' ';
+immutable static char SPRITE_PLAYER = 'p';
 immutable static char SPRITE_ENEMY = 'e';
 
 immutable static char SPRITE_WALL = '#';

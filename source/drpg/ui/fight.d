@@ -1,10 +1,12 @@
 ﻿module drpg.ui.fight;
 
-import std.stdio, std.algorithm, std.conv, core.thread, std.random : uniform;
-import drpg.game, consoled;
-import drpg.reference, drpg.misc;
+import consoled, std.stdio, std.algorithm, std.conv, core.thread, std.random : uniform;
+import drpg.game;
+import drpg.misc;
 import drpg.ui.uimanager;
 import drpg.entities.entity;
+import drpg.references.size;
+import drpg.references.text;
 
 class FightScreen
 {
@@ -62,8 +64,6 @@ class FightScreen
 
 class FallingLetter{
 
-	char[26] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".dup;
-
 	int fallStart, goalHeight, speed;
 	int tick;
 
@@ -106,7 +106,7 @@ class FallingLetter{
 
 			screen.fighting = false;
 
-			centerStringOnEmptyScreen("You died.");
+			centerStringOnEmptyScreen(GAME_PLAYER_DEAD);
 			Thread.sleep( dur!("seconds")(5) ); // FIXME from pokémon.
 			return;
 		}

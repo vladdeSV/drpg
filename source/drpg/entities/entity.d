@@ -6,7 +6,7 @@ import consoled;
 import drpg.entities.entitymanager;
 import drpg.misc;
 import drpg.item;
-import drpg.reference, drpg.references.sprites;
+import drpg.references.size, drpg.references.sprites;
 
 class Inventory{
 	int maximumAmountOfItems;

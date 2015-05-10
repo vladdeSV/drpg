@@ -1,9 +1,10 @@
 module drpg.room;
 
-import std.stdio, drpg.reference, consoled;
+import std.stdio, consoled;
 import drpg.misc;
 import drpg.map;
 import drpg.tile;
+import drpg.references.variables;
 
 class Room{
 
