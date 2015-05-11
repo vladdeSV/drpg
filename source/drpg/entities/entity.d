@@ -13,14 +13,14 @@ import drpg.references.size, drpg.references.sprites;
 class Inventory{
 	int maximumAmountOfItems;
 
-	this(int maxItems = 10){
+	this(int maxItems = 100){
 		maximumAmountOfItems = maxItems;
 	}
 
 	Item[] items;
 	
 	void addItem(Item item){
-		if(items.length < maximumAmountOfItems){
+		if(to!int(items.length) < maximumAmountOfItems){
 			items ~= item;
 		}
 	}
@@ -35,7 +35,7 @@ abstract class Entity{
 
 	Location position;
 	Stats stats;
-	Inventory inventory;
+	Inventory inventory = new Inventory();
 	
 	this(EntityManager emptr, Location loc, int hp = 10, uint lvl = 1){
 		em = emptr;

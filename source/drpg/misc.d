@@ -39,6 +39,12 @@ class Clock
 		lasttime = MonoTime.zero();
 	}
 
+	static wait(long sec){
+		auto totime = MonoTime.currTime() + dur!"seconds"(sec);
+
+		while(MonoTime.currTime() < totime){  }
+	}
+
 	double reset()
 	{
 		MonoTime newtime = MonoTime.currTime();

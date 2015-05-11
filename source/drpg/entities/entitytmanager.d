@@ -107,7 +107,8 @@ class EntityManager {
 	}
 
 	void addEntities(){
-		addEntity(new Enemy(this, Location(4,4), 10, 4));
+		//addEntity(new Enemy(this, Location(4,4), 100, 19));
+		addEntity(new Enemy(this, Location(4,4), 0, 2));
 		addEntity(new Enemy(this, Location(2,7)));
 		addEntity(new Enemy(this, Location(5,30)));
 	}
