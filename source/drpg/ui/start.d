@@ -16,7 +16,7 @@ class Start
 			"",
 			"",
 			"Move with W, A, S and D",
-			"Open your inventory with I",
+			"Pause with P",
 			"",
 			"",
 			"",

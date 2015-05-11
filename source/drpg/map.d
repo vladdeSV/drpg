@@ -106,7 +106,7 @@ class Map{
 	* Return the tile at specified x and y
 	*/
 	Tile getTile(Location loc){
-		return tiles[loc.x][loc.y]; //FIXME Range violation. Map may not be inited
+		return tiles[loc.x][loc.y];
 	}
 
 	void printTile(Location location){

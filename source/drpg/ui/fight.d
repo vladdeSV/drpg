@@ -1,8 +1,9 @@
 ﻿module drpg.ui.fight;
 
-import consoled, std.stdio, std.range, std.algorithm, std.conv, core.thread, std.random : uniform;
+import consoled, std.stdio, std.range, std.algorithm, std.conv, core.thread, std.random;
 import drpg.game;
 import drpg.misc;
+import drpg.item;
 import drpg.ui.uimanager;
 import drpg.entities.entity;
 import drpg.references.size;
@@ -99,19 +100,36 @@ class FallingLetter{
 	void update(int key, double dt){
 		tick += dt;
 		
-		if(opponent.health <= 0){
+		if(opponent.health <= 0 && screen.fighting /* fixme: fighting bool is there to prevent the function to run wice. Look in to it*/){
+
+			//FIXME improve the letter gets in fight.d
+
 			screen.fighting = false;
+			
+			Clock.wait(3);
+			int amountOfLettersDropped = uniform(1, 4);
+			string lettersGot = "You found: ";
+			char[] tlt;
+			foreach(int a; 0 .. amountOfLettersDropped){
+				tlt ~= alphabetLC[uniform(0, to!int(alphabetLC.length))];
+				screen.uim.game.em.player.addItem(new ItemLetter("A letter", tlt[a]));
+				lettersGot ~= tlt[a] ~ " ";
+			}
+
 			screen.uim.game.em.kill(opponent);
-			Thread.sleep( dur!("seconds")(5) ); // FIXME Better way of pausing?
+
+			centerStringOnEmptyScreen(lettersGot);
+
+			Clock.wait(5);
+			screen.uim.game.map.printChunk();
+
 			return;
 		}
 		else if(screen.uim.game.em.player.health <= 0){
-			Thread.sleep( dur!("seconds")(3) ); // FIXME ditto.
-
+			Clock.wait(3);
 			screen.fighting = false;
-
 			centerStringOnEmptyScreen(GAME_PLAYER_DEAD);
-			Thread.sleep( dur!("seconds")(5) ); // FIXME from pokémon.
+			Clock.wait(5);
 			return;
 		}
 
@@ -135,7 +153,7 @@ class FallingLetter{
 			//Removes missed letters
 			writeAt(ConsolePoint(location.x + 1, goalHeight + 1), ' ');
 	
-			if(uniform(0, 2) == 0){
+			if(uniform(0, 3) == 0){
 				letters ~= Letter(alphabetUC[uniform(0, alphabetUC.length)], fallStart);
 			}
 	
