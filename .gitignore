@@ -5,3 +5,5 @@ __dummy.html
 *.obj
 *.exe
 *.userprefs
+*.usertasks
+dub.selections.json
