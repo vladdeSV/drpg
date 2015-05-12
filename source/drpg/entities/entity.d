@@ -27,7 +27,7 @@ class Inventory{
 	}
 
 	void addLetter(ItemLetter item){
-		if(to!int(letters.length) < 20){
+		if(to!int(letters.length) < 100){
 			letters ~= item;
 		}
 	}

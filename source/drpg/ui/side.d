@@ -59,11 +59,14 @@ class Side
 	}
 
 	void printInventory(){
-		foreach(l; 0 .. to!int(uim.game.em.player.inventory.letters.length)){
-			int loop = SideUiEndX - SideUiStartX - 4;
-
+		if(to!int(uim.game.em.player.inventory.letters.length)){
 			writeAt(ConsolePoint(SideUiStartX + 2, 5), "Letters");
-			writeAt(ConsolePoint(SideUiStartX + 2 + (2*l)%loop, 6), uim.game.em.player.inventory.letters[l].letter);
+			foreach(l; 0 .. to!int(uim.game.em.player.inventory.letters.length)){
+				int loop = SideUiEndX - SideUiStartX - 4;
+				int rowdown = to!int(cast(double)l / (cast(double)loop / 2));
+
+				writeAt(ConsolePoint(SideUiStartX + 2 + (2*l)%loop, 6 + rowdown), uim.game.em.player.inventory.letters[l].letter);
+			}
 		}
 	}
 }
