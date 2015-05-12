@@ -30,6 +30,10 @@ class Player : Entity{
 		inventory.addItem(item);
 	}
 
+	void addLetter(ItemLetter item){
+		inventory.addLetter(item);
+	}
+
 	private void move() {
 
 		static bool shouldMove = true; //Since getch() sees both key press and release as inputs, we simply just check every other input. Can bug out by holding down a key.

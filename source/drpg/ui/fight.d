@@ -57,7 +57,10 @@ class FightScreen
 //				}
 			}
 			foreach(int i; 0 .. to!int(falling.length)){
-				falling[i].update(press, dt);
+				if(fighting)
+					falling[i].update(press, dt);
+				else
+					break;
 			}
 		}
 
@@ -100,26 +103,22 @@ class FallingLetter{
 	void update(int key, double dt){
 		tick += dt;
 		
-		if(opponent.health <= 0 && screen.fighting /* fixme: fighting bool is there to prevent the function to run wice. Look in to it*/){
-
-			//FIXME improve the letter gets in fight.d
+		if(opponent.health <= 0){
+			string lettersGot = "You found: ";
+			int amountOfLettersDropped = uniform(1, 4);
+			char[] tlt;
 
 			screen.fighting = false;
-			
 			Clock.wait(3);
-			int amountOfLettersDropped = uniform(1, 4);
-			string lettersGot = "You found: ";
-			char[] tlt;
+
 			foreach(int a; 0 .. amountOfLettersDropped){
 				tlt ~= alphabetLC[uniform(0, to!int(alphabetLC.length))];
-				screen.uim.game.em.player.addItem(new ItemLetter("A letter", tlt[a]));
 				lettersGot ~= tlt[a] ~ " ";
+				screen.uim.game.em.player.addLetter(new ItemLetter("A letter", tlt[a]));
 			}
 
 			screen.uim.game.em.kill(opponent);
-
 			centerStringOnEmptyScreen(lettersGot);
-
 			Clock.wait(5);
 			screen.uim.game.map.printChunk();
 

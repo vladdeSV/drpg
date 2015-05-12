@@ -39,26 +39,31 @@ class Side
 	}
 
 	void update(){
-		//HP
-		setCursorPos(SideUiStartX + 2, 3);
-		write("Health: [", healthbar, "]");
+		printHealth();
+		printInventory();
 	}
 
-	string healthbar(){
+	void printHealth(){
 		string s;
-
+		
 		if(uim.game.em.player.health > 0){
 			foreach(i; 0 .. barBits){
 				if(i <= (to!float(uim.game.em.player.health)/to!float(uim.game.em.player.maxHealth))*barBits){ //This amazing function takes the health and converts/rounds it to barBits amount of slots
 					s ~= '*';
-				}else{
-					s ~= ' ';
-				}
+				}else{ s ~= ' '; }
 			}
-		}else{
-			s = "     DEAD      ";
-		}
+		}else{ s = "     DEAD      "; }
 
-		return s;
+		writeAt(ConsolePoint(SideUiStartX + 2, 3), "Health: [" ~ s ~ "]");
+
+	}
+
+	void printInventory(){
+		foreach(l; 0 .. to!int(uim.game.em.player.inventory.letters.length)){
+			int loop = SideUiEndX - SideUiStartX - 4;
+
+			writeAt(ConsolePoint(SideUiStartX + 2, 5), "Letters");
+			writeAt(ConsolePoint(SideUiStartX + 2 + (2*l)%loop, 6), uim.game.em.player.inventory.letters[l].letter);
+		}
 	}
 }

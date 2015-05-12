@@ -18,10 +18,17 @@ class Inventory{
 	}
 
 	Item[] items;
+	ItemLetter[] letters;
 	
 	void addItem(Item item){
 		if(to!int(items.length) < maximumAmountOfItems){
 			items ~= item;
+		}
+	}
+
+	void addLetter(ItemLetter item){
+		if(to!int(letters.length) < 20){
+			letters ~= item;
 		}
 	}
 }
