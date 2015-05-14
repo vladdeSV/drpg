@@ -1,13 +1,15 @@
 import drpg.game;
 
 import drpg.misc;
-import drpg.references.text;
+import drpg.references.variables;
 
 void main(string[] argv)
 {
-	Game g = new Game();
+	Game g;
 
-	centerStringOnEmptyScreen(GAME_END);
+	while(gamegamegame){
+		g = new Game();
+	}
 }
 
 //Thanks to Danol and jA_cOp from #d (freenode) for all the help they gave me!

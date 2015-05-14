@@ -24,9 +24,6 @@ class EntityManager {
 
 		addEntities();
 
-		foreach(a; 0 .. 200){
-			player.addLetter(new ItemLetter("such", 'x'));
-		}
 	}
 
 	void tick(double dt){

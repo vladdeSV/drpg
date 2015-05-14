@@ -174,7 +174,7 @@ class FallingLetter{
 		foreach (i; 0 .. runs){
 			//Removes missed letters
 			writeAt(ConsolePoint(location.x + 1, goalHeight + 1), ' ');
-	
+			
 			if(uniform(0, 3) == 0 || failed >= 3){
 				letters ~= Letter(alphabetUC[uniform(0, alphabetUC.length)], fallStart);
 				failed = 0;
@@ -182,18 +182,16 @@ class FallingLetter{
 				failed += 1;
 			}
 
-			writeAt(ConsolePoint(location.x, goalHeight + 2), failed);
-	
 			if(!letters.length){
 				return;
 			}
-	
+			
 			foreach(int a; 0 .. to!int(letters.length)){
 				letters[a].fallHeight += 1;
 				writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight), letters[a].letter);
 				if(letters[a].fallHeight > fallStart + 1) writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight - 1), ' ');
 			}
-	
+			
 			if(letters[0].fallHeight > goalHeight){
 				letters = remove(letters, 0);
 				screen.uim.game.em.player.health -= 1;
@@ -201,7 +199,7 @@ class FallingLetter{
 
 			updateStats();
 			stdout.flush();
-	
+			
 			tick = 0;
 		}
 	}

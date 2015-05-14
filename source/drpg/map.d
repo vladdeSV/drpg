@@ -19,6 +19,8 @@ class Map{
 	private Tile[][] tiles;
 	private Room[] rooms;
 
+	Location bossroom;
+
 	@property{
 		int getWidth(){ return width; }
 		int getHeight(){ return height; }
@@ -95,6 +97,7 @@ class Map{
 			write('+');
 			
 		game.em.printAllEntities();
+		game.uim.sideUI.update();
 	}
 
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
@@ -165,6 +168,8 @@ class Map{
 
 		wx = CHUNK_WIDTH * uniform(1, CHUNK_AMOUNT_WIDTH-1) + 1;
 		wy = CHUNK_HEIGHT * uniform(2, CHUNK_AMOUNT_HEIGHT-1) + 1;
+
+		bossroom = Location(wx, wy);
 
 //		wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
 //		wy = uniform(3, height- h); //Ditto from Pokémon

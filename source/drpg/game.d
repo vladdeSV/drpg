@@ -1,9 +1,17 @@
 module drpg.game;
 
-import std.stdio, std.random, consoled;
+import std.stdio;
+import std.random;
+import consoled;
 import drpg.misc;
-import drpg.references.variables, drpg.map, drpg.entities.entitymanager, drpg.entities.player, drpg.ui.uimanager;
-import drpg.room, drpg.tile;
+import drpg.tile;
+import drpg.map;
+import drpg.room;
+import drpg.ui.uimanager;
+import drpg.entities.entitymanager;
+import drpg.entities.player;
+import drpg.references.variables;
+import drpg.references.text;
 
 class Game{
 
@@ -14,6 +22,7 @@ class Game{
 	this(){
 		cursorVisible(false);
 		clearScreen();
+		title("DRPG");
 
 		uim = new UIManager(this);
 		em = new EntityManager(this);
@@ -34,5 +43,8 @@ class Game{
 			double dt = clock.reset();
 			em.tick(dt);
 		}
+
+		centerStringOnEmptyScreen(GAME_END);
+		Clock.wait(5);
 	}
 }

@@ -41,6 +41,7 @@ class Side
 	void update(){
 		printHealth();
 		printInventory();
+		printMiniMap();
 	}
 
 	void printHealth(){
@@ -68,5 +69,16 @@ class Side
 				writeAt(ConsolePoint(sideUiStartX + 2 + (2*l)%loop, 6 + rowdown), uim.game.em.player.inventory.letters[l].letter);
 			}
 		}
+	}
+
+	void printMiniMap(){
+		foreach(x; 0 .. CHUNK_AMOUNT_WIDTH){
+			foreach(y; 0 .. CHUNK_AMOUNT_HEIGHT){
+				writeAt(ConsolePoint(sideUiStartX + 2 + x, 15 + y), '~');
+			}
+		}
+
+		writeAt(ConsolePoint(sideUiStartX + 2 + to!int(uim.game.em.player.position.x / CHUNK_WIDTH), 15 + to!int(uim.game.em.player.position.y / CHUNK_HEIGHT)), '*');
+		writeAt(ConsolePoint(sideUiStartX + 2 + to!int(uim.game.map.bossroom.x / CHUNK_WIDTH), 15 + to!int(uim.game.map.bossroom.y / CHUNK_HEIGHT)), 'B');
 	}
 }
