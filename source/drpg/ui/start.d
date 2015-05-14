@@ -3,6 +3,7 @@
 import std.stdio, std.conv, consoled;
 import drpg.entities.entitymanager;
 import drpg.references.text;
+import drpg.references.size;
 
 class Start
 {
@@ -10,9 +11,9 @@ class Start
 	{
 		char[] ns = ("** " ~ GAME_NAME ~ " - Mystique Adventures **").dup, l;
 		string[10] info = [
-			"In a mystique world, you wanted the worlds",
-			"grandest adventure. You packed your bag and left",
-			"the safe home, and now you're on your own.",
+			"In a mystique world, you need to save your friends",
+			"by defeating \"Boss B\", and ensuring the alphabet's",
+			"rights to live as they please!",
 			"",
 			"",
 			"Move with W, A, S and D",
@@ -21,21 +22,25 @@ class Start
 			"",
 			"",
 		];
-		char[13] tr = "<PRESS ENTER>".dup;
+		string pressenter = "<PRESS ENTER>";
 
-		foreach(a; 0 .. ns.length)
-			l ~= '*';
+		foreach(a; 0 .. ns.length) l ~= '*';
 
-		setCursorPos(to!int(width/2 - l.length/2), 2); write(l);
-		setCursorPos(to!int(width/2 - l.length/2), 3); write(ns);
-		setCursorPos(to!int(width/2 - l.length/2), 4); write(l);
+		writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - l.length/2), 2), l);
+		writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - l.length/2), 3), ns);
+		writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - l.length/2), 4), l);
 
-		foreach(int x; 0 .. info.length){
-			setCursorPos(to!int(width/2 - info[x].length/2), 6 + x);
-			write(info[x]);
-		}
+		foreach(int x; 0 .. info.length)
+			writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - info[x].length/2), 6 + x), info[x]);
+	
+		writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - pressenter.length/2), SCREEN_HEIGHT - 4), pressenter);
 
-		setCursorPos(to!int(width/2 - tr.length/2), to!int(height - 2)); write(tr);
+		string madeby = "Vladde Nordholm & Fredrik Fernlund";
+		string about = "LBS Gameawards 2014 - Motala, SU14";
+		writeAt(ConsolePoint(0, SCREEN_HEIGHT), madeby);
+		writeAt(ConsolePoint(SCREEN_WIDTH - to!int(about.length) + 1, SCREEN_HEIGHT), about);
+		setCursorPos(0,0);
+
 		readln();
 		clearScreen();
 

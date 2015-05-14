@@ -37,6 +37,7 @@ abstract class Entity{
 	int health, maxHealth, level;
 	double updateInterval = 100.0; //Default value
 	double entityTick = 0.0;
+	string id;
 
 	EntityManager em;
 
@@ -44,12 +45,13 @@ abstract class Entity{
 	Stats stats;
 	Inventory inventory = new Inventory();
 	
-	this(EntityManager emptr, Location loc, int hp = 10, uint lvl = 1){
+	this(EntityManager emptr, Location loc, int hp, uint lvl, string id = ""){
 		em = emptr;
 		position = loc;
 
 		health = maxHealth = hp;
 		level = lvl;
+		this.id = id;
 	}
 	
 	protected void move(){

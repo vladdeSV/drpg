@@ -7,12 +7,16 @@ import std.random;
 
 class Enemy : Entity{
 
-	this (EntityManager emptr, Location location, int hp = 10, uint lvl = 1){
-		super(emptr, location, hp, lvl);
+	string id;
+
+	this (EntityManager emptr, Location location, int hp = 10, uint lvl = 1, string id = ""){
+		this.id = id;
+		hp = hp + ((lvl - 1) * 2);
+		super(emptr, location, hp, lvl, id);
 	}
 
 	override void move(){
-		updateInterval = uniform(1000, 5000);
+		updateInterval = uniform(1*1000, 5*1000);
 		super.move();
 	}
 

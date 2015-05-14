@@ -5,6 +5,7 @@ import drpg.game;
 import drpg.misc;
 import drpg.item;
 import drpg.ui.uimanager;
+import drpg.tile;
 import drpg.entities.entity;
 import drpg.references.size;
 import drpg.references.text;
@@ -90,6 +91,8 @@ class FallingLetter{
 		fallStart = location.y;
 		goalHeight = CHUNK_HEIGHT - 2;
 
+		writeAt(ConsolePoint(location.x + 1, fallStart), "_");
+		writeAt(ConsolePoint(location.x, fallStart + 1), "| |");
 		writeAt(ConsolePoint(location.x, goalHeight), "[ ]");
 
 		updateStats();
@@ -104,8 +107,8 @@ class FallingLetter{
 		tick += dt;
 		
 		if(opponent.health <= 0){
-			string lettersGot = "You found: ";
-			int amountOfLettersDropped = uniform(1, 4);
+			string lettersGot = "The opponent dropped: ";
+			int amountOfLettersDropped = uniform(opponent.level, opponent.level*2);
 			char[] tlt;
 
 			screen.fighting = false;
@@ -117,9 +120,26 @@ class FallingLetter{
 				screen.uim.game.em.player.addLetter(new ItemLetter("A letter", tlt[a]));
 			}
 
-			screen.uim.game.em.kill(opponent);
+			if(opponent.id == "tut"){
+				screen.uim.game.map.setTile(Location(CHUNK_WIDTH + 13, 7), new TileFloor());
+			}
+
 			centerStringOnEmptyScreen(lettersGot);
 			Clock.wait(5);
+
+			if(screen.uim.game.em.player.health < screen.uim.game.em.player.maxHealth){
+				if(screen.uim.game.em.player.health + opponent.level * 2 >= screen.uim.game.em.player.maxHealth){
+					screen.uim.game.em.player.health = screen.uim.game.em.player.maxHealth;
+					centerStringOnEmptyScreen("You gained full health!");
+				}else{
+					screen.uim.game.em.player.health += opponent.level * 2;
+					centerStringOnEmptyScreen("You gained " ~ text(opponent.level * 2) ~ " health points!");
+				}
+				Clock.wait(3);
+			}
+
+
+			screen.uim.game.em.kill(opponent);
 			screen.uim.game.map.printChunk();
 
 			return;
@@ -163,7 +183,7 @@ class FallingLetter{
 			foreach(int a; 0 .. to!int(letters.length)){
 				letters[a].fallHeight += 1;
 				writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight), letters[a].letter);
-				writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight - 1), ' ');
+				if(letters[a].fallHeight > fallStart + 1) writeAt(ConsolePoint(location.x + 1, letters[a].fallHeight - 1), ' ');
 			}
 	
 			if(letters[0].fallHeight > goalHeight){

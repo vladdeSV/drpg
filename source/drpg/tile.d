@@ -82,8 +82,13 @@ class TileDoor : Tile{
 	
 	//bool locked = false;
 	
-	this(){
-		type = SPRITE_DOOR;
+	this(bool locked = false){
+		if(!locked)
+			type = SPRITE_DOOR;
+		else{
+			type = 'L'; //LOCKED DOOR
+			solid = true;
+		}
 	}
 }
 

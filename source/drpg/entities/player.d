@@ -15,7 +15,7 @@ class Player : Entity{
 	this(EntityManager emptr, Location loc){
 		health = maxHealth = 15;
 
-		super(emptr, loc);
+		super(emptr, loc, health, 1);
 	}
 
 	void update(){

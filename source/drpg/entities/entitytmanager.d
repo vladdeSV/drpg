@@ -5,6 +5,7 @@ import drpg.game;
 import drpg.misc;
 import drpg.entities.entity, drpg.entities.player, drpg.entities.enemy;
 import drpg.references.sprites;
+import drpg.references.size;
 
 class EntityManager {
 
@@ -18,7 +19,7 @@ class EntityManager {
 	this(Game gameptr) {
 
 		game = gameptr;
-		player = new Player(this, Location(1,4));
+		player = new Player(this, Location(CHUNK_WIDTH - 18, 3));
 
 		addEntities();
 	}
@@ -72,15 +73,6 @@ class EntityManager {
 		return null;
 	}
 
-//	Entity* getEntityPointerAt(Location loc){
-//		foreach(l; 0 .. entities.length){
-//			if(entities[l].position == loc)
-//				return &entities[l];
-//		}
-//		
-//		return null;
-//	}
-
 	/**
 	 * Check if there is an entity at give location
 	 */
@@ -107,9 +99,6 @@ class EntityManager {
 	}
 
 	void addEntities(){
-		//addEntity(new Enemy(this, Location(4,4), 100, 19));
-		addEntity(new Enemy(this, Location(4,4), 12, 2));
-		addEntity(new Enemy(this, Location(2,7)));
-		addEntity(new Enemy(this, Location(5,30)));
+		addEntity(new Enemy(this, Location(CHUNK_WIDTH + 15, 3), 10, 1, "tut"));
 	}
 }

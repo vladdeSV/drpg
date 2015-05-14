@@ -99,8 +99,9 @@ void writeRectangle(Location start, Location end){
 		foreach(int y; start.y .. end.y + 1){
 			bool inRange = x == start.x || x == end.x || y == start.y || y == end.y;
 			if(inRange){
-				setCursorPos(x, y);
-				write('*');
+				writeAt(ConsolePoint(x, y), '*');
+			}else{
+				writeAt(ConsolePoint(x, y), ' ');
 			}
 		}
 	}
@@ -108,18 +109,18 @@ void writeRectangle(Location start, Location end){
 
 void talkBox(string message, char talker){
 
-	Clock clock = new Clock();
-
+	string talk = "-"~talker;
 	Location topleft = Location(1, CHUNK_HEIGHT - 6);
 	Location bottomright = Location(CHUNK_WIDTH - 2, CHUNK_HEIGHT - 1);
-
 	ConsolePoint textstart = ConsolePoint(topleft.x + 2, topleft.y + 2);
-	ConsolePoint talkerpos = ConsolePoint(bottomright.x - 2, bottomright.y - 2);
+	ConsolePoint talkerpos = ConsolePoint(bottomright.x - 3, bottomright.y - 2);
 
 	writeRectangle(topleft, bottomright);
 
+	//TODO make message linewrap in textbox
 	writeAt(textstart, message);
-	writeAt(textstart, talker);
+	writeAt(talkerpos, talk);
+	Clock.wait(5);
 }
 
 void pause(){

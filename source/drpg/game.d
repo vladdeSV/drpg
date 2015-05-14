@@ -16,16 +16,16 @@ class Game{
 		clearScreen();
 
 		uim = new UIManager(this);
-		map = new Map(this);
 		em = new EntityManager(this);
+		map = new Map(this);
 
 		uim.startSideUi();
-
-		//Always last
 		map.printChunk();
 
-//		setCursorPos(0,0);
-//		write(roomsFailedToPlace," rooms failed to be placed");
+		//Always last
+//		Clock.wait(1);
+//		talkBox("FACT: I can move with WASD", em.player.getSprite());
+		map.printChunk();
 
 		Clock clock = new Clock();
 		clock.reset();

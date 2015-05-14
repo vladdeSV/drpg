@@ -50,6 +50,9 @@ class Map{
 
 	void addStructures(){
 
+		tutorial();
+		spawnBossRoom();
+
 		addFlowersToWorld();
 //		addTreesToWorld();
 //		addRocksToWorld();
@@ -95,10 +98,10 @@ class Map{
 	}
 
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
-	void addRect(int x, int y, int w, int h, Tile tiletype, Tile overlay = null){
-		foreach(xPos;0 .. w)
-			foreach(yPos;0 .. h)
-				setTile(Location(xPos + x, yPos + y), tiletype, overlay);
+	void addRect(Location topleft, Location bottomright, Tile tiletype, Tile overlay = null){
+		foreach(xPos; 0 .. bottomright.x)
+			foreach(yPos; 0 .. bottomright.y)
+				setTile(Location(xPos + topleft.x, yPos + topleft.y), tiletype, overlay);
 		
 	}
 
@@ -137,15 +140,45 @@ class Map{
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	void tutorial(){
+
+//		setTile(Location(18, 3), new TileDoor()); //TODO make this a locked door
+
+		rooms ~= new Room(this, CHUNK_WIDTH - 20, 1, 18, 6, true, false);
+		rooms ~= new Room(this, CHUNK_WIDTH - 3,  3, 10, 3, true, false);
+		rooms ~= new Room(this, CHUNK_WIDTH + 6,  1, 14, 7, true, false);
+		setTile(Location(CHUNK_WIDTH - 3, 4), new TileDoor());
+		setTile(Location(CHUNK_WIDTH + 6, 4), new TileDoor());
+		setTile(Location(CHUNK_WIDTH + 13, 7), new TileDoor(true));
+		setTile(Location(CHUNK_WIDTH + 13, 8), new TileFloor());
+		setTile(Location(CHUNK_WIDTH + 13, 9), new TileFloor());
+
+	}
+
+	void spawnBossRoom(){
+		int w, h, wx, wy;
+
+		w = CHUNK_WIDTH -2;
+		h = CHUNK_HEIGHT-2;
+
+		wx = CHUNK_WIDTH * uniform(1, CHUNK_AMOUNT_WIDTH-1) + 1;
+		wy = CHUNK_HEIGHT * uniform(2, CHUNK_AMOUNT_HEIGHT-1) + 1;
+
+//		wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
+//		wy = uniform(3, height- h); //Ditto from Pokémon
+
+		rooms ~= new Room(this, wx, wy, w, h, true, false);
+	}
 
 	void addFlowersToWorld(){
 		int CHANCE_OF_FLOWER_BEING_PLACED = 18;
 		foreach(x; 0 .. WORLD_WIDTH)
 			foreach(y; 0 .. WORLD_HEIGHT)
 				if(uniform(0, CHANCE_OF_FLOWER_BEING_PLACED) == 0)
-					setTile(Location(x, y), new TileFlower);
+					if(!getTile(Location(x, y)).isSolid && cast(TileDoor) getTile(Location(x, y)) is null && cast(TileFloor) getTile(Location(x, y)) is null)
+						setTile(Location(x, y), new TileFlower);
 	}
 
 	void addTreesToWorld(){
@@ -153,7 +186,8 @@ class Map{
 		foreach(x; 0 .. WORLD_WIDTH)
 			foreach(y; 0 .. WORLD_HEIGHT)
 				if(uniform(0, CHANCE_OF_TREE_BEING_PLACED) == 0)
-					setTile(Location(x, y), new TileTree);
+					if(!getTile(Location(x, y)).isSolid())
+						setTile(Location(x, y), new TileTree);
 	}
 
 	void addRocksToWorld(){
@@ -161,7 +195,8 @@ class Map{
 		foreach(x; 0 .. WORLD_WIDTH)
 			foreach(y; 0 .. WORLD_HEIGHT)
 				if(uniform(0, CHANCE_OF_ROCK_BEING_PLACED) == 0)
-					setTile(Location(x, y), new TileRock);
+					if(!getTile(Location(x, y)).isSolid())
+						setTile(Location(x, y), new TileRock);
 	}
 
 	void addRoomsToWorld(){

@@ -1,9 +1,12 @@
 module drpg.room;
 
-import std.stdio, consoled;
+import std.stdio;
+import std.random : uniform;
+import consoled;
 import drpg.misc;
 import drpg.map;
 import drpg.tile;
+import drpg.entities.enemy;
 import drpg.references.variables;
 
 class Room{
@@ -12,6 +15,7 @@ class Room{
 
 	int left, top;
 	int width, height;
+	bool ordinary = true, force = false;
 	private Tile[][] tiles;
 	
 	int right(){
@@ -22,17 +26,22 @@ class Room{
 		return top + height;
 	}
 	
-	this(Map mapptr, int worldX, int worldY, int width, int height){
+	this(Map mapptr, int worldX, int worldY, int width, int height, bool forcePlacement = false, bool ordinary = true){
 		map = mapptr;
 		this.left = worldX;
 		this.top = worldY;
 		this.width  = width;
 		this.height = height;
+		this.ordinary = ordinary;
+		this.force = forcePlacement;
 
 		if(initTiles){
-			setWalls;
-			setDoor;
-			setRoomInWorld;
+			setWalls();
+			if(ordinary){
+				setDoor();
+				spawnEnemy();
+			}
+			setRoomInWorld();
 		}		
 	}
 
@@ -74,14 +83,17 @@ class Room{
 		for(int y = 0; y < width; y++)
 			tiles[y].length = height;
 
-		foreach(x; left .. roomXToWorldX(width)){
-			foreach(y; top .. roomYToWorldY(height)){
-				if(cast(TileWall)map.getTile(Location(x, y)) !is null || cast(TileFloor)map.getTile(Location(x, y)) !is null) /* "Downcasting is usually a sign of bad design" -jA_C0p from #d TODO: ?*/{
-					roomsFailedToPlace++;
-					return false;
+		if(!force){
+			foreach(x; left .. roomXToWorldX(width)){
+				foreach(y; top .. roomYToWorldY(height)){
+					if(cast(TileWall)map.getTile(Location(x, y)) !is null || cast(TileFloor)map.getTile(Location(x, y)) !is null) /* "Downcasting is usually a sign of bad design" -jA_C0p from #d TODO: ?*/{
+						roomsFailedToPlace++;
+						return false;
+					}
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -99,6 +111,10 @@ class Room{
 				}
 			}
 		}
+	}
+
+	void spawnEnemy(){
+		map.game.em.addEntity(new Enemy(map.game.em, Location(uniform(left + 1, right - 1), uniform(top + 1, bottom - 1)), uniform(5,10), uniform(1,3)));
 	}
 
 	void setDoor(){
