@@ -2,6 +2,7 @@ module drpg.game;
 
 import std.stdio;
 import std.random;
+import std.conv;
 import consoled;
 import drpg.misc;
 import drpg.tile;
@@ -10,6 +11,7 @@ import drpg.room;
 import drpg.ui.uimanager;
 import drpg.entities.entitymanager;
 import drpg.entities.player;
+import drpg.references.size;
 import drpg.references.variables;
 import drpg.references.text;
 
@@ -21,8 +23,18 @@ class Game{
 
 	this(){
 		cursorVisible(false);
-		clearScreen();
 		title("DRPG");
+
+		clearScreen();
+		setCursorPos(0,0);
+
+		foreach(l; 0 .. to!int(hswsag.length)){
+			writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[l].length/2), 2 + l), hswsag[l]);
+		}
+
+		Clock.wait(10);
+
+		clearScreen();
 
 		uim = new UIManager(this);
 		em = new EntityManager(this);
