@@ -32,6 +32,8 @@ class FightScreen
 		level = e.level;
 
 		clearScreen();
+		if(e.id == "tut") talkBox("Press the letters as they fall into the [ ]", ' ' );
+		clearScreen();
 
 		writeRectangle(Location(1,1), Location(width-2, 5));
 		writeAt(ConsolePoint(5, 3), uim.game.em.player.getSprite());
