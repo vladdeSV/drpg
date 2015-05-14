@@ -23,8 +23,8 @@ class Game{
 		map.printChunk();
 
 		//Always last
-//		Clock.wait(1);
-//		talkBox("FACT: I can move with WASD", em.player.getSprite());
+		Clock.wait(1);
+		talkBox("FACT: I can move with WASD", em.player.getSprite());
 		map.printChunk();
 
 		Clock clock = new Clock();

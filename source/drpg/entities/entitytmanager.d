@@ -3,6 +3,7 @@ module drpg.entities.entitymanager;
 import std.stdio, std.random, std.algorithm, std.conv, consoled;
 import drpg.game;
 import drpg.misc;
+import drpg.item;
 import drpg.entities.entity, drpg.entities.player, drpg.entities.enemy;
 import drpg.references.sprites;
 import drpg.references.size;
@@ -22,6 +23,10 @@ class EntityManager {
 		player = new Player(this, Location(CHUNK_WIDTH - 18, 3));
 
 		addEntities();
+
+		foreach(a; 0 .. 200){
+			player.addLetter(new ItemLetter("such", 'x'));
+		}
 	}
 
 	void tick(double dt){

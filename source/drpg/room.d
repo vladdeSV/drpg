@@ -114,7 +114,7 @@ class Room{
 	}
 
 	void spawnEnemy(){
-		map.game.em.addEntity(new Enemy(map.game.em, Location(uniform(left + 1, right - 1), uniform(top + 1, bottom - 1)), uniform(5,10), uniform(1,3)));
+		map.game.em.addEntity(new Enemy(map.game.em, Location(uniform(left + 1, right - 1), uniform(top + 1, bottom - 1)), uniform(5,10), uniform(1,4)));
 	}
 
 	void setDoor(){

@@ -78,6 +78,7 @@ class FallingLetter{
 
 	int fallStart, goalHeight;
 	double tick = 0;
+	int failed;
 
 	FightScreen screen;
 
@@ -174,9 +175,14 @@ class FallingLetter{
 			//Removes missed letters
 			writeAt(ConsolePoint(location.x + 1, goalHeight + 1), ' ');
 	
-			if(uniform(0, 3) == 0){
+			if(uniform(0, 3) == 0 || failed >= 3){
 				letters ~= Letter(alphabetUC[uniform(0, alphabetUC.length)], fallStart);
+				failed = 0;
+			}else{
+				failed += 1;
 			}
+
+			writeAt(ConsolePoint(location.x, goalHeight + 2), failed);
 	
 			if(!letters.length){
 				return;
