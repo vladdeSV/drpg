@@ -37,8 +37,9 @@ class Start
 
 		string madeby = "Vladde Nordholm & Fredrik Fernlund - Motala, SU14";
 		string about = "LBS Gameawards 2014";
+		writeAt(ConsolePoint(0, SCREEN_HEIGHT - 1), about);
 		writeAt(ConsolePoint(0, SCREEN_HEIGHT), madeby);
-		writeAt(ConsolePoint(SCREEN_WIDTH - to!int(about.length) + 1, SCREEN_HEIGHT), about);
+//		writeAt(ConsolePoint(SCREEN_WIDTH - to!int(about.length) + 1, SCREEN_HEIGHT), about);
 		setCursorPos(0,0);
 
 		readln();

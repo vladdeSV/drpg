@@ -15,6 +15,6 @@ immutable static{
 	//Room variables
 	int MAX_ROOM_WIDTH = 20;
 	int MAX_ROOM_HEIGHT = 20;
-	int MAX_NUMBER_OF_ROOMS = 50;
+	int MAX_NUMBER_OF_ROOMS = 100;
 
 }

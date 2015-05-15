@@ -42,7 +42,7 @@ abstract class Entity{
 	EntityManager em;
 
 	Location position;
-	Stats stats;
+//	Stats stats;
 	Inventory inventory = new Inventory();
 	
 	this(EntityManager emptr, Location loc, int hp, uint lvl, string id = ""){
