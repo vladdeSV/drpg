@@ -1,9 +1,10 @@
 module drpg.entities.enemy;
 
+import std.random;
 import drpg.misc;
 import drpg.references.sprites;
-import drpg.entities.entitymanager, drpg.entities.entity;
-import std.random;
+import drpg.entities.entitymanager;
+import drpg.entities.entity;
 
 class Enemy : Entity{
 

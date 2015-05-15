@@ -1,6 +1,8 @@
 ﻿module drpg.ui.side;
 
-import std.stdio, std.conv, consoled;
+import consoled;
+import std.stdio;
+import std.conv;
 import drpg.ui.uimanager;
 import drpg.references.size;
 

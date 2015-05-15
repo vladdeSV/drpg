@@ -1,11 +1,16 @@
 ﻿module drpg.ui.fight;
 
-import consoled, std.stdio, std.range, std.algorithm, std.conv, core.thread, std.random;
+import consoled;
+import std.stdio;
+import std.range;
+import std.algorithm;
+import std.conv;
+import std.random;
 import drpg.game;
 import drpg.misc;
 import drpg.item;
-import drpg.ui.uimanager;
 import drpg.tile;
+import drpg.ui.uimanager;
 import drpg.entities.entity;
 import drpg.references.size;
 import drpg.references.text;

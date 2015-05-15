@@ -1,11 +1,17 @@
 module drpg.map;
 
-import std.stdio, std.math, std.random, std.conv, consoled;
+import consoled;
+import std.stdio;
+import std.random;
+import std.conv;
+import std.math;
 import drpg.game;
 import drpg.misc;
+import drpg.tile;
+import drpg.room;
 import drpg.references.size;
-import drpg.entities.player, drpg.entities.entitymanager;
-import drpg.tile, drpg.room;
+import drpg.entities.player;
+import drpg.entities.entitymanager;
 
 /*
  * Working singleton!

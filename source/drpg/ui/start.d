@@ -1,6 +1,8 @@
 ﻿module drpg.ui.start;
 
-import std.stdio, std.conv, consoled;
+import consoled;
+import std.stdio;
+import std.conv;
 import drpg.entities.entitymanager;
 import drpg.references.text;
 import drpg.references.size;

@@ -1,10 +1,16 @@
 module drpg.entities.entitymanager;
 
-import std.stdio, std.random, std.algorithm, std.conv, consoled;
+import consoled;
+import std.stdio;
+import std.random;
+import std.algorithm;
+import std.conv;
 import drpg.game;
 import drpg.misc;
 import drpg.item;
-import drpg.entities.entity, drpg.entities.player, drpg.entities.enemy;
+import drpg.entities.entity;
+import drpg.entities.player;
+import drpg.entities.enemy;
 import drpg.references.sprites;
 import drpg.references.size;
 

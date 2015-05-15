@@ -1,8 +1,8 @@
 module drpg.room;
 
+import consoled;
 import std.stdio;
 import std.random : uniform;
-import consoled;
 import drpg.misc;
 import drpg.map;
 import drpg.tile;

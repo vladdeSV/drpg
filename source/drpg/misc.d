@@ -1,9 +1,9 @@
 module drpg.misc;
 
-import core.time;
-import std.stdio;
-import std.conv;
 import consoled;
+import std.conv;
+import std.stdio;
+import core.time;
 import drpg.references.size;
 
 //struct Stats{

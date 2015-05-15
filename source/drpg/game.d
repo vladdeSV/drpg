@@ -1,9 +1,9 @@
 module drpg.game;
 
+import consoled;
 import std.stdio;
 import std.random;
 import std.conv;
-import consoled;
 import drpg.misc;
 import drpg.tile;
 import drpg.map;

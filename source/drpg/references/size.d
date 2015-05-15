@@ -1,7 +1,6 @@
 ﻿module drpg.references.size;
 
 immutable static{
-
 	// World
 	int SCREEN_WIDTH = 79;
 	int SCREEN_HEIGHT = 24;
@@ -16,5 +15,4 @@ immutable static{
 	int MAX_ROOM_WIDTH = 20;
 	int MAX_ROOM_HEIGHT = 20;
 	int MAX_NUMBER_OF_ROOMS = 100;
-
 }

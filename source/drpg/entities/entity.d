@@ -1,14 +1,14 @@
 module drpg.entities.entity;
 
+import consoled;
 import std.stdio;
 import std.random;
 import std.conv;
-import consoled;
-
 import drpg.entities.entitymanager;
 import drpg.misc;
 import drpg.item;
-import drpg.references.size, drpg.references.sprites;
+import drpg.references.size;
+import drpg.references.sprites;
 
 class Inventory{
 	int maximumAmountOfItems;

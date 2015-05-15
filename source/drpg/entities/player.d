@@ -1,12 +1,18 @@
 module drpg.entities.player;
 
-import std.stdio, std.concurrency, consoled, std.random;
+import consoled;
+import std.stdio;
+import std.random;
 import drpg.map;
 import drpg.misc;
 import drpg.item;
-import drpg.entities.entity, drpg.entities.entitymanager;
-import drpg.references.text, drpg.references.variables, drpg.references.size, drpg.references.sprites;
 import drpg.ui.uimanager;
+import drpg.entities.entity;
+import drpg.entities.entitymanager;
+import drpg.references.text;
+import drpg.references.variables;
+import drpg.references.size;
+import drpg.references.sprites;
 
 class Player : Entity{
 

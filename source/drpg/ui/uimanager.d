@@ -2,8 +2,9 @@
 
 import std.stdio, consoled;
 import drpg.game;
-import drpg.ui.side, drpg.ui.start, drpg.ui.fight;
-import drpg.entities.player;
+import drpg.ui.side;
+import drpg.ui.start;
+import drpg.ui.fight;
 
 class UIManager {
 
