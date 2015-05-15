@@ -29,10 +29,10 @@ class Game{
 		setCursorPos(0,0);
 
 		foreach(l; 0 .. to!int(hswsag.length)){
-			writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[l].length/2), 2 + l), hswsag[l]);
+			writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[l].length/2), l), hswsag[l]);
 		}
 
-		Clock.wait(10);
+		Clock.wait(5);
 
 		clearScreen();
 
@@ -58,5 +58,7 @@ class Game{
 
 		centerStringOnEmptyScreen(GAME_END);
 		Clock.wait(5);
+		centerStringOnEmptyScreen("Restarting...");
+		Clock.wait(3);
 	}
 }

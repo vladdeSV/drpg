@@ -136,6 +136,7 @@ void pause(){
 }
 
 string[] hswsag = [
+	"",
 	"               **********                  ",
 	"             **          **                ",
 	"            **   '    '   **               ",
@@ -156,4 +157,6 @@ string[] hswsag = [
 	"            ***          **                ",
 	"           **            **                ",
 	"",
-	"Happy Stickman with Sword and Gun"];
+	"a",
+	"Happy Stickman with Sword and Gun",
+	"productions"];

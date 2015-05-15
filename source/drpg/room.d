@@ -36,7 +36,7 @@ class Room{
 		this.force = forcePlacement;
 
 		if(initTiles){
-			setWalls();
+			setBase();
 			if(ordinary){
 				setDoor();
 				spawnEnemy();
@@ -97,17 +97,17 @@ class Room{
 		return true;
 	}
 
-	void setWalls(){
+	void setBase(){
 		/* Function that adds a room */
 		//Loop that loops through all the soon-to-be room.
-		foreach(xPos; 0 .. width){
-			foreach(yPos; 0 .. height){
+		foreach(x; 0 .. width){
+			foreach(y; 0 .. height){
 				//If the loop is on the edge (border) of the room, place a wall tile.
-				if (yPos == 0 || yPos == height - 1 || xPos == 0 || xPos == width - 1){
-					setTile(xPos, yPos, new TileWall());
+				if (y == 0 || y == height - 1 || x == 0 || x == width - 1){
+					setTile(x, y, new TileWall());
 				}
 				else{
-					setTile(xPos, yPos, new TileFloor()); //Adds empty tiles inside the room.
+					setTile(x, y, new TileFloor()); //Adds empty tiles inside the room.
 				}
 			}
 		}

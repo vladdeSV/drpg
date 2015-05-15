@@ -83,7 +83,6 @@ class Player : Entity{
 
 
 			if(em.isEntityAt(dest)){
-				
 				em.game.uim.fightUI.startFight(em.getEntityAt(dest));
 			}
 
@@ -93,12 +92,11 @@ class Player : Entity{
 
 			if(chunkAtPos(oldPosition) != chunkAtPos(position)){
 				em.game.map.printChunk();
+			}else{
+				//Prints out the correc tile where the player once was, otherwise it would still be the player icon.
+				setCursorPos(position.x % CHUNK_WIDTH, position.y % CHUNK_HEIGHT);
+				em.game.map.printTile(oldPosition);
 			}
-
-			//Prints out the correc tile where the player once was, otherwise it would still be the player icon.
-			setCursorPos(position.x % CHUNK_WIDTH, position.y % CHUNK_HEIGHT);
-
-			em.game.map.printTile(oldPosition);
 
 			print();
 		}

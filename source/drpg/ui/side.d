@@ -72,13 +72,24 @@ class Side
 	}
 
 	void printMiniMap(){
-		foreach(x; 0 .. CHUNK_AMOUNT_WIDTH){
-			foreach(y; 0 .. CHUNK_AMOUNT_HEIGHT){
-				writeAt(ConsolePoint(sideUiStartX + 2 + x, 15 + y), '~');
+
+		writeAt(ConsolePoint(sideUiStartX + 2, 15), "Minimap");
+
+		foreach(x; 0 .. CHUNK_AMOUNT_WIDTH + 2){
+			foreach(y; 0 .. CHUNK_AMOUNT_HEIGHT + 2){
+				if(x == 0 || x == CHUNK_AMOUNT_WIDTH + 1 || y == 0 || y == CHUNK_AMOUNT_HEIGHT + 1)
+					writeAt(ConsolePoint(sideUiStartX + 2 + x, 16 + y), '+');
+
+				writeAt(ConsolePoint(sideUiStartX + 3 + x, 17 + y), ' ');
 			}
 		}
 
-		writeAt(ConsolePoint(sideUiStartX + 2 + to!int(uim.game.em.player.position.x / CHUNK_WIDTH), 15 + to!int(uim.game.em.player.position.y / CHUNK_HEIGHT)), '*');
-		writeAt(ConsolePoint(sideUiStartX + 2 + to!int(uim.game.map.bossroom.x / CHUNK_WIDTH), 15 + to!int(uim.game.map.bossroom.y / CHUNK_HEIGHT)), 'B');
+		foreach(x; 0 .. CHUNK_AMOUNT_WIDTH){
+			foreach(y; 0 .. CHUNK_AMOUNT_HEIGHT){
+			}
+		}
+
+		writeAt(ConsolePoint(sideUiStartX + 3 + to!int(uim.game.em.player.position.x / CHUNK_WIDTH), 17 + to!int(uim.game.em.player.position.y / CHUNK_HEIGHT)), uim.game.em.player.getSprite());
+		writeAt(ConsolePoint(sideUiStartX + 3 + to!int(uim.game.map.bossroom.x / CHUNK_WIDTH), 17 + to!int(uim.game.map.bossroom.y / CHUNK_HEIGHT)), 'B');
 	}
 }
