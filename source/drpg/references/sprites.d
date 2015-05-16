@@ -9,6 +9,7 @@ immutable static char SPRITE_WALL = '#';
 immutable static char SPRITE_PLANK = '=';
 immutable static char SPRITE_ROCK = '*';
 immutable static char SPRITE_DOOR = 'D';
+immutable static char SPRITE_DOOR_LOCKED = 'L';
 immutable static char SPRITE_TREE = 'T';
 immutable static char SPRITE_FLOWER_1 = '.';
 immutable static char SPRITE_FLOWER_2 = ',';

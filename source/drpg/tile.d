@@ -86,7 +86,7 @@ class TileDoor : Tile{
 		if(!locked)
 			type = SPRITE_DOOR;
 		else{
-			type = 'L'; //LOCKED DOOR
+			type = SPRITE_DOOR_LOCKED; //LOCKED DOOR
 			solid = true;
 		}
 	}

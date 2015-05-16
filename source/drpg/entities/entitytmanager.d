@@ -26,7 +26,7 @@ class EntityManager {
 	this(Game gameptr) {
 
 		game = gameptr;
-		player = new Player(this, Location(CHUNK_WIDTH - 18, 3 + /* FIXME REMOVE THIS LATER ON --> */ 5 ));
+		player = new Player(this, Location(CHUNK_WIDTH - 18, 3));
 
 		addEntities();
 
