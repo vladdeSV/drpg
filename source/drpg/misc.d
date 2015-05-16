@@ -160,3 +160,7 @@ string[] hswsag = [
 	"a",
 	"Happy Stickman with Sword and Gun",
 	"productions"];
+
+void focus(){
+	setCursorPos(0, 0);
+}

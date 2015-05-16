@@ -3,6 +3,7 @@
 import consoled;
 import std.stdio;
 import std.conv;
+import drpg.misc;
 import drpg.ui.uimanager;
 import drpg.references.size;
 
@@ -24,11 +25,10 @@ class Side
 	void printAll(){
 		foreach(w; sideUiStartX .. SideUiEndX){
 			foreach(h; 0 .. SideUiHeight){
-				setCursorPos(w, h);
 				if(w == sideUiStartX || w == 79 || h == CHUNK_HEIGHT)
-					write('*');
+					writeAt(ConsolePoint(w, h), '*');
 				else
-					write(' ');
+					writeAt(ConsolePoint(w, h), ' ');
 			}
 		}
 		
@@ -37,7 +37,7 @@ class Side
 
 		update();
 
-		setCursorPos(0, 0);
+		focus();
 	}
 
 	void update(){
@@ -86,12 +86,8 @@ class Side
 			}
 		}
 
-		foreach(x; 0 .. CHUNK_AMOUNT_WIDTH){
-			foreach(y; 0 .. CHUNK_AMOUNT_HEIGHT){
-			}
-		}
-
-		writeAt(ConsolePoint(sideUiStartX + 3 + to!int(uim.game.em.player.position.x / CHUNK_WIDTH), 17 + to!int(uim.game.em.player.position.y / CHUNK_HEIGHT)), uim.game.em.player.getSprite());
 		writeAt(ConsolePoint(sideUiStartX + 3 + to!int(uim.game.map.bossroom.x / CHUNK_WIDTH), 17 + to!int(uim.game.map.bossroom.y / CHUNK_HEIGHT)), 'B');
+		writeAt(ConsolePoint(sideUiStartX + 3 + to!int(uim.game.em.player.position.x / CHUNK_WIDTH), 17 + to!int(uim.game.em.player.position.y / CHUNK_HEIGHT)), uim.game.em.player.getSprite());
+
 	}
 }

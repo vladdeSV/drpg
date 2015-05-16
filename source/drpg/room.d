@@ -84,8 +84,9 @@ class Room{
 			tiles[y].length = height;
 
 		if(!force){
-			foreach(x; left .. roomXToWorldX(width)){
-				foreach(y; top .. roomYToWorldY(height)){
+			//TODO: There is a possibillity in the future that this will throw and out of bounds exception.
+			foreach(x; left - 1.. roomXToWorldX(width) + 1){
+				foreach(y; top - 1 .. roomYToWorldY(height) + 1){
 					if(cast(TileWall)map.getTile(Location(x, y)) !is null || cast(TileFloor)map.getTile(Location(x, y)) !is null) /* "Downcasting is usually a sign of bad design" -jA_C0p from #d TODO: ?*/{
 						roomsFailedToPlace++;
 						return false;

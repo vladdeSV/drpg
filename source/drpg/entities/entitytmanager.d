@@ -107,6 +107,6 @@ class EntityManager {
 	}
 
 	void addEntities(){
-		addEntity(new Enemy(this, Location(CHUNK_WIDTH + 15, 3), 10, 1, "tut"));
+		addEntity(new Enemy(this, Location(CHUNK_WIDTH + 15, 3), 0, 1, "tut"));
 	}
 }
