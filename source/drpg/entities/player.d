@@ -48,7 +48,7 @@ class Player : Entity{
 		if(kbhit()){
 			int key = getch();
 
-			Location oldPosition = position; //Saves the player's x and y.
+			Location oldLocation = location; //Saves the player's x and y.
 			Location movement = Location(0,0);
 
 			if (!shouldMove){ //Get ever second key press, due to how getch() gets both keypress and keyrelease as input.
@@ -75,14 +75,14 @@ class Player : Entity{
 				em.game.map.printChunk();
 				return;
 			}
-			else if(key == 27){ // Escape key on Windows
+			else if(key == SpecialKey.escape){
 				running = false;
 				return;
 			}else{
 				return;
 			}
 
-			Location dest = Location(oldPosition.x + movement.x, oldPosition.y + movement.y);
+			Location dest = Location(oldLocation.x + movement.x, oldLocation.y + movement.y);
 
 			bool inbounds = (dest.x >= 0 && dest.x < WORLD_WIDTH && 
 			                 dest.y >= 0 && dest.y < WORLD_HEIGHT);
@@ -93,15 +93,15 @@ class Player : Entity{
 			}
 
 			if(inbounds && !em.game.map.isTileSolidAt(dest)){
-				position = dest;
+				location = dest;
 			}
 
-			if(chunkAtPos(oldPosition) != chunkAtPos(position)){
+			if(chunkAtPos(oldLocation) != chunkAtPos(location)){
 				em.game.map.printChunk();
 			}else{
 				//Prints out the correc tile where the player once was, otherwise it would still be the player icon.
-				setCursorPos(position.x % CHUNK_WIDTH, position.y % CHUNK_HEIGHT);
-				em.game.map.printTile(oldPosition);
+				setCursorPos(location.x % CHUNK_WIDTH, location.y % CHUNK_HEIGHT);
+				em.game.map.printTile(oldLocation);
 			}
 
 			print();

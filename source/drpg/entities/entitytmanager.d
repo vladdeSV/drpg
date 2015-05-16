@@ -26,7 +26,7 @@ class EntityManager {
 	this(Game gameptr) {
 
 		game = gameptr;
-		player = new Player(this, Location(CHUNK_WIDTH - 18, 3));
+		player = new Player(this, Location(CHUNK_WIDTH - 18, 3 + /* FIXME REMOVE THIS LATER ON --> */ 5 ));
 
 		addEntities();
 
@@ -74,7 +74,7 @@ class EntityManager {
 
 	Entity getEntityAt(Location loc){
 		foreach(l; 0 .. entities.length){
-			if(entities[l].position == loc)
+			if(entities[l].location == loc)
 				return entities[l];
 		}
 
@@ -86,11 +86,11 @@ class EntityManager {
 	 */
 	bool isEntityAt(Location loc){
 		
-		if(player.position == loc)
+		if(player.location == loc)
 			return true;
 
 		foreach(l; 0 .. entities.length){
-			if(entities[l].position == loc)
+			if(entities[l].location == loc)
 				return true;
 		}
 

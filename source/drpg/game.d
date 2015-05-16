@@ -32,7 +32,7 @@ class Game{
 			writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[l].length/2), l), hswsag[l]);
 		}
 
-		Clock.wait(5);
+		Clock.wait(5000);
 
 		clearScreen();
 
@@ -44,7 +44,7 @@ class Game{
 		map.printChunk();
 
 		//Always last
-		Clock.wait(1);
+		Clock.wait(1000);
 		talkBox("FACT: I can move with WASD", em.player.getSprite());
 		map.printChunk();
 
@@ -57,8 +57,8 @@ class Game{
 		}
 
 		centerStringOnEmptyScreen(GAME_END);
-		Clock.wait(5);
+		Clock.wait(5000);
 		centerStringOnEmptyScreen("Restarting...");
-		Clock.wait(3);
+		Clock.wait(3000);
 	}
 }

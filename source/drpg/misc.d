@@ -36,23 +36,30 @@ class Clock
 	private MonoTime lasttime;
 
 	this(){
-		lasttime = MonoTime.zero();
-	}
-
-	static wait(long sec){
-		auto totime = MonoTime.currTime() + dur!"seconds"(sec);
-
-		while(MonoTime.currTime() < totime){  }
+		lasttime = MonoTime.currTime();
 	}
 
 	double reset()
 	{
+		/* Kudos to Yepoleb who helped me with this */
 		MonoTime newtime = MonoTime.currTime();
 		Duration duration = newtime - lasttime;
 		double durationmsec = duration.total!"nsecs" / (10.0 ^^ 6);
 		lasttime = newtime;
 
 		return durationmsec;
+	}
+
+	/*
+	 * Pauses the program.
+	 * 
+	 * params:
+	 *  ms = Milliseconds to pause. 1 second is 1000 milliseconds.
+	 */
+	static wait(long ms){
+		auto totime = MonoTime.currTime() + dur!"msecs"(ms);
+
+		while(MonoTime.currTime() < totime){  }
 	}
 }
 
@@ -120,7 +127,7 @@ void talkBox(string message, char talker){
 	//TODO make message linewrap in textbox
 	writeAt(textstart, message);
 	writeAt(talkerpos, talk);
-	Clock.wait(5);
+	Clock.wait(5000);
 }
 
 void pause(){

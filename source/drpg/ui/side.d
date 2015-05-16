@@ -13,7 +13,7 @@ class Side
 	UIManager uim;
 
 	immutable static int barBits = 15;
-	immutable static int sideUiStartX = CHUNK_WIDTH + 1, SideUiEndX = 80, SideUiHeight = CHUNK_HEIGHT + 1;
+	immutable static int sideUiStartX = CHUNK_WIDTH + 1, sideUiEndX = SCREEN_WIDTH, sideUiHeight = CHUNK_HEIGHT + 1;
 
 	this(UIManager uiman)
 	{
@@ -23,9 +23,9 @@ class Side
 	}
 
 	void printAll(){
-		foreach(w; sideUiStartX .. SideUiEndX){
-			foreach(h; 0 .. SideUiHeight){
-				if(w == sideUiStartX || w == 79 || h == CHUNK_HEIGHT)
+		foreach(w; sideUiStartX .. sideUiEndX){
+			foreach(h; 0 .. sideUiHeight){
+				if(w == sideUiStartX || h == CHUNK_HEIGHT)
 					writeAt(ConsolePoint(w, h), '*');
 				else
 					writeAt(ConsolePoint(w, h), ' ');
@@ -63,9 +63,9 @@ class Side
 
 	void printInventory(){
 		if(to!int(uim.game.em.player.inventory.letters.length)){
-			writeAt(ConsolePoint(sideUiStartX + 2, 5), "Letters");
+			writeAt(ConsolePoint(sideUiStartX + 2, 5), "Letters [" ~ text(uim.game.em.player.inventory.letters.length) ~ " / " ~ text(uim.game.em.player.inventory.maximumAmountOfItems) ~ "]");
 			foreach(l; 0 .. to!int(uim.game.em.player.inventory.letters.length)){
-				int loop = SideUiEndX - sideUiStartX - 4;
+				int loop = sideUiEndX - sideUiStartX - 4;
 				int rowdown = to!int(cast(double)l / (cast(double)loop / 2));
 
 				writeAt(ConsolePoint(sideUiStartX + 2 + (2*l)%loop, 6 + rowdown), uim.game.em.player.inventory.letters[l].letter);
@@ -87,7 +87,7 @@ class Side
 		}
 
 		writeAt(ConsolePoint(sideUiStartX + 3 + to!int(uim.game.map.bossroom.x / CHUNK_WIDTH), 17 + to!int(uim.game.map.bossroom.y / CHUNK_HEIGHT)), 'B');
-		writeAt(ConsolePoint(sideUiStartX + 3 + to!int(uim.game.em.player.position.x / CHUNK_WIDTH), 17 + to!int(uim.game.em.player.position.y / CHUNK_HEIGHT)), uim.game.em.player.getSprite());
+		writeAt(ConsolePoint(sideUiStartX + 3 + to!int(uim.game.em.player.location.x / CHUNK_WIDTH), 17 + to!int(uim.game.em.player.location.y / CHUNK_HEIGHT)), uim.game.em.player.getSprite());
 
 	}
 }

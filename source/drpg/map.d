@@ -81,8 +81,8 @@ class Map{
 	*/
 	void printChunk(){
 
-		int xChunkStartPos = CHUNK_WIDTH * (game.em.player.position.x / CHUNK_WIDTH);
-		int yChunkStartPos = CHUNK_HEIGHT* (game.em.player.position.y / CHUNK_HEIGHT);
+		int xChunkStartPos = CHUNK_WIDTH * (game.em.player.location.x / CHUNK_WIDTH);
+		int yChunkStartPos = CHUNK_HEIGHT* (game.em.player.location.y / CHUNK_HEIGHT);
 
 //		//FIXME This function will crash if the map width/height is not a multiple of CHUNK_WIDTH/CHUNK_HEIGHT
 		string print;
@@ -149,15 +149,19 @@ class Map{
 		}
 	}
 
+	void addRoom(int worldx, int worldy, int width, int height, bool force, bool normal){
+		rooms ~= new Room(this, worldx, worldy, width, height, force, normal);
+	}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void tutorial(){
 
 //		setTile(Location(18, 3), new TileDoor()); //TODO make this a locked door
 
-		rooms ~= new Room(this, CHUNK_WIDTH - 20, 1, 18, 6, true, false);
-		rooms ~= new Room(this, CHUNK_WIDTH - 3,  3, 10, 3, true, false);
-		rooms ~= new Room(this, CHUNK_WIDTH + 6,  1, 14, 7, true, false);
+		addRoom(CHUNK_WIDTH - 20, 1, 18, 6, true, false);
+		addRoom(CHUNK_WIDTH - 3,  3, 10, 3, true, false);
+		addRoom(CHUNK_WIDTH + 6,  1, 14, 7, true, false);
 		setTile(Location(CHUNK_WIDTH - 3, 4), new TileDoor());
 		setTile(Location(CHUNK_WIDTH + 6, 4), new TileDoor());
 		setTile(Location(CHUNK_WIDTH + 13, 7), new TileDoor(true));
@@ -169,18 +173,23 @@ class Map{
 	void spawnBossRoom(){
 		int w, h, wx, wy;
 
-		w = CHUNK_WIDTH -2;
-		h = CHUNK_HEIGHT-2;
+		w = CHUNK_WIDTH - 6;
+		h = CHUNK_HEIGHT- 6;
 
-		wx = CHUNK_WIDTH * uniform(1, CHUNK_AMOUNT_WIDTH-1) + 1;
-		wy = CHUNK_HEIGHT * uniform(2, CHUNK_AMOUNT_HEIGHT-1) + 1;
+		wx = CHUNK_WIDTH  * uniform(1, CHUNK_AMOUNT_WIDTH  - 1);
+		wy = CHUNK_HEIGHT * uniform(2, CHUNK_AMOUNT_HEIGHT - 1);
 
 		bossroom = Location(wx, wy);
 
-//		wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
-//		wy = uniform(3, height- h); //Ditto from Pokémon
+		//Main room
+		addRoom(wx + 3, wy + 3, w, h, true, false);
+		//Small towers
+		addRoom(wx + 1, wy + 2, 6, 5, true, false);
+		addRoom(wx + 1, wy + CHUNK_HEIGHT - 7, 6, 5, true, false);
+		addRoom(wx + CHUNK_WIDTH - 7, wy + 2, 6, 5, true, false);
+		addRoom(wx + CHUNK_WIDTH - 7, wy + CHUNK_HEIGHT - 7, 6, 5, true, false);
 
-		rooms ~= new Room(this, wx, wy, w, h, true, false);
+		game.em.player.location = Location(wx, wy);
 	}
 
 	void addFlowersToWorld(){

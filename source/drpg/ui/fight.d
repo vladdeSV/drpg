@@ -120,7 +120,7 @@ class FallingLetter{
 			char[] tlt;
 
 			screen.fighting = false;
-			Clock.wait(3);
+			Clock.wait(3000);
 
 			foreach(int a; 0 .. amountOfLettersDropped){
 				tlt ~= alphabetLC[uniform(0, to!int(alphabetLC.length))];
@@ -133,7 +133,7 @@ class FallingLetter{
 			}
 
 			centerStringOnEmptyScreen(lettersGot);
-			Clock.wait(5);
+			Clock.wait(5000);
 
 			if(screen.uim.game.em.player.health < screen.uim.game.em.player.maxHealth){
 				if(screen.uim.game.em.player.health + opponent.level * 2 >= screen.uim.game.em.player.maxHealth){
@@ -143,7 +143,7 @@ class FallingLetter{
 					screen.uim.game.em.player.health += opponent.level * 2;
 					centerStringOnEmptyScreen("You gained " ~ text(opponent.level * 2) ~ " health points!");
 				}
-				Clock.wait(3);
+				Clock.wait(3000);
 			}
 
 
@@ -153,17 +153,17 @@ class FallingLetter{
 			return;
 		}
 		else if(screen.uim.game.em.player.health <= 0){
-			Clock.wait(3);
+			Clock.wait(3000);
 			screen.fighting = false;
 			centerStringOnEmptyScreen(GAME_PLAYER_DEAD);
-			Clock.wait(5);
+			Clock.wait(5000);
 			return;
 		}
 
 		bool hit =
 			letters.length &&
 			letters[0].fallHeight == goalHeight &&
-			key == letters[0].letter;
+			key == letters[0].letter; // FIXME Key input may not work on Unix, keyinput can be lowercase
 
 		if(hit){
 			opponent.health -= 1;

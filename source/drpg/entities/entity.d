@@ -41,13 +41,13 @@ abstract class Entity{
 
 	EntityManager em;
 
-	Location position;
+	Location location;
 //	Stats stats;
 	Inventory inventory = new Inventory();
 	
 	this(EntityManager emptr, Location loc, int hp, uint lvl, string id = ""){
 		em = emptr;
-		position = loc;
+		location = loc;
 
 		health = maxHealth = hp;
 		level = lvl;
@@ -56,7 +56,7 @@ abstract class Entity{
 	
 	protected void move(){
 
-		Location oldPosition = position;
+		Location oldPosition = location;
 
 		Location movement = Location(uniform(-1, +2), uniform(-1, +2));
 		Location dest = add(oldPosition, movement);
@@ -66,7 +66,7 @@ abstract class Entity{
 
 		/* Check so the enteties won't leave the world border and that the moving-to tile is not occupied*/
 		if(inbounds && !em.isEntityAt(dest) && !em.game.map.isTileSolidAt(dest)){
-			position = dest;
+			location = dest;
 		}
 
 		if(chunkAtPos(oldPosition) == em.player.chunk){ //Restore the tile where the entity was
@@ -90,11 +90,11 @@ abstract class Entity{
 	}
 	
 	Location chunk(){
-		return chunkAtPos(position);
+		return chunkAtPos(location);
 	}
 	
 	void print(){
-		setCursorPos(position.x % CHUNK_WIDTH, position.y % CHUNK_HEIGHT);
+		setCursorPos(location.x % CHUNK_WIDTH, location.y % CHUNK_HEIGHT);
 		write(getSprite());
 		stdout.flush(); //Thanks to Destructionator from #d (freenode) for this amazing one-liner which makes sure the enemies get properly written out!
 	}
