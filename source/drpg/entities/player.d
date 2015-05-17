@@ -18,6 +18,8 @@ class Player : Entity{
 
 	public string name = PLAYER_NAME; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
 
+	int enemiesMurdered = 0;
+
 	this(EntityManager emptr, Location loc){
 		health = maxHealth = 15;
 		inventory.letters[locationInAlphabet('p')].amount += 1;

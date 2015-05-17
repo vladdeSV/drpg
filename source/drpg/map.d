@@ -11,6 +11,7 @@ import drpg.tile;
 import drpg.room;
 import drpg.references.size;
 import drpg.entities.player;
+import drpg.entities.enemy;
 import drpg.entities.entitymanager;
 
 /*
@@ -37,85 +38,58 @@ class Map{
 		game = gameptr;
 		width = WORLD_WIDTH;
 		height = WORLD_HEIGHT;
-
 		centerStringOnEmptyScreen("Generating map...");
-
 		//Sets the width and height of the map
 		tiles.length = width;
 		for(int y = 0; y < width; y++)
 			tiles[y].length = height;
-		
 		//Thanks to jA_cOp from #d (freenode) :)
 		//This is 1.5~ times faster than "foreach(x; 0 .. width) foreach(y; 0 .. height) tiles[x][y] = new TileFloor();"
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
 			foreach(ref tile; column) //"ref tile" then becomes a reference to "column"
 				tile = new TileGround(); //Sets all tiles on the map to be TileFloor();
-
+		centerStringOnEmptyScreen("Adding structures...");
 		addStructures();
-
 		centerStringOnEmptyScreen("Done!");
 	}
 
 	void addStructures(){
-
 		tutorial();
 		spawnBossRoom();
-
 		addFlowersToWorld();
 //		addTreesToWorld();
 //		addRocksToWorld();
 		addRoomsToWorld();
-		
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void update(){
-		
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Prints the chunk the player currently is in
 	*/
 	void printChunk(){
-
 		int xChunkStartPos = CHUNK_WIDTH * (game.em.player.location.x / CHUNK_WIDTH);
 		int yChunkStartPos = CHUNK_HEIGHT* (game.em.player.location.y / CHUNK_HEIGHT);
-
-//		//FIXME This function will crash if the map width/height is not a multiple of CHUNK_WIDTH/CHUNK_HEIGHT
 		string print;
-
+		//FIXME This function will crash if the map width/height is not a multiple of CHUNK_WIDTH/CHUNK_HEIGHT
 		foreach(int y; 0 .. CHUNK_HEIGHT){
-			foreach(int x; 0 .. CHUNK_WIDTH){
+			foreach(int x; 0 .. CHUNK_WIDTH)
 				print ~= tiles[x + xChunkStartPos][y + yChunkStartPos].getSprite();
-			}
-
-			setCursorPos(0, y);
-			write(print, '+');
-
+			writeAt(ConsolePoint(0, y), print ~ '+');
 			print = null;
 		}
-
-		setCursorPos(0, CHUNK_HEIGHT);
-		foreach(a; 0 .. CHUNK_WIDTH + 1)
-			write('+');
-			
+		foreach(x; 0 .. CHUNK_WIDTH + 1)
+			writeAt(ConsolePoint(x, CHUNK_HEIGHT), '+');
 		game.em.printAllEntities();
 		game.uim.sideUI.update();
 	}
 
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
 	void addRect(Location topleft, Location bottomright, Tile tiletype, Tile overlay = null){
-
 		//TODO Tell dev somehow if the locations are misplaced
-		if(topleft.x < bottomright.x && topleft.y < bottomright.y)
-
-		foreach(int x; 0 .. bottomright.x - topleft.x)
+		if(topleft.x < bottomright.x && topleft.y < bottomright.y){
+			foreach(int x; 0 .. bottomright.x - topleft.x)
 			foreach(int y; 0 .. bottomright.y - topleft.y)
 				setTile(Location(x + topleft.x, y + topleft.y), tiletype, overlay);
-		
+		}
 	}
 
 	/**
@@ -171,9 +145,6 @@ class Map{
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void tutorial(){
-
-//		setTile(Location(18, 3), new TileDoor()); //TODO make this a locked door
-
 		addRoom(CHUNK_WIDTH - 20, 1, 18, 6, true, false);
 		addRoom(CHUNK_WIDTH - 3,  3, 10, 3, true, false);
 		addRoom(CHUNK_WIDTH + 6,  1, 14, 7, true, false);
@@ -182,18 +153,14 @@ class Map{
 		setTile(Location(CHUNK_WIDTH + 13, 7), new TileDoor(true));
 		setTile(Location(CHUNK_WIDTH + 13, 8), new TileFloor());
 		setTile(Location(CHUNK_WIDTH + 13, 9), new TileFloor());
-
 	}
 
 	void spawnBossRoom(){
 		int w, h, wx, wy;
-
 		w = CHUNK_WIDTH - 6;
 		h = CHUNK_HEIGHT- 6;
-
 		wx = CHUNK_WIDTH  * uniform(1, CHUNK_AMOUNT_WIDTH  - 1);
 		wy = CHUNK_HEIGHT * uniform(2, CHUNK_AMOUNT_HEIGHT - 1);
-
 		bossroom = Location(wx, wy);
 
 		//Main room
@@ -205,49 +172,50 @@ class Map{
 		addRoom(wx + CHUNK_WIDTH - 7, wy + CHUNK_HEIGHT - 7, 6, 5, true, false);
 		//Entrance
 		addRect(Location(wx + 10, wy + CHUNK_HEIGHT - 10), Location(wx + 25, wy + CHUNK_HEIGHT - 4), new TileWall());
-		addRect(Location(wx + 11, wy + CHUNK_HEIGHT - 9), Location(wx + 24, wy + CHUNK_HEIGHT - 3), new TileGround());
+		addRect(Location(wx + 11, wy + CHUNK_HEIGHT - 9),  Location(wx + 24, wy + CHUNK_HEIGHT - 3), new TileGround());
 
-//		game.em.player.location = Location(wx, wy); //FIXME REMOVE THIS IN THE FUTURE
+		game.em.addEntity(new Enemy(game.em, Location(wx + 5, wy + 5), 15, 3));
+		game.em.addEntity(new Enemy(game.em, Location(wx + CHUNK_WIDTH - 5, wy + 5), 15, 3));
+		game.em.addEntity(new Enemy(game.em, Location(wx + 5, wy + CHUNK_HEIGHT - 5), 15, 3));
+		game.em.addEntity(new Enemy(game.em, Location(wx + CHUNK_WIDTH - 5, wy + CHUNK_HEIGHT - 5), 15, 3));
+
+		game.em.player.location = Location(wx, wy); //FIXME REMOVE THIS IN THE FUTURE
 	}
 
 	void addFlowersToWorld(){
 		int CHANCE_OF_FLOWER_BEING_PLACED = 18;
 		foreach(x; 0 .. WORLD_WIDTH)
-			foreach(y; 0 .. WORLD_HEIGHT)
-				if(uniform(0, CHANCE_OF_FLOWER_BEING_PLACED) == 0)
-					if(!getTile(Location(x, y)).isSolid && cast(TileDoor) getTile(Location(x, y)) is null && cast(TileFloor) getTile(Location(x, y)) is null)
-						setTile(Location(x, y), new TileFlower);
+		foreach(y; 0 .. WORLD_HEIGHT)
+			if(uniform(0, CHANCE_OF_FLOWER_BEING_PLACED) == 0)
+				if(!getTile(Location(x, y)).isSolid && cast(TileDoor) getTile(Location(x, y)) is null && cast(TileFloor) getTile(Location(x, y)) is null)
+					setTile(Location(x, y), new TileFlower);
 	}
 
 	void addTreesToWorld(){
 		int CHANCE_OF_TREE_BEING_PLACED = 40;
 		foreach(x; 0 .. WORLD_WIDTH)
-			foreach(y; 0 .. WORLD_HEIGHT)
-				if(uniform(0, CHANCE_OF_TREE_BEING_PLACED) == 0)
-					if(!getTile(Location(x, y)).isSolid())
-						setTile(Location(x, y), new TileTree);
+		foreach(y; 0 .. WORLD_HEIGHT)
+			if(uniform(0, CHANCE_OF_TREE_BEING_PLACED) == 0)
+				if(!getTile(Location(x, y)).isSolid())
+					setTile(Location(x, y), new TileTree);
 	}
 
 	void addRocksToWorld(){
 		int CHANCE_OF_ROCK_BEING_PLACED = 90;
 		foreach(x; 0 .. WORLD_WIDTH)
-			foreach(y; 0 .. WORLD_HEIGHT)
-				if(uniform(0, CHANCE_OF_ROCK_BEING_PLACED) == 0)
-					if(!getTile(Location(x, y)).isSolid())
-						setTile(Location(x, y), new TileRock);
+		foreach(y; 0 .. WORLD_HEIGHT)
+			if(uniform(0, CHANCE_OF_ROCK_BEING_PLACED) == 0)
+				if(!getTile(Location(x, y)).isSolid())
+					setTile(Location(x, y), new TileRock);
 	}
 
 	void addRoomsToWorld(){
-
 		int w, h, wx, wy;
-
 		foreach(i; 0 .. MAX_NUMBER_OF_ROOMS){
 			w = uniform(5, MAX_ROOM_WIDTH);
-			h = uniform(5, MAX_ROOM_HEIGHT);
-			
+			h = w + uniform(-2, 2);
 			wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
 			wy = uniform(3, height- h); //Ditto from Pokémon
-
 			addRoom(wx, wy, w, h);
 		}
 	}

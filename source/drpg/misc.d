@@ -125,9 +125,8 @@ void writeRectangle(Location start, Location end){
 	}
 }
 
-void talkBox(string message, char talker){
+void talkBox(string message, char talker = ' '){
 
-	string talk = "-"~talker;
 	Location topleft = Location(1, CHUNK_HEIGHT - 6);
 	Location bottomright = Location(CHUNK_WIDTH - 2, CHUNK_HEIGHT - 1);
 	ConsolePoint textstart = ConsolePoint(topleft.x + 2, topleft.y + 2);
@@ -137,7 +136,9 @@ void talkBox(string message, char talker){
 
 	//TODO make message linewrap in textbox
 	writeAt(textstart, message);
-	writeAt(talkerpos, talk);
+	if(talker != ' ')
+		writeAt(talkerpos, "-"~talker);
+
 	Clock.wait(5000);
 }
 
@@ -174,10 +175,11 @@ string[] hswsag = [
 	"              ***       **                 ",
 	"            ***          **                ",
 	"           **            **                ",
-	"",
 	"|---------------- a ----------------|",
 	"| Happy Stickman with Sword and Gun |",
-	"|----------- productions -----------|"];
+	"|----------- productions -----------|",
+	"",
+	"(lol not really)"];
 
 void focus(){
 	setCursorPos(0, 0);

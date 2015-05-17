@@ -26,6 +26,7 @@ class Start
 			"",
 			"",
 			"",
+			"",
 			"<PRESS 'S' TO START>",
 		];
 

@@ -17,7 +17,7 @@ class Enemy : Entity{
 	}
 
 	override void move(){
-		updateInterval = uniform(1*1000, 5*1000);
+		updateInterval = uniform(0.5*1000, 3*1000);
 		super.move();
 	}
 
