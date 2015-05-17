@@ -207,7 +207,7 @@ class Map{
 		addRect(Location(wx + 10, wy + CHUNK_HEIGHT - 10), Location(wx + 25, wy + CHUNK_HEIGHT - 4), new TileWall());
 		addRect(Location(wx + 11, wy + CHUNK_HEIGHT - 9), Location(wx + 24, wy + CHUNK_HEIGHT - 3), new TileGround());
 
-		game.em.player.location = Location(wx, wy); //FIXME REMOVE THIS IN THE FUTURE
+//		game.em.player.location = Location(wx, wy); //FIXME REMOVE THIS IN THE FUTURE
 	}
 
 	void addFlowersToWorld(){
