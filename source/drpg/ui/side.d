@@ -63,13 +63,22 @@ class Side
 
 	void printInventory(){
 		if(to!int(uim.game.em.player.inventory.letters.length)){
-			writeAt(ConsolePoint(sideUiStartX + 2, 5), "Letters [" ~ text(uim.game.em.player.inventory.letters.length) ~ " / " ~ text(uim.game.em.player.inventory.maximumAmountOfItems) ~ "]");
-			foreach(l; 0 .. to!int(uim.game.em.player.inventory.letters.length)){
-				int loop = sideUiEndX - sideUiStartX - 4;
-				int rowdown = to!int(cast(double)l / (cast(double)loop / 2));
 
-				writeAt(ConsolePoint(sideUiStartX + 2 + (2*l)%loop, 6 + rowdown), uim.game.em.player.inventory.letters[l].letter);
+			writeAt(ConsolePoint(sideUiStartX + 2, 5), "Letters:");
+			foreach(l; 0 .. to!int(uim.game.em.player.inventory.letters.length)){
+				int loop = 9;
+				int mv = to!int(l / loop);
+
+				writeAt(ConsolePoint(sideUiStartX + 2 + (mv * 8), 6 + l%loop), uim.game.em.player.inventory.letters[l].letter ~ " x "~ text(uim.game.em.player.inventory.letters[l].amount));
 			}
+
+//			writeAt(ConsolePoint(sideUiStartX + 2, 5), "Letters [" ~ text(uim.game.em.player.inventory.letters.length) ~ " / " ~ text(26) ~ "]");
+//			foreach(l; 0 .. to!int(uim.game.em.player.inventory.letters.length)){
+//				int loop = sideUiEndX - sideUiStartX - 4;
+//				int rowdown = to!int(cast(double)l / (cast(double)loop / 2));
+//
+//				writeAt(ConsolePoint(sideUiStartX + 2 + (2*l)%loop, 6 + rowdown), uim.game.em.player.inventory.letters[l].letter);
+//			}
 		}
 	}
 

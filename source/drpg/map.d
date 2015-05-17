@@ -108,9 +108,13 @@ class Map{
 
 	//A function to place tiles in a rectangle. I really wanted to name this function getREKT, but sadly I didn't :(
 	void addRect(Location topleft, Location bottomright, Tile tiletype, Tile overlay = null){
-		foreach(xPos; 0 .. bottomright.x)
-			foreach(yPos; 0 .. bottomright.y)
-				setTile(Location(xPos + topleft.x, yPos + topleft.y), tiletype, overlay);
+
+		//TODO Tell dev somehow if the locations are misplaced
+		if(topleft.x < bottomright.x && topleft.y < bottomright.y)
+
+		foreach(int x; 0 .. bottomright.x - topleft.x)
+			foreach(int y; 0 .. bottomright.y - topleft.y)
+				setTile(Location(x + topleft.x, y + topleft.y), tiletype, overlay);
 		
 	}
 
@@ -149,7 +153,18 @@ class Map{
 		}
 	}
 
-	void addRoom(int worldx, int worldy, int width, int height, bool force, bool normal){
+	/**
+	 * Creates a room in the world.
+	 * 
+	 * Params:
+	 *  worldx = X posision of the room in the world
+	 *  worldy = Y posision of the room in the world
+	 *  width = The width of the room
+	 *  height = The height of the room (downwards)
+	 *  force = Should the room be placed on top other rooms etc
+	 *  normal = Should a door and enemy spawn
+	 */
+	void addRoom(int worldx, int worldy, int width, int height, bool force = false, bool normal = true){
 		rooms ~= new Room(this, worldx, worldy, width, height, force, normal);
 	}
 
@@ -188,8 +203,11 @@ class Map{
 		addRoom(wx + 1, wy + CHUNK_HEIGHT - 7, 6, 5, true, false);
 		addRoom(wx + CHUNK_WIDTH - 7, wy + 2, 6, 5, true, false);
 		addRoom(wx + CHUNK_WIDTH - 7, wy + CHUNK_HEIGHT - 7, 6, 5, true, false);
+		//Entrance
+		addRect(Location(wx + 10, wy + CHUNK_HEIGHT - 10), Location(wx + 25, wy + CHUNK_HEIGHT - 4), new TileWall());
+		addRect(Location(wx + 11, wy + CHUNK_HEIGHT - 9), Location(wx + 24, wy + CHUNK_HEIGHT - 3), new TileGround());
 
-		game.em.player.location = Location(wx, wy);
+		game.em.player.location = Location(wx, wy); //FIXME REMOVE THIS IN THE FUTURE
 	}
 
 	void addFlowersToWorld(){
@@ -230,7 +248,7 @@ class Map{
 			wx = uniform(3, width - w); //"- w" is to make sure the room never goes out if bound
 			wy = uniform(3, height- h); //Ditto from Pokémon
 
-			rooms ~= new Room(this, wx, wy, w, h);
+			addRoom(wx, wy, w, h);
 		}
 	}
 }

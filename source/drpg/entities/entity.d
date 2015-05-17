@@ -10,29 +10,6 @@ import drpg.item;
 import drpg.references.size;
 import drpg.references.sprites;
 
-class Inventory{
-	int maximumAmountOfItems;
-
-	this(int maxItems = 100){
-		maximumAmountOfItems = maxItems;
-	}
-
-	Item[] items;
-	ItemLetter[] letters;
-	
-	void addItem(Item item){
-		if(to!int(items.length) < maximumAmountOfItems){
-			items ~= item;
-		}
-	}
-
-	void addLetter(ItemLetter item){
-		if(to!int(letters.length) < 100){
-			letters ~= item;
-		}
-	}
-}
-
 abstract class Entity{
 	int health, maxHealth, level;
 	double updateInterval = 100.0; //Default value

@@ -24,17 +24,12 @@ class Game{
 	this(){
 		cursorVisible(false);
 		title("DRPG");
-
 		clearScreen();
-		setCursorPos(0,0);
 
-		foreach(l; 0 .. to!int(hswsag.length)){
-			writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[l].length/2), l), hswsag[l]);
-		}
-
-		Clock.wait(5000);
-
-		clearScreen();
+		//LOGO
+//		foreach(l; 0 .. to!int(hswsag.length)) writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[l].length/2), l), hswsag[l]);
+//		Clock.wait(5000);
+//		clearScreen();
 
 		uim = new UIManager(this);
 		em = new EntityManager(this);
@@ -43,9 +38,10 @@ class Game{
 		uim.startSideUi();
 		map.printChunk();
 
-		//Always last
-		Clock.wait(1000);
-		talkBox("FACT: I can move with WASD", em.player.getSprite());
+		//Move help
+//		Clock.wait(1000);
+//		talkBox("FACT: I can move with WASD", em.player.getSprite());
+
 		map.printChunk();
 
 		Clock clock = new Clock();

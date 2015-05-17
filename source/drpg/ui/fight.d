@@ -125,7 +125,7 @@ class FallingLetter{
 			foreach(int a; 0 .. amountOfLettersDropped){
 				tlt ~= alphabetLC[uniform(0, to!int(alphabetLC.length))];
 				lettersGot ~= tlt[a] ~ " ";
-				screen.uim.game.em.player.addLetter(new ItemLetter("A letter", tlt[a]));
+				screen.uim.game.em.player.addLetter(tlt[a]);
 			}
 
 			if(opponent.id == "tut"){

@@ -11,6 +11,17 @@ import drpg.references.size;
 //	int strength, stamina, defense, dexterity, intelligence, charisma, wisdom, willpower, perception, luck;
 //}
 
+immutable static char[26] alphabetUC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".dup;
+immutable static char[26] alphabetLC = "abcdefghijklmnopqrstuvwxyz".dup;
+
+int locationInAlphabet(char letter){
+	foreach(a; 0 .. 26){
+		if(alphabetLC[a] == letter || alphabetUC[a] == letter)
+			return a;
+	}
+	return -1;
+}
+
 struct Location{
 	int x;
 	int y;
@@ -50,10 +61,10 @@ class Clock
 		return durationmsec;
 	}
 
-	/*
+	/**
 	 * Pauses the program.
 	 * 
-	 * params:
+	 * Params:
 	 *  ms = Milliseconds to pause. 1 second is 1000 milliseconds.
 	 */
 	static wait(long ms){

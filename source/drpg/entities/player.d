@@ -20,7 +20,7 @@ class Player : Entity{
 
 	this(EntityManager emptr, Location loc){
 		health = maxHealth = 15;
-
+		inventory.letters[locationInAlphabet('p')].amount += 1;
 		super(emptr, loc, health, 1);
 	}
 
@@ -32,12 +32,12 @@ class Player : Entity{
 		move();
 	}
 
-	void addItem(Item item){
-		inventory.addItem(item);
-	}
+//	void addItem(Item item){
+//		inventory.addItem(item);
+//	}
 
-	void addLetter(ItemLetter item){
-		inventory.addLetter(item);
+	void addLetter(char letter){
+		inventory.addLetter(letter);
 	}
 
 	private void move() {
