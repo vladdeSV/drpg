@@ -39,7 +39,7 @@ class Start
 		foreach(int x; 0 .. info.length)
 			writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - info[x].length/2), 6 + x), info[x]);
 
-		string madeby = "LBS Gameawards 2014\nVladde Nordholm & Fredrik Fernlund - Motala, SU14";
+		string madeby = "LBS Gameawards 2015\nVladde Nordholm & Fredrik Fernlund - Motala, SU14";
 		writeAt(ConsolePoint(0, SCREEN_HEIGHT - 1), madeby);
 		setCursorPos(0,0);
 
