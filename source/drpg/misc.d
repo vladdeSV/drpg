@@ -142,17 +142,18 @@ void talkBox(string message, char talker = ' '){
 	Clock.wait(5000);
 }
 
-void pause(){
-	centerStringInEmptyChunk("Paused - Press Q");
-	
-	bool paused = true;
-	int pausekey;
-	while(paused){
-		pausekey = getch();
-		if(pausekey == 'Q' || pausekey == 'q')
-			paused = false;
-	}
-}
+//FIXME Currently not working properly.
+//void pause(){
+//	centerStringInEmptyChunk("Paused - Press Q");
+//	
+//	bool paused = true;
+//	int pausekey;
+//	while(paused){
+//		pausekey = getch();
+//		if(pausekey == 'Q' || pausekey == 'q')
+//			paused = false;
+//	}
+//}
 
 string[] hswsag = [
 	"",

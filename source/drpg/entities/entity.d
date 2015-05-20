@@ -14,27 +14,31 @@ abstract class Entity{
 	int health, maxHealth, level;
 	double updateInterval = 100.0; //Default value
 	double entityTick = 0.0;
+	bool shouldMove = true;
 	string id;
 
 	EntityManager em;
-
 	Location location;
-//	Stats stats;
 	Inventory inventory = new Inventory();
 	
-	this(EntityManager emptr, Location loc, int hp, uint lvl, string id = ""){
+	this(EntityManager emptr, Location loc, int hp, uint lvl, bool shouldMovee, string id){
 		em = emptr;
 		location = loc;
 
 		health = maxHealth = hp;
 		level = lvl;
 		this.id = id;
+		this.shouldMove = shouldMovee;
+		assert(this.shouldMove == shouldMovee);
 	}
 	
 	protected void move(){
 
-		Location oldPosition = location;
+		if(!shouldMove){
+			return;
+		}
 
+		Location oldPosition = location;
 		Location movement = Location(uniform(-1, +2), uniform(-1, +2));
 		Location dest = add(oldPosition, movement);
 		

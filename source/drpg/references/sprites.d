@@ -4,6 +4,8 @@
 immutable static char SPRITE_NONE = ' ';
 immutable static char SPRITE_PLAYER = 'p';
 immutable static char SPRITE_ENEMY = 'e';
+immutable static char SPRITE_BOSS = 'B';
+immutable static char SPRITE_BOSS2 = 'D';
 
 immutable static char SPRITE_WALL = '#';
 immutable static char SPRITE_PLANK = '=';

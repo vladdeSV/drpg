@@ -8,12 +8,9 @@ import drpg.entities.entity;
 
 class Enemy : Entity{
 
-	string id;
-
-	this (EntityManager emptr, Location location, int hp = 10, uint lvl = 1, string id = ""){
-		this.id = id;
+	this (EntityManager emptr, Location location, bool shouldMove, int hp = 10, uint lvl = 1, string id = ""){
 		hp = hp + ((lvl - 1) * 2);
-		super(emptr, location, hp, lvl, id);
+		super(emptr, location, hp, lvl, shouldMove, id);
 	}
 
 	override void move(){

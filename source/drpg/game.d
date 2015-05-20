@@ -54,7 +54,5 @@ class Game{
 
 		centerStringOnEmptyScreen(GAME_END);
 		Clock.wait(5000);
-		centerStringOnEmptyScreen("Restarting...");
-		Clock.wait(3000);
 	}
 }

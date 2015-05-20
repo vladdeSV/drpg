@@ -119,8 +119,10 @@ class FallingLetter{
 		}
 		double speed = 1000; //One second
 		//Some sort of faster speed pacer thing idk
-		if(screen.uim.game.em.player.enemiesMurdered < 7) speed -= (1 + screen.uim.game.em.player.enemiesMurdered - opponent.level) * 75;
-		else speed = 500;
+
+		speed -= (1 + screen.uim.game.em.player.enemiesMurdered - opponent.level * 2) * 75;
+
+		if(speed < 700) speed = 700;
 
 		int runs = to!int(tick / speed);
 		tick = tick - runs * speed;
@@ -171,6 +173,12 @@ class FallingLetter{
 		
 		if(opponent.id == "tut"){
 			screen.uim.game.map.setTile(Location(CHUNK_WIDTH + 13, 7), new TileFloor());
+		}else if(opponent.id == "bossminion"){
+			screen.uim.game.em.player.boss_toFour++;
+			if(screen.uim.game.em.player.boss_toFour == 4){
+				screen.uim.game.map.openBoss();
+				centerStringOnEmptyScreen("The boss room is now open");
+			}
 		}
 		
 		centerStringOnEmptyScreen(lettersGot);
@@ -186,8 +194,26 @@ class FallingLetter{
 			}
 			Clock.wait(3000);
 		}
-		
-		
+
+		int twentyseven;
+		foreach(int a; 0 .. to!int(screen.uim.game.em.player.inventory.letters.length)){
+			if(screen.uim.game.em.player.inventory.letters[a].amount > 0){
+				twentyseven += 1;
+			}else{
+				break;
+			}
+		}
+		if(twentyseven >= 26){
+			screen.uim.game.map.openCastle();
+		}
+
+		if(opponent.id == "boss"){
+			gamegamegame = false;
+			running = false;
+			centerStringOnEmptyScreen("You killed the boss! You have now set the letters free once and for all!!!");
+			Clock.wait(5000);
+		}
+
 		screen.uim.game.em.kill(opponent);
 		screen.uim.game.map.printChunk();
 	}
@@ -220,7 +246,7 @@ class FallingLetter{
 			foreach(int nr; 0 .. barBits/2 - 2) imontheedgeofglory ~= ' ';
 			opponenthp = imontheedgeofglory ~ "DEAD" ~ imontheedgeofglory;
 		}
-		writeAt(ConsolePoint(2, 7), SPRITE_PLAYER ~ " [" ~ playerhp ~ "|" ~ opponenthp, "] " ~ opponent.getSprite());
+		writeAt(ConsolePoint(2, 7), SPRITE_PLAYER ~ " [" ~ playerhp ~ "|" ~ opponenthp ~ "] " ~ opponent.getSprite());
 		stdout.flush();
 	}
 }

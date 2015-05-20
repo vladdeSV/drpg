@@ -2,6 +2,7 @@ module drpg.entities.player;
 
 import consoled;
 import std.stdio;
+import std.conv;
 import std.random;
 import drpg.map;
 import drpg.misc;
@@ -19,11 +20,15 @@ class Player : Entity{
 	public string name = PLAYER_NAME; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
 
 	int enemiesMurdered = 0;
+	int boss_toFour = 0;
 
 	this(EntityManager emptr, Location loc){
 		health = maxHealth = 15;
 		inventory.letters[locationInAlphabet('p')].amount += 1;
-		super(emptr, loc, health, 1);
+//		foreach(int i; 0 .. cto!int(alphabetLC.length)) //FIXME REMOVE BEFORE LAUNCH
+//			inventory.letters[i].amount += 1;
+
+		super(emptr, loc, health, 1, true, "player");
 	}
 
 	void update(){
@@ -72,11 +77,11 @@ class Player : Entity{
 			else if (key == 'D' || key == 'd'){
 				movement.x = +1;
 			}
-			else if (key == 'P' || key == 'p'){
-				pause();
-				em.game.map.printChunk();
-				return;
-			}
+//			else if (key == 'P' || key == 'p'){
+//				pause();
+//				em.game.map.printChunk();
+//				return;
+//			}
 			else if(key == SpecialKey.escape){
 				running = false;
 				return;
@@ -92,6 +97,7 @@ class Player : Entity{
 
 			if(em.isEntityAt(dest)){
 				em.game.uim.fightUI.startFight(em.getEntityAt(dest));
+				return;
 			}
 
 			if(inbounds && !em.game.map.isTileSolidAt(dest)){

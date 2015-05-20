@@ -12,6 +12,7 @@ import drpg.room;
 import drpg.references.size;
 import drpg.entities.player;
 import drpg.entities.enemy;
+import drpg.entities.boss;
 import drpg.entities.entitymanager;
 
 /*
@@ -25,6 +26,7 @@ class Map{
 	private int width, height;
 	private Tile[][] tiles;
 	private Room[] rooms;
+	bool castleOpen = false;
 
 	Location bossroom;
 
@@ -170,16 +172,35 @@ class Map{
 		addRoom(wx + 1, wy + CHUNK_HEIGHT - 7, 6, 5, true, false);
 		addRoom(wx + CHUNK_WIDTH - 7, wy + 2, 6, 5, true, false);
 		addRoom(wx + CHUNK_WIDTH - 7, wy + CHUNK_HEIGHT - 7, 6, 5, true, false);
-		//Entrance
-		addRect(Location(wx + 10, wy + CHUNK_HEIGHT - 10), Location(wx + 25, wy + CHUNK_HEIGHT - 4), new TileWall());
-		addRect(Location(wx + 11, wy + CHUNK_HEIGHT - 9),  Location(wx + 24, wy + CHUNK_HEIGHT - 3), new TileGround());
+		addRect(Location(wx + 5, wy + 5), Location(wx + CHUNK_WIDTH - 5, wy + CHUNK_HEIGHT - 5), new TileFloor());
 
-		game.em.addEntity(new Enemy(game.em, Location(wx + 5, wy + 5), 15, 3));
-		game.em.addEntity(new Enemy(game.em, Location(wx + CHUNK_WIDTH - 5, wy + 5), 15, 3));
-		game.em.addEntity(new Enemy(game.em, Location(wx + 5, wy + CHUNK_HEIGHT - 5), 15, 3));
-		game.em.addEntity(new Enemy(game.em, Location(wx + CHUNK_WIDTH - 5, wy + CHUNK_HEIGHT - 5), 15, 3));
+		closeCastle();
 
-		game.em.player.location = Location(wx, wy); //FIXME REMOVE THIS IN THE FUTURE
+		game.em.addEntity(new Enemy(game.em, Location(wx + 4, wy + 4), false, 15, 3, "bossminion"));
+		game.em.addEntity(new Enemy(game.em, Location(wx + CHUNK_WIDTH - 5, wy + 4), false, 15, 3, "bossminion"));
+		game.em.addEntity(new Enemy(game.em, Location(wx + 4, wy + CHUNK_HEIGHT - 5), false, 15, 3, "bossminion"));
+		game.em.addEntity(new Enemy(game.em, Location(wx + CHUNK_WIDTH - 5, wy + CHUNK_HEIGHT - 5), false, 15, 3, "bossminion"));
+
+		//Add bossroom and shit
+		addRoom(wx + CHUNK_WIDTH/2 - 3, wy + 2, 7, 6, true, false);
+		game.em.addEntity(new Boss(game.em, Location(wx + CHUNK_WIDTH / 2, wy + 5)));
+
+//		game.em.player.location = Location(wx, wy); //FIXME REMOVE THIS IN THE FUTURE
+	}
+
+	void openCastle(){
+		addRect(Location(bossroom.x + CHUNK_WIDTH / 2 - 2, bossroom.y + CHUNK_HEIGHT - 4), Location(bossroom.x + CHUNK_WIDTH / 2 + 3, bossroom.y + CHUNK_HEIGHT - 3), new TileFloor());
+		castleOpen = true;
+	}
+
+	void closeCastle(){
+		addRect(Location(bossroom.x + CHUNK_WIDTH / 2 - 2, bossroom.y + CHUNK_HEIGHT - 4), Location(bossroom.x + CHUNK_WIDTH / 2 + 2, bossroom.y + CHUNK_HEIGHT - 3), new TileDoor(true));
+		castleOpen = false;
+	}
+
+	void openBoss(){
+		centerStringOnEmptyScreen("The boss has deemed you worthy. Fight, for your friends.");
+		addRect(Location(bossroom.x + 5, bossroom.y + 5), Location(bossroom.x + CHUNK_WIDTH - 5, bossroom.y + CHUNK_HEIGHT - 5), new TileFloor());
 	}
 
 	void addFlowersToWorld(){

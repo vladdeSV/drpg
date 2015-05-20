@@ -88,7 +88,7 @@ class Room{
 			foreach(x; left - 1.. roomXToWorldX(width) + 1){
 				foreach(y; top - 1 .. roomYToWorldY(height) + 1){
 					if(cast(TileWall)map.getTile(Location(x, y)) !is null || cast(TileFloor)map.getTile(Location(x, y)) !is null) /* "Downcasting is usually a sign of bad design" -jA_C0p from #d TODO: ?*/{
-						roomsFailedToPlace++;
+						//roomsFailedToPlace++;
 						return false;
 					}
 				}
@@ -115,7 +115,7 @@ class Room{
 	}
 
 	void spawnEnemy(){
-		map.game.em.addEntity(new Enemy(map.game.em, Location(uniform(left + 1, right - 1), uniform(top + 1, bottom - 1)), uniform(5,10), uniform(1,4)));
+		map.game.em.addEntity(new Enemy(map.game.em, Location(uniform(left + 1, right - 1), uniform(top + 1, bottom - 1)), true, uniform(5,10), uniform(1,4)));
 	}
 
 	void setDoor(){

@@ -24,12 +24,9 @@ class EntityManager {
 	double entityTick;
 	
 	this(Game gameptr) {
-
 		game = gameptr;
 		player = new Player(this, Location(CHUNK_WIDTH - 18, 3));
-
 		addEntities();
-
 	}
 
 	void tick(double dt){
@@ -42,17 +39,6 @@ class EntityManager {
 			entities[l].update(dt);
 		}
 	}
-
-	/*
-	void printPlayer(){
-		player.print();
-	}
-
-	public Player player(){
-		return player;
-	}
-	
-	*/
 
 	void printAllEntities(){
 		player.print();
@@ -77,7 +63,6 @@ class EntityManager {
 			if(entities[l].location == loc)
 				return entities[l];
 		}
-
 		return null;
 	}
 
@@ -85,15 +70,12 @@ class EntityManager {
 	 * Check if there is an entity at give location
 	 */
 	bool isEntityAt(Location loc){
-		
 		if(player.location == loc)
 			return true;
-
 		foreach(l; 0 .. entities.length){
 			if(entities[l].location == loc)
 				return true;
 		}
-
 		return false;
 	}
 
@@ -107,6 +89,6 @@ class EntityManager {
 	}
 
 	void addEntities(){
-		addEntity(new Enemy(this, Location(CHUNK_WIDTH + 15, 3), 10, 1, "tut"));
+		addEntity(new Enemy(this, Location(CHUNK_WIDTH + 15, 3), true, 10, 1, "tut"));
 	}
 }

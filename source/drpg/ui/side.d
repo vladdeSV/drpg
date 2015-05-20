@@ -2,6 +2,7 @@
 
 import consoled;
 import std.stdio;
+import std.range;
 import std.conv;
 import drpg.misc;
 import drpg.ui.uimanager;
@@ -49,6 +50,7 @@ class Side
 					s ~= '*';
 				}else{ s ~= ' '; }
 			}
+			s = to!string(retro(s));
 		}else{ s = "     DEAD      "; }
 		writeAt(ConsolePoint(sideUiStartX + 2, 3), "Health: [" ~ s ~ "]");
 
@@ -58,9 +60,9 @@ class Side
 		if(to!int(uim.game.em.player.inventory.letters.length)){
 			writeAt(ConsolePoint(sideUiStartX + 2, 5), "Letters:");
 			foreach(l; 0 .. to!int(uim.game.em.player.inventory.letters.length)){
-				int loop = 7;
+				int loop = 8;
 				int mv = to!int(l / loop);
-				writeAt(ConsolePoint(sideUiStartX + 2 + (mv * 6), 6 + l%loop), uim.game.em.player.inventory.letters[l].letter ~ " x"~ text(uim.game.em.player.inventory.letters[l].amount));
+				writeAt(ConsolePoint(sideUiStartX + 2 + (mv * 6), 6 + l%loop), uim.game.em.player.inventory.letters[l].letter ~ " x" ~ text(uim.game.em.player.inventory.letters[l].amount));
 			}
 		}
 	}
