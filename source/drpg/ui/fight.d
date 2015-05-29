@@ -105,7 +105,6 @@ class FallingLetter{
 			screen.fighting = false;
 			centerStringOnEmptyScreen(GAME_PLAYER_DEAD);
 			Clock.wait(5000);
-			screen.uim.game.em.player.inventory = new Inventory();
 			return;
 		}
 		bool hit =
@@ -164,7 +163,7 @@ class FallingLetter{
 		char[] tlt;
 
 		talkBox("The opponent was murdered.");
-		Clock.wait(3000);
+		Clock.wait(1000);
 		
 		foreach(int a; 0 .. amountOfLettersDropped){
 			tlt ~= alphabetLC[uniform(0, to!int(alphabetLC.length))];

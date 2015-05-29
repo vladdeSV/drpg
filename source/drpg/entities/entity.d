@@ -19,7 +19,7 @@ abstract class Entity{
 
 	EntityManager em;
 	Location location;
-	Inventory inventory = new Inventory();
+	Inventory inventory;
 	
 	this(EntityManager emptr, Location loc, int hp, uint lvl, bool shouldMovee, string id){
 		em = emptr;
@@ -29,7 +29,8 @@ abstract class Entity{
 		level = lvl;
 		this.id = id;
 		this.shouldMove = shouldMovee;
-		assert(this.shouldMove == shouldMovee);
+
+		inventory = new Inventory();
 	}
 	
 	protected void move(){
