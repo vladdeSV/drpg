@@ -190,12 +190,14 @@ class Map{
 
 	void openCastle(){
 		addRect(Location(bossroom.x + CHUNK_WIDTH / 2 - 2, bossroom.y + CHUNK_HEIGHT - 4), Location(bossroom.x + CHUNK_WIDTH / 2 + 3, bossroom.y + CHUNK_HEIGHT - 3), new TileFloor());
+		if(!castleOpen){
+			talkBox("You are worthy of fighting me. Come to me.", 'B');
+		}
 		castleOpen = true;
 	}
 
 	void closeCastle(){
 		addRect(Location(bossroom.x + CHUNK_WIDTH / 2 - 2, bossroom.y + CHUNK_HEIGHT - 4), Location(bossroom.x + CHUNK_WIDTH / 2 + 2, bossroom.y + CHUNK_HEIGHT - 3), new TileDoor(true));
-		castleOpen = false;
 	}
 
 	void openBoss(){

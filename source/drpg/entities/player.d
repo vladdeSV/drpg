@@ -17,17 +17,15 @@ import drpg.references.sprites;
 
 class Player : Entity{
 
-	public string name = PLAYER_NAME; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
+	public string name;
 
 	int enemiesMurdered = 0;
 	int boss_toFour = 0;
 
 	this(EntityManager emptr, Location loc){
+		name = PLAYER_NAME; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
 		health = maxHealth = 15;
 		inventory.letters[locationInAlphabet('p')].amount += 1;
-//		foreach(int i; 0 .. cto!int(alphabetLC.length)) //FIXME REMOVE BEFORE LAUNCH
-//			inventory.letters[i].amount += 1;
-
 		super(emptr, loc, health, 1, true, "player");
 	}
 
@@ -39,16 +37,11 @@ class Player : Entity{
 		move();
 	}
 
-//	void addItem(Item item){
-//		inventory.addItem(item);
-//	}
-
 	void addLetter(char letter){
 		inventory.addLetter(letter);
 	}
 
 	private void move() {
-
 		static bool shouldMove = true; //Since getch() sees both key press and release as inputs, we simply just check every other input. Can bug out by holding down a key.
 
 		//Movement is still a bit clunky. If you press left and down at the same time you move down twice

@@ -19,7 +19,8 @@ class Start
 			"",
 			"",
 			"Move with W, A, S and D",
-			"Pause with P",
+			"",
+			"",
 			"",
 			"",
 			"",
@@ -52,7 +53,14 @@ class Start
 					kp = true;
 			}
 		}
-		clearScreen();
+
+
+//		do{
+//			clearScreen();
+//			writeAt(ConsolePoint(1,1), "Please enter your name: ");
+//			if(PLAYER_NAME.length > 21) writeAt(ConsolePoint(1,3), "Your name cannot be longer than 21 characters.");
+//			PLAYER_NAME = readln();
+//		}while(PLAYER_NAME.length > 21);
 
 	}
 }

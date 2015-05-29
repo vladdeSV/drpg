@@ -105,6 +105,7 @@ class FallingLetter{
 			screen.fighting = false;
 			centerStringOnEmptyScreen(GAME_PLAYER_DEAD);
 			Clock.wait(5000);
+			screen.uim.game.em.player.inventory = new Inventory();
 			return;
 		}
 		bool hit =

@@ -4,6 +4,6 @@
 	"copyright": "lol no copyright © 2015, vladde",
 	"authors": ["vladdeSV"],
 	"dependencies": {
-		"consoled": "~>1.0.2"
+		"consoled": "~>1.0.0"
 	}
 }

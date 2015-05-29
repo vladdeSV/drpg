@@ -1,8 +1,9 @@
 module drpg.misc;
 
 import consoled;
-import std.conv;
 import std.stdio;
+import std.file;
+import std.conv;
 import core.time;
 import drpg.references.size;
 

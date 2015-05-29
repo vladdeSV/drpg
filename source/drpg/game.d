@@ -22,14 +22,22 @@ class Game{
 	EntityManager em;
 
 	this(){
+		running = true;
+
 		cursorVisible(false);
 		title("DRPG");
 		clearScreen();
 
 		//LOGO
-		foreach(l; 0 .. to!int(hswsag.length)) writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[l].length/2), l), hswsag[l]);
+		foreach(l; 0 .. to!int(hswsag.length - 1)){
+			writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[l].length/2), l), hswsag[l]);
+			Clock.wait(100);
+		}
+		Clock.wait(2000);
+		writeAt(ConsolePoint(SCREEN_WIDTH / 2 - to!int(hswsag[SCREEN_HEIGHT].length/2), SCREEN_HEIGHT), hswsag[SCREEN_HEIGHT]);
 		Clock.wait(5000);
 		clearScreen();
+		Clock.wait(1000);
 
 		uim = new UIManager(this);
 		em = new EntityManager(this);
