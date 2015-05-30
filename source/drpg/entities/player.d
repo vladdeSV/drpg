@@ -25,8 +25,8 @@ class Player : Entity{
 	this(EntityManager emptr, Location loc){
 		name = PLAYER_NAME; //Dummy name. NOTE: Maximum lenght of name must be 21 or less characters. This is because the player UI has room for maximum of 21 characters!
 		health = maxHealth = 15;
-		inventory.letters[locationInAlphabet('p')].amount += 1;
 		super(emptr, loc, health, 1, true, "player");
+		inventory.letters[locationInAlphabet('p')].amount += 1;
 	}
 
 	void update(){
