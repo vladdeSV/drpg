@@ -42,7 +42,7 @@ class Player : Entity{
 	}
 
 	private void move() {
-		static bool shouldMove = true; //Since getch() sees both key press and release as inputs, we simply just check every other input. Can bug out by holding down a key.
+		static bool shouldMove = true; //Since getch() sees both key press and release as inputs, we simply just check every other input. FIXME key input can bug out by holding down a key.
 
 		//Movement is still a bit clunky. If you press left and down at the same time you move down twice
 		if(kbhit()){
