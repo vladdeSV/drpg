@@ -96,7 +96,7 @@ void clearChunk(){
  */
 void centerStringOnEmptyScreen(string s){
 	clearScreen;
-	setCursorPos((width / 2) - to!int(s.length / 2), height/2);
+	setCursorPos((SCREEN_WIDTH / 2) - to!int(s.length / 2), SCREEN_HEIGHT/2);
 	write(s);
 	setCursorPos(0, 0);
 	stdout.flush();

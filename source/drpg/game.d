@@ -62,5 +62,6 @@ class Game{
 
 		centerStringOnEmptyScreen(GAME_END);
 		Clock.wait(5000);
+    clearScreen();
 	}
 }

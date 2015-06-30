@@ -2,6 +2,7 @@
 
 import consoled;
 import std.stdio;
+import std.string;
 import std.range;
 import std.algorithm;
 import std.conv;
@@ -36,10 +37,10 @@ class FightScreen
 		clearScreen();
 		if(e.id == "tut") talkBox("Press the letters as they fall into the [ ]");
 		clearScreen();
-		writeRectangle(Location(1,1), Location(width-2, 5));
+		writeRectangle(Location(1,1), Location(SCREEN_WIDTH-2, 5));
 		writeAt(ConsolePoint(5, 3), uim.game.em.player.getSprite());
-		writeAt(ConsolePoint(width/2-1, 3), "vs.");
-		writeAt(ConsolePoint(width - 6, 3), e.getSprite());
+		writeAt(ConsolePoint(SCREEN_WIDTH / 2 - 1, 3), "vs.");
+		writeAt(ConsolePoint(SCREEN_WIDTH - 6, 3), e.getSprite());
 		stdout.flush();
 
 		FallingLetter[] falling;
@@ -110,7 +111,7 @@ class FallingLetter{
 		bool hit =
 			letters.length &&
 			letters[0].fallHeight == goalHeight &&
-			key == letters[0].letter; // FIXME Key input may not work on Unix, keyinput can be lowercase
+			toLower(key) == toLower(letters[0].letter); // FIXME Key input may not work on Unix, keyinput can be lowercase
 		if(hit){
 			opponent.health -= 1;
 			letters = remove(letters, 0);

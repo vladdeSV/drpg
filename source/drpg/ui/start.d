@@ -37,7 +37,7 @@ class Start
 		writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - l.length/2), 3), ns);
 		writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - l.length/2), 4), l);
 
-		foreach(int x; 0 .. info.length)
+		foreach(int x; 0 .. to!int(info.length))
 			writeAt(ConsolePoint(to!int(SCREEN_WIDTH/2 - info[x].length/2), 6 + x), info[x]);
 
 		string madeby = "LBS Gameawards 2015\nVladde Nordholm & Fredrik Fernlund - Motala, SU14";

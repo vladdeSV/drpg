@@ -42,20 +42,23 @@ class Player : Entity{
 	}
 
 	private void move() {
-		static bool shouldMove = true; //Since getch() sees both key press and release as inputs, we simply just check every other input. FIXME key input can bug out by holding down a key.
 
 		//Movement is still a bit clunky. If you press left and down at the same time you move down twice
 		if(kbhit()){
-			int key = getch();
+			int key = getch(false);
 
 			Location oldLocation = location; //Saves the player's x and y.
 			Location movement = Location(0,0);
+			
+			version(Windows){
+				static bool shouldMove = true; //Since getch() sees both key press and release as inputs, we simply just check every other input. FIXME key input can bug out by holding down a key.
 
-			if (!shouldMove){ //Get ever second key press, due to how getch() gets both keypress and keyrelease as input.
-				shouldMove = true;
-				return;
-			} else {
-				shouldMove = false;
+				if (!shouldMove){ //Get ever second key press, due to how getch() gets both keypress and keyrelease as input.
+					shouldMove = true;
+					return;
+				} else {
+					shouldMove = false;
+				}
 			}
 
 			if (key == 'W' || key == 'w'){
@@ -75,7 +78,7 @@ class Player : Entity{
 //				em.game.map.printChunk();
 //				return;
 //			}
-			else if(key == SpecialKey.escape){
+			else if(key == ','){
 				running = false;
 				return;
 			}else{

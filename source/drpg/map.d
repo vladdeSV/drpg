@@ -10,14 +10,11 @@ import drpg.misc;
 import drpg.tile;
 import drpg.room;
 import drpg.references.size;
+import drpg.references.sprites;
 import drpg.entities.player;
 import drpg.entities.enemy;
 import drpg.entities.boss;
 import drpg.entities.entitymanager;
-
-/*
- * Working singleton!
- */
 
 class Map{
 
@@ -31,7 +28,7 @@ class Map{
 	Location bossroom;
 
 	@property{
-		int getWidth(){ return width; }
+	int getWidth(){ return width; }
 		int getHeight(){ return height; }
 	}
 
@@ -49,7 +46,7 @@ class Map{
 		//This is 1.5~ times faster than "foreach(x; 0 .. width) foreach(y; 0 .. height) tiles[x][y] = new TileFloor();"
 		foreach(ref column; tiles) //"ref column" becomes a reference to "Tile[][] tiles"
 			foreach(ref tile; column) //"ref tile" then becomes a reference to "column"
-				tile = new TileGround(); //Sets all tiles on the map to be TileFloor();
+				tile = new TileGround(); //Sets all tiles on the map to be TileGround();
 		centerStringOnEmptyScreen("Adding structures...");
 		addStructures();
 		centerStringOnEmptyScreen("Done!");
@@ -74,7 +71,13 @@ class Map{
 		//FIXME This function will crash if the map width/height is not a multiple of CHUNK_WIDTH/CHUNK_HEIGHT
 		foreach(int y; 0 .. CHUNK_HEIGHT){
 			foreach(int x; 0 .. CHUNK_WIDTH)
-				print ~= tiles[x + xChunkStartPos][y + yChunkStartPos].getSprite();
+        try
+        {
+          print ~= tiles[x + xChunkStartPos][y + yChunkStartPos].getSprite();
+        }catch{
+          print ~= '\'';
+        }
+        
 			writeAt(ConsolePoint(0, y), print ~ '+');
 			print = null;
 		}
@@ -185,33 +188,51 @@ class Map{
 		addRoom(wx + CHUNK_WIDTH/2 - 3, wy + 2, 7, 6, true, false);
 		game.em.addEntity(new Boss(game.em, Location(wx + CHUNK_WIDTH / 2, wy + 5)));
 
-//		game.em.player.location = Location(wx, wy); //FIXME REMOVE THIS IN THE FUTURE
 	}
 
 	void openCastle(){
-		addRect(Location(bossroom.x + CHUNK_WIDTH / 2 - 2, bossroom.y + CHUNK_HEIGHT - 4), Location(bossroom.x + CHUNK_WIDTH / 2 + 3, bossroom.y + CHUNK_HEIGHT - 3), new TileFloor());
+		addRect(
+        Location(bossroom.x + CHUNK_WIDTH / 2 - 2, bossroom.y + CHUNK_HEIGHT - 4),
+        Location(bossroom.x + CHUNK_WIDTH / 2 + 3, bossroom.y + CHUNK_HEIGHT - 3),
+        new TileFloor()
+      );
 		if(!castleOpen){
-			talkBox("You are worthy of fighting me. Come to me.", 'B');
+			talkBox("You are worthy of fighting me. Come to me.", SPRITE_BOSS);
 		}
 		castleOpen = true;
 	}
 
 	void closeCastle(){
-		addRect(Location(bossroom.x + CHUNK_WIDTH / 2 - 2, bossroom.y + CHUNK_HEIGHT - 4), Location(bossroom.x + CHUNK_WIDTH / 2 + 2, bossroom.y + CHUNK_HEIGHT - 3), new TileDoor(true));
+		addRect(
+        Location(bossroom.x + CHUNK_WIDTH / 2 - 2, bossroom.y + CHUNK_HEIGHT - 4),
+        Location(bossroom.x + CHUNK_WIDTH / 2 + 2, bossroom.y + CHUNK_HEIGHT - 3),
+        new TileDoor(true)
+      );
 	}
 
 	void openBoss(){
 		centerStringOnEmptyScreen("The boss has deemed you worthy. Fight, for your friends.");
-		addRect(Location(bossroom.x + 5, bossroom.y + 5), Location(bossroom.x + CHUNK_WIDTH - 5, bossroom.y + CHUNK_HEIGHT - 5), new TileFloor());
+		addRect(
+        Location(bossroom.x + 5, bossroom.y + 5),
+        Location(bossroom.x + CHUNK_WIDTH - 5, bossroom.y + CHUNK_HEIGHT - 5),
+        new TileFloor()
+      );
 	}
 
 	void addFlowersToWorld(){
 		int CHANCE_OF_FLOWER_BEING_PLACED = 18;
 		foreach(x; 0 .. WORLD_WIDTH)
-		foreach(y; 0 .. WORLD_HEIGHT)
-			if(uniform(0, CHANCE_OF_FLOWER_BEING_PLACED) == 0)
-				if(!getTile(Location(x, y)).isSolid && cast(TileDoor) getTile(Location(x, y)) is null && cast(TileFloor) getTile(Location(x, y)) is null)
+			foreach(y; 0 .. WORLD_HEIGHT)
+			if(uniform(0, CHANCE_OF_FLOWER_BEING_PLACED) == 0){
+				bool canSet = (
+						!getTile(Location(x, y)).isSolid &&
+						cast(TileDoor) getTile(Location(x, y)) is null &&
+						cast(TileFloor) getTile(Location(x, y)) is null
+						);
+
+				if(canSet)
 					setTile(Location(x, y), new TileFlower);
+			}
 	}
 
 	void addTreesToWorld(){

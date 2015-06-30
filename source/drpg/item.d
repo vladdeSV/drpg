@@ -29,7 +29,7 @@ class ItemLetter{
 }
 
 
-//This was for when I though about having ordianry letters, such as a sword, lamp etc.
+//This was for when I though about having ordianry items, such as a sword, lamp etc.
 	/+
 		if(to!int(letters.length) < maximumAmountOfItems){}
 	int maximumAmountOfItems = 26;
