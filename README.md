@@ -3,8 +3,6 @@ Primitive, but working, RPG
 
 You are the letter **p** in the country Letterland. Your goal is to collect the rest of the alphabet to be able to defeat the boss.
 
-Compiled builds and a manual can be downloaded from [here](http://vladde.net/drpg)
-
 ![drpg](http://i.imgur.com/hHbEBgI.png)
 
 ## Plot
